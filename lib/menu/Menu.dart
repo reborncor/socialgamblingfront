@@ -18,8 +18,15 @@ class _MenuState extends State<Menu> {
      child: Row(
        mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        ElevatedButton(onPressed: (){},style: ElevatedButton.styleFrom(fixedSize: Size(150,30)), child: Text('Amis'),),
-        ElevatedButton(onPressed: (){}, style: ElevatedButton.styleFrom(fixedSize: Size(150,30)), child: Text('Chat'),)
+        GestureDetector(
+          child: Row(
+            children: <Widget>[
+              Text('Amis', style: TextStyle(fontSize: 20),),
+              Icon(Icons.arrow_drop_down),
+            ],
+          ),
+        ),
+        TextButton(onPressed: (){}, style: ElevatedButton.styleFrom(fixedSize: Size(150,30)), child: Text('Chat', style: TextStyle(fontSize: 20),),)
 
       ],
      ),
@@ -29,8 +36,7 @@ class _MenuState extends State<Menu> {
     return TextField(
       controller: searchController,
       decoration: InputDecoration(
-        labelText: "Search",
-        hintText: "Search",
+        hintText: "chercher un ami !",
         suffixIcon: InkWell(
           onTap: () => searchController.clear(),
           child: Icon(Icons.search),
