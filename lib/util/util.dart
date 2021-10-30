@@ -11,3 +11,25 @@ setOutlineBorder(borderSide, borderRadius, color){
     borderRadius: BorderRadius.circular(borderRadius),
   );
 }
+BorderRoundedColor(double size, color){
+  return OutlineInputBorder(
+
+    // width: 0.0 produces a thin "hairline" border
+    borderSide: BorderSide(color: color, width: size),
+    borderRadius: BorderRadius.circular(25.0),
+
+  );
+}
+
+BaseButtonRoundedColor(double width, double height,color){
+  return  ButtonStyle(
+      minimumSize: MaterialStateProperty.all(Size(width,height)),
+
+      backgroundColor: MaterialStateProperty.all(color),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: color)
+          )
+      ));
+}

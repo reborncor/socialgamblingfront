@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/chat/Chat.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
+import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
+import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/splashscreen/SplashScreen.dart';
+import 'package:socialgamblingfront/tab/TabView.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +23,10 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/signin': (context) => SignIn(),
         '/menu': (context) => Menu(),
+        '/tabview': (context) => TabView(),
+        '/chat': (context) => Chat(),
+        '/selectgame': (context) => SelectGame(),
+        '/selectgamble': (context) => SelectGamble(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

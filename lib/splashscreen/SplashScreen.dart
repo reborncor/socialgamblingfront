@@ -12,24 +12,31 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.delayed(const Duration(milliseconds: 2), () {
+      setState(() {
+        Navigator.pushNamed(context, SignIn.routeName);
+      });
+
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-
-        title: Text("Splash"),
-      ),
+//      appBar: AppBar(
+//
+//        title: Text("Splash"),
+//      ),
       body: Center(
 
-        child: ElevatedButton(child: Text('Accueil'),
-          onPressed:() {
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(builder: (context) => SignIn()),
-//            );
-          Navigator.pushNamed(context, SignIn.routeName);
-          }
+        child: CircularProgressIndicator(
+          color: Colors.amber[300],
+          semanticsLabel: 'Nom du Jeu',
         )
       ),
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
+import 'package:socialgamblingfront/tab/TabView.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
 class SignIn extends StatefulWidget {
@@ -26,9 +27,9 @@ class _SignInState extends State<SignIn> {
                 child:   TextFormField(
 
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.indigo),
-                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.indigo),
-                    border: setOutlineBorder(5.0, 25.0, Colors.indigo),
+                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+                    border: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
                     hintText: 'Username',
                   ),
                 )),
@@ -39,17 +40,18 @@ class _SignInState extends State<SignIn> {
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  focusedBorder: setOutlineBorder(5.0, 25.0, Colors.indigo),
-                  enabledBorder: setOutlineBorder(5.0, 25.0, Colors.indigo),
-                  border:setOutlineBorder(5.0, 25.0, Colors.indigo),
+                  focusedBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+                  enabledBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+                  border:setOutlineBorder(5.0, 25.0, Colors.amber[300]),
                   hintText: 'Password',
                 ),
               ),)
             ,
             Padding(padding: EdgeInsets.all(16),
               child: ElevatedButton(
+                style: BaseButtonRoundedColor(60,40,Colors.amber[300]),
                 onPressed: (){
-                  Navigator.pushNamed(context, Menu.routeName);
+                  Navigator.pushNamed(context, TabView.routeName);
                 },
                 child: Text('Se connecter'),
               ),)
@@ -64,10 +66,10 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-
-        title: Text("Connexion utilisateur"),
-      ),
+//      appBar: AppBar(
+//         backgroundColor: Colors.amber[300],
+//        title: Text("Connexion utilisateur"),
+//      ),
       body: Center(
 
         child: inputUserData()
