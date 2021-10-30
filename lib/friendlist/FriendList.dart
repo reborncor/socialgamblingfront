@@ -48,6 +48,7 @@ class _FriendListState extends State<FriendList> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.amber[300],
         actions: <Widget>[
           Padding(

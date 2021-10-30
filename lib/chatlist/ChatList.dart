@@ -44,6 +44,7 @@ class _ChatListState extends State<ChatList> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.amber[300],
         actions: <Widget>[
           Padding(

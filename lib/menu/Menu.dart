@@ -125,6 +125,7 @@ class _MenuState extends State<Menu> {
     games.add(game3);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.amber[300] ,
         actions: <Widget>[
           Padding(
