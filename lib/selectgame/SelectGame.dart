@@ -65,7 +65,7 @@ class _SelectGameState extends State<SelectGame> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.amber,
-          title: Text("Menu"),
+          title: Text("Selection du Jeu"),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,

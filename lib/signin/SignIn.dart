@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
+import 'package:socialgamblingfront/signin/api.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
@@ -14,6 +15,8 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
 
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   Widget inputUserData(){
     return Center(
@@ -25,7 +28,13 @@ class _SignInState extends State<SignIn> {
 
             Padding(padding: EdgeInsets.all(16),
                 child:   TextFormField(
-
+                  controller: usernameController,
+                  validator:(value) {
+                    if (value == null || value.isEmpty) {
+                      return "Entre votre nom d'utilisateur";
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     enabledBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
                     focusedBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
@@ -36,6 +45,13 @@ class _SignInState extends State<SignIn> {
             Padding(
               padding: EdgeInsets.all(16),
               child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Entrer un mot de passe";
+                  }
+                  return null;
+                },
+                controller: passwordController,
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,
@@ -50,8 +66,22 @@ class _SignInState extends State<SignIn> {
             Padding(padding: EdgeInsets.all(16),
               child: ElevatedButton(
                 style: BaseButtonRoundedColor(60,40,Colors.amber[300]),
-                onPressed: (){
-                  Navigator.pushNamed(context, TabView.routeName);
+                onPressed: () async {
+                  if (_formkey.currentState.validate()) {
+                    // If the form is valid, display a snackbar. In the real world,
+                    // you'd often call a server or save the information in a database.
+                    var result =  await signinUser(usernameController.text, passwordController.text);
+                    if(result.code ==  0){
+                      Navigator.pushNamed(context, TabView.routeName);
+                    }
+                    else{
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Connexion invalide')),
+                      );
+                    }
+
+                  }
+
                 },
                 child: Text('Se connecter'),
               ),)

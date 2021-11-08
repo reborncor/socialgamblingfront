@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/chat/Chat.dart';
+import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
 
@@ -21,10 +23,10 @@ class _FriendListState extends State<FriendList> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(builder: (context) => SignIn()),
-//            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Chat()),
+            );
 
                 },
                 child: Row(
@@ -36,7 +38,13 @@ class _FriendListState extends State<FriendList> {
                   ],
                 ),
               ),
-              Icon(Icons.videogame_asset, size: 30,)
+              IconButton(icon: Icon(Icons.videogame_asset, size: 30), color: Colors.amber[300], onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SelectGame()),
+                );
+
+              },)
             ],
       )
        ,

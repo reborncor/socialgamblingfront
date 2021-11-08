@@ -52,7 +52,7 @@ class _SelectGambleState extends State<SelectGamble> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.amber,
-          title: Text("Menu"),
+          title: Text("Selection du Palier"),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
