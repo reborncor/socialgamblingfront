@@ -12,7 +12,6 @@ Future<SigninReponse> signinUser(String username, String password) async{
   log("CREDS : "+username +" "+password);
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var response;
-  var jsonResponse;
 
   final String PATH = "/user/signin";
 
@@ -26,7 +25,7 @@ Future<SigninReponse> signinUser(String username, String password) async{
   }
   catch (e) {
     print(e.toString());
-    return null;
+    return SigninReponse(code: 1);
   }
 
   if(response.statusCode == 200) {
@@ -39,8 +38,8 @@ Future<SigninReponse> signinUser(String username, String password) async{
     return data ;
   }
   else{
+    return SigninReponse(code: 1, message: response.error.message.toString());
 
-    log("ERREUR"+ response.statusCode.toString());
   }
 
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
 import 'package:socialgamblingfront/signin/api.dart';
+import 'package:socialgamblingfront/signup/SignUp.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
@@ -63,7 +64,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),)
             ,
-            Padding(padding: EdgeInsets.all(16),
+            Padding(padding: EdgeInsets.all(12),
               child: ElevatedButton(
                 style: BaseButtonRoundedColor(60,40,Colors.amber[300]),
                 onPressed: () async {
@@ -71,12 +72,13 @@ class _SignInState extends State<SignIn> {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
                     var result =  await signinUser(usernameController.text, passwordController.text);
+
                     if(result.code ==  0){
                       Navigator.pushNamed(context, TabView.routeName);
                     }
                     else{
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Connexion invalide')),
+                         SnackBar(content: Text(result.message)),
                       );
                     }
 
@@ -84,7 +86,14 @@ class _SignInState extends State<SignIn> {
 
                 },
                 child: Text('Se connecter'),
-              ),)
+              ),),
+             ElevatedButton(
+                style: BaseButtonRoundedColor(60,40,Colors.amber[300]),
+                onPressed: ()  {
+                      Navigator.pushNamed(context, SignUp.routeName);
+                },
+                child: Text("S'inscrire"),
+              )
           ],
         ),
 

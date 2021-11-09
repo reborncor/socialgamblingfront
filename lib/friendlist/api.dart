@@ -21,7 +21,7 @@ Future<FriendsResponse> getUserFriends() async{
   }
   catch (e) {
     print(e.toString());
-    return null;
+    return json.decode(response.body);
   }
 
   if(response.statusCode == 200) {
@@ -30,8 +30,7 @@ Future<FriendsResponse> getUserFriends() async{
     return data ;
   }
   else{
-
-    log("ERREUR"+ response.statusCode.toString());
+    return json.decode(response.body);
   }
 
 

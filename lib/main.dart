@@ -4,6 +4,7 @@ import 'package:socialgamblingfront/menu/Menu.dart';
 import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
+import 'package:socialgamblingfront/signup/SignUp.dart';
 import 'package:socialgamblingfront/splashscreen/SplashScreen.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/chat': (context) => Chat(),
         '/selectgame': (context) => SelectGame(),
         '/selectgamble': (context) => SelectGamble(),
+        '/signup': (context) => SignUp(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
