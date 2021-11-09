@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/chat/Chat.dart';
+import 'package:socialgamblingfront/friendlist/api.dart';
+import 'package:socialgamblingfront/model/FriendModel.dart';
+import 'package:socialgamblingfront/response/FriendsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
@@ -14,6 +19,9 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> {
+  FriendsResponse response;
+  List<FriendModel> friends = [];
+
 
   Widget itemFriend(String image, String username){
     return Padding(padding: EdgeInsets.all(16),
@@ -79,14 +87,40 @@ class _FriendListState extends State<FriendList> {
 
         title: Text("Mes amis"),
       ),
-      body: Center(
+      body: FutureBuilder(
+        future: getUserFriends(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done){
+            if(snapshot.hasData){
+                response = snapshot.data;
+                friends = response.friends;
+                return Center(
 
-          child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return itemFriend('image', 'User numero :'+index.toString());
-          },
-          )
+                  child: ListView.builder(
+                  itemCount: friends.length,
+                  itemBuilder: (context, index) {
+                    return itemFriend('image', friends[index].username);
+                    },
+                  )
+                );
+            }
+            else{
+              return Text("Pas d'amis");
+            }
+          }
+          else{
+            return Text('Erreur requete');
+          }
+        },
+
+//      )Center(
+//
+//          child: ListView.builder(
+//            itemCount: friends.length,
+//            itemBuilder: (context, index) {
+//              return itemFriend('image', friends[index].username);
+//          },
+//          )
 
       ),
 
