@@ -14,9 +14,9 @@ class _ChatState extends State<Chat> {
 
 
   List<MessageModel> messages = [];
-  MessageModel message1 = new MessageModel(id: "1", content: "Salut ca va ? ", receiverId: "2",senderId: "1" ,time: "" );
-  MessageModel message2 = new MessageModel(id: "2", content: "Oui et toi ?", receiverId: "1",senderId: "2", time: "");
-  MessageModel message3 = new MessageModel(id: "3", content: "On joue ?", receiverId: "2", senderId: "1", time :"");
+  MessageModel message1 = new MessageModel(id: "1", content: "Salut ca va ? ",senderId: "1" ,time: "" );
+  MessageModel message2 = new MessageModel(id: "2", content: "Oui et toi ?", senderId: "2", time: "");
+  MessageModel message3 = new MessageModel(id: "3", content: "On joue ?", senderId: "1", time :"");
 
 
   Widget itemMessage(MessageModel messageModel){

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/addfriend/AddFriends.dart';
 import 'package:socialgamblingfront/chat/Chat.dart';
@@ -15,10 +17,13 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
 
 
+
+//    connectToServer();
     return MaterialApp(
 
       routes: {
