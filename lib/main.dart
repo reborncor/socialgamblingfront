@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/addfriend/AddFriends.dart';
 import 'package:socialgamblingfront/chat/Chat.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
 import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
         '/selectgame': (context) => SelectGame(),
         '/selectgamble': (context) => SelectGamble(),
         '/signup': (context) => SignUp(),
+        '/addfriends': (context) => AddFriends(),
+
       },
       title: 'Flutter Demo',
       theme: ThemeData(

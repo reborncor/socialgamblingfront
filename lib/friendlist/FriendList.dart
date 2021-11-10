@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/addfriend/AddFriends.dart';
 import 'package:socialgamblingfront/chat/Chat.dart';
 import 'package:socialgamblingfront/friendlist/api.dart';
 import 'package:socialgamblingfront/model/FriendModel.dart';
 import 'package:socialgamblingfront/response/FriendsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
-import 'package:socialgamblingfront/signin/SignIn.dart';
 
 class FriendList extends StatefulWidget {
 
@@ -69,6 +69,18 @@ class _FriendListState extends State<FriendList> {
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: Image.asset('asset/images/add_account.png'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  AddFriends()),
+                  );
+                },
+              )
+          ),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
 
@@ -109,7 +121,12 @@ class _FriendListState extends State<FriendList> {
             }
           }
           else{
-            return Text('Erreur requete');
+            return Center(
+
+                child: CircularProgressIndicator(
+                  color: Colors.amber[300],
+                )
+            );
           }
         },
 

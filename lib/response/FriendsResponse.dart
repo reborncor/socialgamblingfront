@@ -24,6 +24,15 @@ class FriendsResponse extends BasicResponse{
     );
   }
 
+  factory FriendsResponse.fromJsonDataInvitaions(Map<String,  dynamic> json){
+    return FriendsResponse.jsonData(
+      code: json['code'],
+      message: json['message'],
+      friends:  (json['payload']['invitations'] as List).map((e) => FriendModel.fromJsonData(e)).toList(),
+    );
+  }
+
+
 }
 
 
