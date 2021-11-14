@@ -9,7 +9,6 @@ import 'package:http/http.dart'as http;
 
 
 Future<SigninReponse> signinUser(String username, String password) async{
-  log("CREDS : "+username +" "+password);
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var response;
 
@@ -29,7 +28,6 @@ Future<SigninReponse> signinUser(String username, String password) async{
   }
 
   if(response.statusCode == 200) {
-    log("DATA :"+ json.decode(response.body).toString());
     SigninReponse data = SigninReponse.fromJsonData(json.decode(response.body));
     if(data != null) {
       sharedPreferences.setString("token", data.token);

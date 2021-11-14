@@ -7,7 +7,6 @@ import 'package:socialgamblingfront/signup/SignUp.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SignIn extends StatefulWidget {
 
@@ -21,23 +20,8 @@ class _SignInState extends State<SignIn> {
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  IO.Socket socket;
 
-  init(){
 
-    socket = IO.io(URL, <String, dynamic>{
-      'transports': ['websocket'],
-      'query': {"chatId" : "test"},
-      'upgrade':false,
-    });
-    log("Test");
-    socket.onConnecting((data) => print(data));
-
-    socket.onConnect((data) => {
-      log("Connected"),
-      socket.emit("new_message","test")
-    });
-  }
 
 
 
@@ -131,7 +115,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    init();
     return Scaffold(
 //      appBar: AppBar(
 //         backgroundColor: Colors.amber[300],

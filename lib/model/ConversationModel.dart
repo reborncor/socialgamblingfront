@@ -6,19 +6,19 @@ import 'MessageModel.dart';
 
 
 
-class Conversation{
+class ConversationModel{
 
   String id;
-  List<String> members;
+  List<dynamic> members;
   List<MessageModel> chat;
 
-  Conversation({ this.id,  this.members, this.chat});
+  ConversationModel({ this.id,  this.members, this.chat});
 
 
-  Conversation.jsonData({this.id,  this.members, this.chat});
+  ConversationModel.jsonData({this.id,  this.members, this.chat});
 
-  factory Conversation.fromJsonData(Map<String,  dynamic> json){
-    return Conversation.jsonData(
+  factory ConversationModel.fromJsonData(Map<String,  dynamic> json){
+    return ConversationModel.jsonData(
       id: json['id'],
       members: json['members'] as List,
       chat:  (json['chat'] as List).map((e) => MessageModel.fromJsonData(e)).toList(),

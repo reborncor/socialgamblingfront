@@ -33,7 +33,7 @@ class _FriendListState extends State<FriendList> {
                 onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Chat()),
+              MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: username,)),
             );
 
                 },

@@ -1,24 +1,77 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/chat/api.dart';
 import 'package:socialgamblingfront/model/MessageModel.dart';
+import 'package:socialgamblingfront/response/ConversationResponse.dart';
+import 'package:socialgamblingfront/util/config.dart';
+import 'package:socialgamblingfront/util/util.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Chat extends StatefulWidget {
 
   final routeName = '/chat';
+  String receiverUsername ;
 
+  Chat();
+  Chat.withUsername({this.receiverUsername});
   @override
   _ChatState createState() => _ChatState();
 }
 
 class _ChatState extends State<Chat> {
-
-
+  IO.Socket socket;
+  ConversationResponse response;
   List<MessageModel> messages = [];
-  MessageModel message1 = new MessageModel(id: "1", content: "Salut ca va ? ",senderId: "1" ,time: "" );
-  MessageModel message2 = new MessageModel(id: "2", content: "Oui et toi ?", senderId: "2", time: "");
-  MessageModel message3 = new MessageModel(id: "3", content: "On joue ?", senderId: "1", time :"");
+
+  @override
+  initState(){
+//    init();
+    super.initState();
+  }
+  init(){
+
+    socket = IO.io(URL, <String, dynamic>{
+      'transports': ['websocket'],
+      'query': {"chatId" : "test"},
+      'upgrade':false,
+    });
+    log("Test");
+    socket.onConnecting((data) => print(data));
+
+    socket.onConnect((data) => {
+      log("Connected"),
+//      socket.emit("new_message","test")
+      socket.emit("conversation", (data) => log(data.toString())),
+    });
+    socket.onDisconnect((data) => log("Disconnect:" +data.toString()));
+
+    socket.on('send_conversation', (data) => log("Data :"+data.toString()));
+
+  }
 
 
+  Widget messageEditor(){
+    return Row(
+      children: <Widget>[
+        Expanded(
+            child: TextField(
+          decoration: InputDecoration(
+            enabledBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+            focusedBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+            border: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+          ),
+          onTap: (){
+            log("EDIT");
+          },
+        )),
+    IconButton(onPressed: () {
+      log("Envoyer !");
+    }, icon: Icon(Icons.send))
+      ],
+    );
+  }
   Widget itemMessage(MessageModel messageModel){
     return Padding(padding: EdgeInsets.all(16),
         child : Align(
@@ -51,26 +104,62 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
 
-    messages.add(message1);
-    messages.add(message2);
-    messages.add(message3);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber[300],
 
         title: Text("Chat"),
       ),
-      body: Center(
+      body:FutureBuilder(
+        future: getUserConversation(widget.receiverUsername),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done){
+            if(snapshot.hasData){
 
-          child: ListView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return itemMessage(messages[index]);
-            },
-          )
+              response = snapshot.data;
+              messages = response.conversation.chat;
+
+              return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        ListView.builder(
+                          shrinkWrap: true,
+
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            return itemMessage(messages[index]);
+                          },
+                        ),
+                        Expanded(flex: 0,child: messageEditor())]
+
+              );
+            }
+            else{
+              return Center(child: Text("Pas de conversation avec l'utilisateur"));
+            }
+          }
+          else{
+            return Center(
+
+                child: CircularProgressIndicator(
+                  color: Colors.amber[300],
+                )
+            );
+          }
+        },
+
+//      )Center(
+//
+//          child: ListView.builder(
+//            itemCount: friends.length,
+//            itemBuilder: (context, index) {
+//              return itemFriend('image', friends[index].username);
+//          },
+//          )
 
       ),
 
     );
   }
+
 }

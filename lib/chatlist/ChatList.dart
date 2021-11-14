@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/model/ConversationModel.dart';
+import 'package:socialgamblingfront/response/ConversationsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+
+import 'api.dart';
 
 class ChatList extends StatefulWidget {
 
@@ -12,8 +16,10 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+  ConversationsResponse response;
+  List<ConversationModel> conversations = [];
 
-  Widget itemFriend(String image, String username){
+  Widget itemFriend(String image, String data){
     return Padding(padding: EdgeInsets.all(16),
       child: InkWell(
         onTap: () {
@@ -27,7 +33,7 @@ class _ChatListState extends State<ChatList> {
         ),
       child: ListTile(
         leading: Icon(Icons.account_circle),
-        title: Text(username),
+        title: Text(data),
         subtitle: Text('Lorem ipsum...'),
         trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {
         Navigator.pushNamed(context, SelectGame.routeName),
@@ -66,14 +72,45 @@ class _ChatListState extends State<ChatList> {
         ],
         title: Text("Chat"),
       ),
-      body: Center(
+      body:FutureBuilder(
+        future: getUserConversations(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done){
+            if(snapshot.hasData){
+              response = snapshot.data;
+              conversations = response.conversations;
+              return Center(
 
-          child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return itemFriend('image', 'User numero :'+index.toString());
-            },
-          )
+                  child: ListView.builder(
+                    itemCount: conversations.length,
+                    itemBuilder: (context, index) {
+                      return itemFriend('image', conversations[index].id);
+                    },
+                  )
+              );
+            }
+            else{
+              return Center(child: Text("Pas de conversations"));
+            }
+          }
+          else{
+            return Center(
+
+                child: CircularProgressIndicator(
+                  color: Colors.amber[300],
+                )
+            );
+          }
+        },
+
+//      )Center(
+//
+//          child: ListView.builder(
+//            itemCount: friends.length,
+//            itemBuilder: (context, index) {
+//              return itemFriend('image', friends[index].username);
+//          },
+//          )
 
       ),
 
