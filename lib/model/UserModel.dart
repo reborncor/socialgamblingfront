@@ -22,7 +22,7 @@ class UserModel{
   factory UserModel.fromJsonData(Map<String,  dynamic> json){
     return UserModel.jsonData(
       id: json['id'],
-      username: json['message'],
+      username: json['username'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       admin: json['admin'],

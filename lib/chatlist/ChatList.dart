@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/chat/Chat.dart';
 import 'package:socialgamblingfront/model/ConversationModel.dart';
 import 'package:socialgamblingfront/response/ConversationsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/util/util.dart';
 
 import 'api.dart';
 
@@ -18,12 +22,24 @@ class ChatList extends StatefulWidget {
 class _ChatListState extends State<ChatList> {
   ConversationsResponse response;
   List<ConversationModel> conversations = [];
+  String currentUsername;
 
-  Widget itemFriend(String image, String data){
+  @override
+  initState() {
+    getCurrentUsername().then((value) => currentUsername = value);
+    super.initState();
+  }
+  Widget itemFriend(String image, ConversationModel conversationModel) {
+
+
+    String receiverUserame = conversationModel.members.first == currentUsername ? conversationModel.members.last : conversationModel.members.first;
     return Padding(padding: EdgeInsets.all(16),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/chat');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: receiverUserame)),
+          );
         },
     child: Card(
         elevation: 0,
@@ -33,7 +49,7 @@ class _ChatListState extends State<ChatList> {
         ),
       child: ListTile(
         leading: Icon(Icons.account_circle),
-        title: Text(data),
+        title: Text(receiverUserame),
         subtitle: Text('Lorem ipsum...'),
         trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {
         Navigator.pushNamed(context, SelectGame.routeName),
@@ -84,7 +100,8 @@ class _ChatListState extends State<ChatList> {
                   child: ListView.builder(
                     itemCount: conversations.length,
                     itemBuilder: (context, index) {
-                      return itemFriend('image', conversations[index].id);
+                      log(conversations.length.toString());
+                      return itemFriend('image', conversations[index]);
                     },
                   )
               );

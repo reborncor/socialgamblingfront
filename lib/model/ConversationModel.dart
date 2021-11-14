@@ -19,7 +19,7 @@ class ConversationModel{
 
   factory ConversationModel.fromJsonData(Map<String,  dynamic> json){
     return ConversationModel.jsonData(
-      id: json['id'],
+      id: json['_id'],
       members: json['members'] as List,
       chat:  (json['chat'] as List).map((e) => MessageModel.fromJsonData(e)).toList(),
 

@@ -44,14 +44,14 @@ Future<String> getCurrentUserToken()async{
   String token = sharedPreferences.get("token");
   return token;
 }
-Future<String> getCurrentUserType()async{
+Future<String> getCurrentUsername()async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String type = sharedPreferences.get("type");
+  String type = sharedPreferences.get("username");
   return type;
 }
 deleteInfo() async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sharedPreferences.setString("token","");
-  sharedPreferences.setString("type","");
+  sharedPreferences.setString("username","");
 
 }

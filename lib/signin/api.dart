@@ -29,8 +29,10 @@ Future<SigninReponse> signinUser(String username, String password) async{
 
   if(response.statusCode == 200) {
     SigninReponse data = SigninReponse.fromJsonData(json.decode(response.body));
+    print(json.decode(response.body));
     if(data != null) {
       sharedPreferences.setString("token", data.token);
+      sharedPreferences.setString("username", data.payload.username);
 //      sharedPreferences.setString("username", jsonResponse['payload']);
     }
     return data ;
