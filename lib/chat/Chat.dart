@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -24,11 +26,57 @@ class _ChatState extends State<Chat> {
   IO.Socket socket;
   ConversationResponse response;
   List<MessageModel> messages = [];
+  TextEditingController messageToSend = TextEditingController();
+  String username;
+  StreamController streamController = StreamController();
+  ScrollController scrollController;
+
+
+  scrollListener(){
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      setState(() {
+        log("reach the bottom");
+      });
+    }
+    if (scrollController.offset <= scrollController.position.minScrollExtent &&
+        !scrollController.position.outOfRange) {
+      setState(() {
+        log("reach the top");
+
+      });
+    }
+
+  }
 
   @override
-  initState(){
-//    init();
+  initState()  {
+    scrollController = ScrollController();
+    scrollController.addListener(scrollListener);
+    fetchUsername();
+    fetchData();
+    init();
     super.initState();
+  }
+  fetchUsername() async {
+    username = await getCurrentUsername();
+  }
+
+  fetchData() async{
+    var data = await getUserConversation(widget.receiverUsername);
+    response = data;
+    messages = response.conversation.chat;
+    streamController.add(data);
+  }
+  addMessageToList(MessageModel messageModel){
+    messages.add(messageModel);
+    streamController.add("test");
+  }
+
+  @override
+  void dispose() {
+    socket.disconnect();
+    super.dispose();
   }
   init(){
 
@@ -36,18 +84,32 @@ class _ChatState extends State<Chat> {
       'transports': ['websocket'],
       'query': {"chatId" : "test"},
       'upgrade':false,
+      'autoConnect': false,
     });
     log("Test");
+    socket.connect();
     socket.onConnecting((data) => print(data));
-
+//    socket.on("message", (data) => log("Data :"+data.toString()));
     socket.onConnect((data) => {
       log("Connected"),
-//      socket.emit("new_message","test")
-      socket.emit("conversation", (data) => log(data.toString())),
+//      socket.emit("conversation", (data) => log(data.toString())),
     });
-    socket.onDisconnect((data) => log("Disconnect:" +data.toString()));
+
+    socket.onDisconnect((data) => log("Disconnect:"));
+    socket.onReconnect((data) => log("Reconnected !"));
 
     socket.on('send_conversation', (data) => log("Data :"+data.toString()));
+
+  }
+
+  sendMessage(String message){
+    MessageModel messageModel = MessageModel(time: "",content: message, senderUsername: username ,receiverUsername: widget.receiverUsername, id: "");
+    socket.emit("message",messageModel.toJson());
+    socket.on("messagesuccess",(data) => {
+      log("OK"),
+      addMessageToList(messageModel)
+
+    });
 
   }
 
@@ -57,17 +119,19 @@ class _ChatState extends State<Chat> {
       children: <Widget>[
         Expanded(
             child: TextField(
+              controller: messageToSend,
           decoration: InputDecoration(
-            enabledBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
-            focusedBorder: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
-            border: setOutlineBorder(5.0, 25.0, Colors.amber[300]),
+            enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+            focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+            border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
           ),
           onTap: (){
-            log("EDIT");
+//            log("EDIT");
           },
         )),
     IconButton(onPressed: () {
-      log("Envoyer !");
+      sendMessage(messageToSend.text);
+      messageToSend.clear();
     }, icon: Icon(Icons.send))
       ],
     );
@@ -75,24 +139,37 @@ class _ChatState extends State<Chat> {
   Widget itemMessage(MessageModel messageModel){
     return Padding(padding: EdgeInsets.all(16),
         child : Align(
-          alignment:(messageModel.senderId == "1") ? Alignment.centerLeft : Alignment.centerRight,
+          alignment:(messageModel.senderUsername == username) ? Alignment.centerRight : Alignment.centerLeft,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minWidth: 100,
               maxWidth: 300
             ),
-              child:  Row(
+              child: (messageModel.senderUsername != username) ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(Icons.account_circle),
+                  Icon(Icons.account_circle,size: 40,),
                  Expanded(child:  Card(
 
-                   color: (messageModel.senderId == "1") ? Colors.teal : Colors.white70 ,
+                   color: (messageModel.senderUsername == username) ? Colors.red[300] : Colors.white70 ,
                    child: ListTile(
                      title: Text(messageModel.content),
-                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
+//                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
                    ),
                  ),)
+                ],
+              ) :Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+
+                  Expanded(child:  Card(
+
+                    color: (messageModel.senderUsername == username) ? Colors.red[300] : Colors.white70 ,
+                    child: ListTile(
+                      title: Text(messageModel.content),
+//                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
+                    ),
+                  ),),  Icon(Icons.account_circle, size: 40,),
                 ],
               ),
 
@@ -106,56 +183,46 @@ class _ChatState extends State<Chat> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber[300],
+        backgroundColor: Colors.red[700],
 
-        title: Text("Chat"),
+        title: Text(widget.receiverUsername),
       ),
-      body:FutureBuilder(
-        future: getUserConversation(widget.receiverUsername),
+      body:StreamBuilder(
+        stream: streamController.stream,
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
-
-              response = snapshot.data;
-              messages = response.conversation.chat;
+//              response = snapshot.data;
+//              messages = response.conversation.chat;
 
               return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        ListView.builder(
-                          shrinkWrap: true,
+                        Expanded(
+                          child:new ListView.builder(
+                            controller: scrollController,
+                            shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
 
-                          itemCount: messages.length,
-                          itemBuilder: (context, index) {
-                            return itemMessage(messages[index]);
-                          },
-                        ),
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) {
+                          return itemMessage(messages[index]);
+                        },
+                      ),),
+
                         Expanded(flex: 0,child: messageEditor())]
 
               );
             }
             else{
-              return Center(child: Text("Pas de conversation avec l'utilisateur"));
-            }
-          }
-          else{
-            return Center(
+              return Center(
 
-                child: CircularProgressIndicator(
-                  color: Colors.amber[300],
-                )
-            );
-          }
+                  child: CircularProgressIndicator(
+                    color: Colors.red[700],
+                  )
+              );
+            }
         },
 
-//      )Center(
-//
-//          child: ListView.builder(
-//            itemCount: friends.length,
-//            itemBuilder: (context, index) {
-//              return itemFriend('image', friends[index].username);
-//          },
-//          )
 
       ),
 

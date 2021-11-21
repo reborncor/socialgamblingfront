@@ -47,7 +47,7 @@ class _MenuState extends State<Menu> {
       },
       child: Card(
           elevation: 20,
-          color: Colors.amber[300],
+          color: Colors.red[700],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
@@ -107,7 +107,7 @@ class _MenuState extends State<Menu> {
       ),
       actions: <Widget>[
         ElevatedButton(
-          style: BaseButtonRoundedColor(60,40,Colors.amber[300]),
+          style: BaseButtonRoundedColor(60,40,Colors.red[700]),
 
           onPressed: () async {
             Navigator.pop(context);
@@ -126,7 +126,7 @@ class _MenuState extends State<Menu> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.amber[300] ,
+        backgroundColor: Colors.red[700] ,
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -151,7 +151,7 @@ class _MenuState extends State<Menu> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
 //          headerApp(),
-          searchFriend(),
+//          searchFriend(),
           listOfGame()
         ],
       )

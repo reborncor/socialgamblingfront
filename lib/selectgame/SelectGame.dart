@@ -28,7 +28,7 @@ class _SelectGameState extends State<SelectGame> {
         } ,
         child: Card(
           elevation: 20,
-          color: Colors.amber[300],
+          color: Colors.red[700],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),

@@ -2,20 +2,20 @@ import 'dart:convert';
 import 'dart:developer';
 
 
-import 'package:socialgamblingfront/response/BasicResponse.dart';
-import 'package:socialgamblingfront/response/ConversationsResponse.dart';
-import 'package:socialgamblingfront/response/FriendsResponse.dart';
+import 'package:socialgamblingfront/model/UserModel.dart';
+import 'package:socialgamblingfront/response/ConversationResponse.dart';
+import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:http/http.dart'as http;
 import 'package:socialgamblingfront/util/util.dart';
 
 
 
-Future<ConversationsResponse> getUserConversations() async{
+Future<UserResponse> getUserInformation() async{
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/conversation/getconversations";
+  final String PATH = "/user/getuser";
 
   try {
     response = await http.get(URL+PATH,
@@ -23,16 +23,16 @@ Future<ConversationsResponse> getUserConversations() async{
   }
   catch (e) {
     print(e.toString());
-    return ConversationsResponse(message: "Erreur serveur", code: 1);
+    return UserResponse(message: "Erreur serveur", code: 1);
   }
 
   if(response.statusCode == 200) {
 //    log("DATA :"+ json.decode(response.body).toString());
-    ConversationsResponse data = ConversationsResponse.fromJsonData(json.decode(response.body));
+    UserResponse data = UserResponse.fromJsonData(json.decode(response.body));
     return data ;
   }
   else{
-    return ConversationsResponse(code: 1, message: response.error.message.toString());
+    return UserResponse(code: 1, message: response.error.message.toString());
   }
 
 

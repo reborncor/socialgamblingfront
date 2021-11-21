@@ -67,7 +67,7 @@ class _ChatListState extends State<ChatList> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.amber[300],
+        backgroundColor: Colors.red[700],
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -100,7 +100,6 @@ class _ChatListState extends State<ChatList> {
                   child: ListView.builder(
                     itemCount: conversations.length,
                     itemBuilder: (context, index) {
-                      log(conversations.length.toString());
                       return itemFriend('image', conversations[index]);
                     },
                   )
@@ -114,7 +113,7 @@ class _ChatListState extends State<ChatList> {
             return Center(
 
                 child: CircularProgressIndicator(
-                  color: Colors.amber[300],
+                  color: Colors.red[700],
                 )
             );
           }

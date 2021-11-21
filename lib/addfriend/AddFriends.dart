@@ -133,7 +133,7 @@ class _AddFriendsState extends State<AddFriends> {
           return Center(
 
               child: CircularProgressIndicator(
-                color: Colors.amber[300],
+                color: Colors.red[700],
               )
           );
         }
@@ -147,7 +147,7 @@ class _AddFriendsState extends State<AddFriends> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.amber[300],
+        backgroundColor: Colors.red[700],
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),

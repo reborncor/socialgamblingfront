@@ -46,7 +46,7 @@ class _FriendListState extends State<FriendList> {
                   ],
                 ),
               ),
-              IconButton(icon: Icon(Icons.videogame_asset, size: 30), color: Colors.amber[300], onPressed: () {
+              IconButton(icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SelectGame()),
@@ -65,7 +65,7 @@ class _FriendListState extends State<FriendList> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.amber[300],
+        backgroundColor: Colors.red[700],
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -124,7 +124,7 @@ class _FriendListState extends State<FriendList> {
             return Center(
 
                 child: CircularProgressIndicator(
-                  color: Colors.amber[300],
+                  color: Colors.red[700],
                 )
             );
           }
