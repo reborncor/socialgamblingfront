@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/chat/api.dart';
 import 'package:socialgamblingfront/model/MessageModel.dart';
 import 'package:socialgamblingfront/response/ConversationResponse.dart';
+import 'package:socialgamblingfront/response/OldMessageResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -25,13 +26,15 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   IO.Socket socket;
   ConversationResponse response;
+  OldMessageResponse responseOldMessage;
   List<MessageModel> messages = [];
   TextEditingController messageToSend = TextEditingController();
   String username;
   StreamController streamController = StreamController();
   ScrollController scrollController;
-
-
+  MessageModel messageSent;
+  int startInd;
+  int endInd;
   scrollListener(){
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
@@ -41,9 +44,9 @@ class _ChatState extends State<Chat> {
     }
     if (scrollController.offset <= scrollController.position.minScrollExtent &&
         !scrollController.position.outOfRange) {
+      fetchOldMessage();
       setState(() {
         log("reach the top");
-
       });
     }
 
@@ -51,6 +54,8 @@ class _ChatState extends State<Chat> {
 
   @override
   initState()  {
+    startInd = 5;
+    endInd = startInd+ 5;
     scrollController = ScrollController();
     scrollController.addListener(scrollListener);
     fetchUsername();
@@ -62,6 +67,15 @@ class _ChatState extends State<Chat> {
     username = await getCurrentUsername();
   }
 
+  fetchOldMessage() async {
+    var data = await getUserMessagePageable(widget.receiverUsername, startInd, endInd);
+    responseOldMessage = data;
+    messages.insertAll(0, responseOldMessage.oldmessages);
+    startInd+=5;
+    endInd+=5;
+    streamController.add("event");
+  }
+
   fetchData() async{
     var data = await getUserConversation(widget.receiverUsername);
     response = data;
@@ -70,7 +84,6 @@ class _ChatState extends State<Chat> {
   }
   addMessageToList(MessageModel messageModel){
     messages.add(messageModel);
-    streamController.add("test");
   }
 
   @override
@@ -100,16 +113,17 @@ class _ChatState extends State<Chat> {
 
     socket.on('send_conversation', (data) => log("Data :"+data.toString()));
 
+    socket.on("messagesuccess",(data) => {
+      log("OK"),
+      addMessageToList(messageSent)
+
+    });
+
   }
 
   sendMessage(String message){
-    MessageModel messageModel = MessageModel(time: "",content: message, senderUsername: username ,receiverUsername: widget.receiverUsername, id: "");
-    socket.emit("message",messageModel.toJson());
-    socket.on("messagesuccess",(data) => {
-      log("OK"),
-      addMessageToList(messageModel)
-
-    });
+    messageSent = MessageModel(time: "",content: message, senderUsername: username ,receiverUsername: widget.receiverUsername, id: "");
+    socket.emit("message",messageSent.toJson());
 
   }
 
