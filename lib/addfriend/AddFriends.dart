@@ -161,13 +161,13 @@ class _AddFriendsState extends State<AddFriends> {
 
                 },
                 child: Icon(
-                    Icons.account_circle
+                    Icons.account_circle,color: Colors.black,size: 30,
                 ),
               )
           ),
         ],
 
-        title: Text("Ajouter des amis"),
+        title: Text("Ajouter des amis",style: TextStyle(color: Colors.black)),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

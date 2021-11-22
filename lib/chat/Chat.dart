@@ -167,7 +167,7 @@ class _ChatState extends State<Chat> {
 
                    color: (messageModel.senderUsername == username) ? Colors.red[300] : Colors.white70 ,
                    child: ListTile(
-                     title: Text(messageModel.content),
+                     title: Text(messageModel.content, style: TextStyle(color: Colors.black)),
 //                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
                    ),
                  ),)

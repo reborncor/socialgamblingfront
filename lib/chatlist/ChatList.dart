@@ -48,10 +48,10 @@ class _ChatListState extends State<ChatList> {
           borderRadius: BorderRadius.circular(50),
         ),
       child: ListTile(
-        leading: Icon(Icons.account_circle),
-        title: Text(receiverUserame),
-        subtitle: Text('Lorem ipsum...'),
-        trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {
+        leading: Icon(Icons.account_circle, size: 40, color: Colors.black,),
+        title: Text(receiverUserame,style: TextStyle(fontSize: 17), ),
+        subtitle: Text((conversationModel.chat.length == 0) ? "" : conversationModel.chat.first.content),
+        trailing: IconButton(icon: Icon(Icons.videogame_asset, size: 30, color: Colors.red[700],), onPressed: () => {
         Navigator.pushNamed(context, SelectGame.routeName),
         },),
       ),
@@ -81,12 +81,12 @@ class _ChatListState extends State<ChatList> {
 
                 },
                 child: Icon(
-                    Icons.account_circle
+                    Icons.account_circle,color: Colors.black,size: 30,
                 ),
               )
           ),
         ],
-        title: Text("Chat"),
+        title: Text("Chat",style: TextStyle(color: Colors.black)),
       ),
       body:FutureBuilder(
         future: getUserConversations(),
@@ -106,7 +106,7 @@ class _ChatListState extends State<ChatList> {
               );
             }
             else{
-              return Center(child: Text("Pas de conversations"));
+              return Center(child: Text("Pas de données"));
             }
           }
           else{

@@ -91,13 +91,13 @@ class _FriendListState extends State<FriendList> {
 
                 },
                 child: Icon(
-                    Icons.account_circle
+                    Icons.account_circle,color: Colors.black,
                 ),
               )
           ),
         ],
 
-        title: Text("Mes amis"),
+        title: Text("Mes amis",style: TextStyle(color: Colors.black)),
       ),
       body: FutureBuilder(
         future: getUserFriends(),
@@ -117,7 +117,7 @@ class _FriendListState extends State<FriendList> {
                 );
             }
             else{
-              return Text("Pas d'amis");
+              return Center(child :Text("Pas de données"));
             }
           }
           else{

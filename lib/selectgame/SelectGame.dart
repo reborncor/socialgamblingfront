@@ -64,7 +64,7 @@ class _SelectGameState extends State<SelectGame> {
     games.add(game3);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.amber,
+          backgroundColor: Colors.red[700],
           title: Text("Selection du Jeu"),
         ),
         body: Column(

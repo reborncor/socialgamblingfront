@@ -140,12 +140,12 @@ class _MenuState extends State<Menu> {
 
                 },
                 child: Icon(
-                    Icons.account_circle
+                    Icons.account_circle,color: Colors.black,size: 30,
                 ),
               )
           ),
         ],
-        title: Text("Menu"),
+        title: Text("Menu",style: TextStyle(color: Colors.black)),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

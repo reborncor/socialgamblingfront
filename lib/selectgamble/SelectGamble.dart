@@ -51,8 +51,8 @@ class _SelectGambleState extends State<SelectGamble> {
     games.add(game3);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.amber,
-          title: Text("Selection du Palier"),
+          backgroundColor: Colors.red[700],
+          title: Text("Selection du Palier",style: TextStyle(color: Colors.black),),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
