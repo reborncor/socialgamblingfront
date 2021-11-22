@@ -26,7 +26,7 @@ class _SelectGambleState extends State<SelectGamble> {
         } ,
         child: Card(
           elevation: 20,
-          color: Colors.amber[300],
+          color: Colors.red[700],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
@@ -51,8 +51,8 @@ class _SelectGambleState extends State<SelectGamble> {
     games.add(game3);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.amber,
-          title: Text("Menu"),
+          backgroundColor: Colors.red[700],
+          title: Text("Selection du Palier",style: TextStyle(color: Colors.black),),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,

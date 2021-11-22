@@ -3,6 +3,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 setOutlineBorder(borderSide, borderRadius, color){
   return
@@ -32,4 +33,25 @@ BaseButtonRoundedColor(double width, double height,color){
               side: BorderSide(color: color)
           )
       ));
+}
+///////////////////////////////////
+
+
+
+
+Future<String> getCurrentUserToken()async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String token = sharedPreferences.get("token");
+  return token;
+}
+Future<String> getCurrentUsername()async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String type = sharedPreferences.get("username");
+  return type;
+}
+deleteInfo() async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.setString("token","");
+  sharedPreferences.setString("username","");
+
 }

@@ -28,7 +28,7 @@ class _SelectGameState extends State<SelectGame> {
         } ,
         child: Card(
           elevation: 20,
-          color: Colors.amber[300],
+          color: Colors.red[700],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
@@ -64,8 +64,8 @@ class _SelectGameState extends State<SelectGame> {
     games.add(game3);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.amber,
-          title: Text("Menu"),
+          backgroundColor: Colors.red[700],
+          title: Text("Selection du Jeu"),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,

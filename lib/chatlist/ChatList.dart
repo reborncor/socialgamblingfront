@@ -1,7 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/chat/Chat.dart';
+import 'package:socialgamblingfront/model/ConversationModel.dart';
+import 'package:socialgamblingfront/response/ConversationsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/util/util.dart';
+
+import 'api.dart';
 
 class ChatList extends StatefulWidget {
 
@@ -12,12 +20,26 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+  ConversationsResponse response;
+  List<ConversationModel> conversations = [];
+  String currentUsername;
 
-  Widget itemFriend(String image, String username){
+  @override
+  initState() {
+    getCurrentUsername().then((value) => currentUsername = value);
+    super.initState();
+  }
+  Widget itemFriend(String image, ConversationModel conversationModel) {
+
+
+    String receiverUserame = conversationModel.members.first == currentUsername ? conversationModel.members.last : conversationModel.members.first;
     return Padding(padding: EdgeInsets.all(16),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/chat');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: receiverUserame)),
+          );
         },
     child: Card(
         elevation: 0,
@@ -26,10 +48,10 @@ class _ChatListState extends State<ChatList> {
           borderRadius: BorderRadius.circular(50),
         ),
       child: ListTile(
-        leading: Icon(Icons.account_circle),
-        title: Text(username),
-        subtitle: Text('Lorem ipsum...'),
-        trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {
+        leading: Icon(Icons.account_circle, size: 40, color: Colors.black,),
+        title: Text(receiverUserame,style: TextStyle(fontSize: 17), ),
+        subtitle: Text((conversationModel.chat.length == 0) ? "" : conversationModel.chat.first.content),
+        trailing: IconButton(icon: Icon(Icons.videogame_asset, size: 30, color: Colors.red[700],), onPressed: () => {
         Navigator.pushNamed(context, SelectGame.routeName),
         },),
       ),
@@ -44,7 +66,8 @@ class _ChatListState extends State<ChatList> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber[300],
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.red[700],
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -58,21 +81,52 @@ class _ChatListState extends State<ChatList> {
 
                 },
                 child: Icon(
-                    Icons.account_circle
+                    Icons.account_circle,color: Colors.black,size: 30,
                 ),
               )
           ),
         ],
-        title: Text("Chat"),
+        title: Text("Chat",style: TextStyle(color: Colors.black)),
       ),
-      body: Center(
+      body:FutureBuilder(
+        future: getUserConversations(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done){
+            if(snapshot.hasData){
+              response = snapshot.data;
+              conversations = response.conversations;
+              return Center(
 
-          child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return itemFriend('image', 'User numero :'+index.toString());
-            },
-          )
+                  child: ListView.builder(
+                    itemCount: conversations.length,
+                    itemBuilder: (context, index) {
+                      return itemFriend('image', conversations[index]);
+                    },
+                  )
+              );
+            }
+            else{
+              return Center(child: Text("Pas de données"));
+            }
+          }
+          else{
+            return Center(
+
+                child: CircularProgressIndicator(
+                  color: Colors.red[700],
+                )
+            );
+          }
+        },
+
+//      )Center(
+//
+//          child: ListView.builder(
+//            itemCount: friends.length,
+//            itemBuilder: (context, index) {
+//              return itemFriend('image', friends[index].username);
+//          },
+//          )
 
       ),
 
