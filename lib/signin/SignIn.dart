@@ -38,6 +38,8 @@ class _SignInState extends State<SignIn> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(padding: EdgeInsets.all(16),
+            child: Image.asset("asset/images/logo.png",width: 100, height: 100,),),
 
             Padding(padding: EdgeInsets.all(16),
                 child:   TextFormField(
@@ -116,6 +118,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
 //      appBar: AppBar(
 //         backgroundColor: Colors.red[700],
 //        title: Text("Connexion utilisateur"),

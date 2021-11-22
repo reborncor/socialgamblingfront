@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/addfriends': (context) => AddFriends(),
 
       },
-      title: 'Flutter Demo',
+      title: 'Bloden',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

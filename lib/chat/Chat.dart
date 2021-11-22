@@ -84,6 +84,8 @@ class _ChatState extends State<Chat> {
   }
   addMessageToList(MessageModel messageModel){
     messages.add(messageModel);
+    streamController.add("ok");
+
   }
 
   @override

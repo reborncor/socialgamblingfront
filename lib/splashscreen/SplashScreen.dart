@@ -31,9 +31,9 @@ class _SplashScreenState extends State<SplashScreen> {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         _controller.play();
         setState(() {});
-        Future.delayed(const Duration(milliseconds: 5), () {
+        Future.delayed(const Duration(milliseconds: 2500), () {
           setState(() {
-            Navigator.pushNamed(context, SignIn.routeName);
+            Navigator.popAndPushNamed(context, SignIn.routeName);
           });
 
         });
