@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/store/BlodenStore.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
 class Menu extends StatefulWidget {
@@ -135,6 +136,22 @@ class _MenuState extends State<Menu> {
 
                   Navigator.push(
                     context,
+                    MaterialPageRoute(builder: (context) =>  BlodenStore()),
+                  );
+
+                },
+                child: Icon(
+                  Icons.store,color: Colors.black,size: 30,
+                ),
+              )
+          ),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+
+                  Navigator.push(
+                    context,
                     MaterialPageRoute(builder: (context) =>  Setting()),
                   );
 
@@ -144,6 +161,7 @@ class _MenuState extends State<Menu> {
                 ),
               )
           ),
+
         ],
         title: Text("Menu",style: TextStyle(color: Colors.black)),
       ),

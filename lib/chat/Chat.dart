@@ -33,6 +33,7 @@ class _ChatState extends State<Chat> {
   StreamController streamController = StreamController();
   ScrollController scrollController;
   MessageModel messageSent;
+  MessageModel newMessage;
   int startInd;
   int endInd;
   scrollListener(){
@@ -50,6 +51,21 @@ class _ChatState extends State<Chat> {
       });
     }
 
+  }
+  goUp(){
+     scrollController.animateTo(
+     scrollController.position.minScrollExtent,
+     duration: Duration(seconds: 1),
+     curve: Curves.easeOut,
+    );
+  }
+
+  goDown(){
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent + 100,
+      duration: Duration(seconds: 1),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
@@ -85,7 +101,7 @@ class _ChatState extends State<Chat> {
   addMessageToList(MessageModel messageModel){
     messages.add(messageModel);
     streamController.add("ok");
-
+    goDown();
   }
 
   @override
@@ -97,7 +113,6 @@ class _ChatState extends State<Chat> {
 
     socket = IO.io(URL, <String, dynamic>{
       'transports': ['websocket'],
-      'query': {"chatId" : "test"},
       'upgrade':false,
       'autoConnect': false,
     });
@@ -107,7 +122,7 @@ class _ChatState extends State<Chat> {
 //    socket.on("message", (data) => log("Data :"+data.toString()));
     socket.onConnect((data) => {
       log("Connected"),
-//      socket.emit("conversation", (data) => log(data.toString())),
+      socket.emit("credentials", username),
     });
 
     socket.onDisconnect((data) => log("Disconnect:"));
@@ -117,7 +132,24 @@ class _ChatState extends State<Chat> {
 
     socket.on("messagesuccess",(data) => {
       log("OK"),
-      addMessageToList(messageSent)
+      setState(() {
+        addMessageToList(messageSent);
+      }),
+     // scrollController.animateTo(
+     // scrollController.position.maxScrollExtent,
+     // duration: Duration(seconds: 1),
+     // curve: Curves.easeOut,
+      //)
+    });
+
+    socket.on("instantmessage",(data) =>  {
+      log("OK Instant Message"),
+      setState(() {
+        newMessage = MessageModel.fromJsonData(data);
+        addMessageToList(newMessage);
+
+      }),
+
 
     });
 
@@ -141,7 +173,9 @@ class _ChatState extends State<Chat> {
             focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
             border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
           ),
+
           onTap: (){
+                goDown();
 //            log("EDIT");
           },
         )),
@@ -202,7 +236,12 @@ class _ChatState extends State<Chat> {
         backgroundColor: Colors.red[700],
 
         title: Text(widget.receiverUsername),
+
       ),
+      //floatingActionButton: FloatingActionButton(
+      //  child: Icon(Icons.arrow_upward),
+      //  onPressed: goUp,
+      //),
       body:StreamBuilder(
         stream: streamController.stream,
         builder: (context, snapshot) {
@@ -215,6 +254,7 @@ class _ChatState extends State<Chat> {
                       children: <Widget>[
                         Expanded(
                           child:new ListView.builder(
+                            reverse: false,
                             controller: scrollController,
                             shrinkWrap: true,
                         scrollDirection: Axis.vertical,

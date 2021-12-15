@@ -13,11 +13,25 @@ class UserModel{
   bool admin;
   String phoneNumber;
 
+  int level;
+  double xp ;
+  int money ;
+  bool isBanned ;
+  int dateOfBan ;
+  int games ;
+  int wins ;
+
   UserModel({ this.id,  this.username,  this.firstName, this.lastName,  this.email,this.admin, this.phoneNumber});
 
   UserModel.forJson({this.username, this.password, this.firstName, this.lastName, this.email, this.phoneNumber});
 
-  UserModel.jsonData({ this.id,  this.username,  this.firstName, this.lastName,  this.email, this.admin,this.phoneNumber});
+  UserModel.jsonData({ this.id,  this.username,  this.firstName, this.lastName,  this.email, this.admin,this.phoneNumber, this.level,
+  this.xp ,
+  this.money ,
+  this.isBanned ,
+  this.dateOfBan ,
+  this.games ,
+  this.wins ,});
 
   factory UserModel.fromJsonData(Map<String,  dynamic> json){
     return UserModel.jsonData(
@@ -28,6 +42,13 @@ class UserModel{
       admin: json['admin'],
       email: json['email'],
       phoneNumber : json['phoneNumber'],
+         level: json['level'],
+         xp : json['xp'],
+         money : json['money'],
+         isBanned : json['isBanned'],
+         dateOfBan : json['dateOfBan'],
+         games : json['games'],
+         wins : json['wins'],
 
 
     );

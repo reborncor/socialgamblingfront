@@ -25,7 +25,6 @@ Future<FriendsResponse> getUserFriends() async{
   }
 
   if(response.statusCode == 200) {
-    log("DATA :"+ json.decode(response.body).toString());
     FriendsResponse data = FriendsResponse.fromJsonData(json.decode(response.body));
     return data ;
   }

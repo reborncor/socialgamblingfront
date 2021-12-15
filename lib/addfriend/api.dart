@@ -89,3 +89,33 @@ Future<BasicResponse> confirmFriends(String username, bool isAccepted) async{
 }
 
 
+
+Future<BasicResponse> sendMoneyToFriends(String username, int amount) async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var response;
+
+  final String PATH = "/user/sendmoney";
+  String token = await getCurrentUserToken();
+  Map data = {
+    "username":username,
+    "amount":amount,
+  };
+  try {
+    response = await http.put(URL+PATH,
+        headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
+    BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
+
+    if(response.statusCode == 200){
+      sharedPreferences.setString("money", result.payload['money'].toString());
+    }
+    return result ;
+  }
+  catch (e) {
+    print(e.toString());
+    return BasicResponse(code: 1, message: "Erreur : une erreur est survenue");
+  }
+
+
+
+}
+

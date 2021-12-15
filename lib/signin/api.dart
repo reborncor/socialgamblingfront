@@ -33,12 +33,12 @@ Future<SigninReponse> signinUser(String username, String password) async{
     if(data != null) {
       sharedPreferences.setString("token", data.token);
       sharedPreferences.setString("username", data.payload.username);
-//      sharedPreferences.setString("username", jsonResponse['payload']);
+      sharedPreferences.setString("money", data.payload.money.toString());
     }
     return data ;
   }
   else{
-    return SigninReponse(code: 1, message: response.error.message.toString());
+    return SigninReponse(code: 1, message: json.decode(response.body)['message']);
 
   }
 

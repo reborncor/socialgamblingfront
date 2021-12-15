@@ -52,6 +52,31 @@ class SettingState extends State<Setting> {
             paddingTextLabel(userModel.firstName),
             paddingTextLabel(userModel.lastName),
             paddingTextLabel(userModel.email),
+            paddingTextLabel(userModel.money.toString()+" Dens"),
+            paddingTextLabel("Victoire : "+userModel.wins.toString()+"/"+userModel.games.toString()),
+            Padding(padding: const EdgeInsets.all(15),
+            child:
+                SizedBox(
+                child:  Stack(
+                children: [
+                  Center(
+                    child:  Container(
+                      width : 200,
+                    height: 200,
+                    child:CircularProgressIndicator(
+                      strokeWidth: 8,
+                      color: Colors.red[700],
+                    ),
+                    ),
+                ),
+
+                  Center(child: Text("Temps restant"),)
+                ],
+                ),
+                  height: 200,
+                  width: 200,
+                )
+          ),
 
 
 

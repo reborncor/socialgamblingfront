@@ -2,13 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:socialgamblingfront/addfriend/AddFriends.dart';
+import 'package:socialgamblingfront/addfriend/api.dart';
 import 'package:socialgamblingfront/chat/Chat.dart';
 import 'package:socialgamblingfront/friendlist/api.dart';
 import 'package:socialgamblingfront/model/FriendModel.dart';
 import 'package:socialgamblingfront/response/FriendsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/util/util.dart';
 
 class FriendList extends StatefulWidget {
 
@@ -22,7 +25,61 @@ class _FriendListState extends State<FriendList> {
   FriendsResponse response;
   List<FriendModel> friends = [];
 
+  TextEditingController moneyToSendController = TextEditingController();
 
+  Widget showMoneyToSendDialog(BuildContext context, String receiverUsername) {
+    return new AlertDialog(
+      title: Text("Envoyer des Dens à $receiverUsername"),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(children : <Widget>[
+            ElevatedButton(onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)-1).toString();}, child: Text('-')),
+            Expanded(child: TextField(
+              textAlign: TextAlign.center,
+                controller: moneyToSendController,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ])),
+            ElevatedButton(onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)+1).toString();}, child: Text('+')),
+
+          ]
+
+          ),
+
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          style: BaseButtonRoundedColor(60,40,Colors.red[700]),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          child: Text("Fermer",style: TextStyle(color: Colors.black),),
+        ),
+        ElevatedButton(
+          style: BaseButtonRoundedColor(60,40,Colors.green[700]),
+          onPressed: () async {
+            var result = await sendMoneyToFriends(receiverUsername, int.parse(moneyToSendController.text));
+            if(result.code == SUCESS){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(result.message)),
+              );
+              Navigator.pop(context);
+            }
+            else{
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(result.message)),
+              );
+            }
+          },
+          child: Text("Envoyer",style: TextStyle(color: Colors.black),),
+        ),
+      ],
+    );
+  }
   Widget itemFriend(String image, String username){
     return Padding(padding: EdgeInsets.all(16),
       child: Row(
@@ -46,13 +103,21 @@ class _FriendListState extends State<FriendList> {
                   ],
                 ),
               ),
-              IconButton(icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SelectGame()),
-                );
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                IconButton(onPressed: (){
+                  showDialog(context: context, builder: (context) => showMoneyToSendDialog(context, username));
+                }, icon: Icon(Icons.toll, size: 30, color: Colors.red[700])),
+                IconButton(icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SelectGame()),
+                  );
 
-              },)
+                },)
+              ],)
+
             ],
       )
        ,

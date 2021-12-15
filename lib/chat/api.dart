@@ -33,7 +33,7 @@ Future<ConversationResponse> getUserConversation(String username) async{
     return data ;
   }
   else{
-    return ConversationResponse(code: 1, message: response.error.message.toString());
+    return ConversationResponse(code: 1, message: "Une Erreur est survenue");
   }
 
 

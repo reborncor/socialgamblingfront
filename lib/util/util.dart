@@ -5,6 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+final SUCESS = 0;
+final ERROR = 1;
+
 setOutlineBorder(borderSide, borderRadius, color){
   return
     OutlineInputBorder(
@@ -44,6 +48,13 @@ Future<String> getCurrentUserToken()async{
   String token = sharedPreferences.get("token");
   return token;
 }
+
+Future<String> getCurrentUserMoney()async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String money = sharedPreferences.get("money");
+  return money;
+}
+
 Future<String> getCurrentUsername()async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String type = sharedPreferences.get("username");

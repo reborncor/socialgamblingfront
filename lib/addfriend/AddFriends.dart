@@ -2,13 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:socialgamblingfront/addfriend/api.dart';
-import 'package:socialgamblingfront/chat/Chat.dart';
-import 'package:socialgamblingfront/friendlist/api.dart';
 import 'package:socialgamblingfront/model/FriendModel.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
 import 'package:socialgamblingfront/response/FriendsResponse.dart';
-import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
 
 class AddFriends extends StatefulWidget {
@@ -23,6 +21,7 @@ class _AddFriendsState extends State<AddFriends> {
   FriendsResponse response;
   List<FriendModel> friends = [];
   TextEditingController friendUsernameController = TextEditingController();
+
 
   Widget itemFriend(String image, String username){
     return Padding(padding: EdgeInsets.all(8),
@@ -84,7 +83,7 @@ class _AddFriendsState extends State<AddFriends> {
           },
           decoration: InputDecoration(
             hintText: "Ajouter un ami !",
-//        prefixIcon: Icon(Icons.search),
+        prefixIcon: IconButton(icon :Icon(Icons.clear), onPressed: () => friendUsernameController.clear(),),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(10.0),
