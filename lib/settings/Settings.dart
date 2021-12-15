@@ -7,6 +7,7 @@ import 'package:socialgamblingfront/model/UserModel.dart';
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/settings/api.dart';
 import 'package:socialgamblingfront/util/util.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 
 class Setting extends StatefulWidget {
@@ -18,6 +19,30 @@ class Setting extends StatefulWidget {
 
 class SettingState extends State<Setting> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
+
+
+
+  final stopWatchTimer = StopWatchTimer(
+    mode: StopWatchMode.countDown,
+    presetMillisecond: StopWatchTimer.getMilliSecFromMinute(0), // millisecond => minute.
+    //onChange: (value) => print('onChange $value'),
+    //onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
+    //onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await stopWatchTimer.dispose();
+
+
+  }
 
   Widget paddingTextLabel(String text){
     return  Padding(
@@ -43,11 +68,22 @@ class SettingState extends State<Setting> {
     return FutureBuilder(
       future: getUserInformation(),
       builder: (context, snapshot) {
+        stopWatchTimer.clearPresetTime();
       
       if(snapshot.connectionState == ConnectionState.done){
         if(snapshot.hasData){
           UserResponse response = snapshot.data;
           UserModel userModel = response.user;
+
+
+          var userDateOfBan = DateTime.fromMillisecondsSinceEpoch(userModel.dateOfBan);
+          var dateToCheck = new DateTime(userDateOfBan.year, userDateOfBan.month, userDateOfBan.day, userDateOfBan.hour+24);
+          var moment = DateTime.now();
+          var timeLeftPercentage =(userModel.money == 0) ?  (moment.microsecondsSinceEpoch/dateToCheck.microsecondsSinceEpoch).toDouble()*100 : 0;
+          var timeLeftHours =(userModel.money == 0) ? (dateToCheck.millisecondsSinceEpoch - moment.millisecondsSinceEpoch).toDouble() : 0;
+          log(timeLeftPercentage.toString());
+          stopWatchTimer.setPresetTime(mSec:  timeLeftHours.toInt());
+          stopWatchTimer.onExecute.add(StopWatchExecute.start);
           return Column(children: <Widget>[
             paddingTextLabel(userModel.firstName),
             paddingTextLabel(userModel.lastName),
@@ -55,7 +91,7 @@ class SettingState extends State<Setting> {
             paddingTextLabel(userModel.money.toString()+" Dens"),
             paddingTextLabel("Victoire : "+userModel.wins.toString()+"/"+userModel.games.toString()),
             Padding(padding: const EdgeInsets.all(15),
-            child:
+            child:(userModel.money == 0) ?
                 SizedBox(
                 child:  Stack(
                 children: [
@@ -64,19 +100,35 @@ class SettingState extends State<Setting> {
                       width : 200,
                     height: 200,
                     child:CircularProgressIndicator(
+                      value: timeLeftPercentage,
                       strokeWidth: 8,
                       color: Colors.red[700],
                     ),
                     ),
                 ),
+                  Padding(padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 0, bottom: 50),child : Center(child: Text('Temps restant'),)),
+                  Center(child: StreamBuilder<int>(
+                    stream: stopWatchTimer.rawTime,
+                    initialData: stopWatchTimer.rawTime.value,
+                    builder: (context, snapshot) {
+                      final value = snapshot.data;
+                      final displayTime = StopWatchTimer.getDisplayTime(value, hours: true,milliSecond: false);
+                      return  Text(
+                        displayTime.toString(),
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold),
+                      );
+                    },
 
-                  Center(child: Text("Temps restant"),)
+                  ),)
                 ],
                 ),
                   height: 200,
                   width: 200,
-                )
-          ),
+                ) : null
+          ) ,
 
 
 

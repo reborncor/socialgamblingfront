@@ -51,9 +51,9 @@ class _SignInState extends State<SignIn> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                    border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    border: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     hintText: 'Username',
                   ),
                 )),
@@ -71,9 +71,9 @@ class _SignInState extends State<SignIn> {
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                  enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                  border:setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                  focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                  enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                  border:setOutlineBorder(3.0, 25.0, Colors.red[700]),
                   hintText: 'Password',
                 ),
               ),)

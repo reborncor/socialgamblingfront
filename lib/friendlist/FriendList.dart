@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,9 @@ class _FriendListState extends State<FriendList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(children : <Widget>[
-            ElevatedButton(onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)-1).toString();}, child: Text('-')),
+            ElevatedButton(
+              style : BaseButtonRoundedColor(60,40,Colors.green[700]),
+                onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)-1).toString();}, child: Text('-')),
             Expanded(child: TextField(
               textAlign: TextAlign.center,
                 controller: moneyToSendController,
@@ -43,7 +44,8 @@ class _FriendListState extends State<FriendList> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
                 ])),
-            ElevatedButton(onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)+1).toString();}, child: Text('+')),
+            ElevatedButton( style : BaseButtonRoundedColor(60,40,Colors.green[700]),
+                onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)+1).toString();}, child: Text('+')),
 
           ]
 
@@ -81,31 +83,38 @@ class _FriendListState extends State<FriendList> {
     );
   }
   Widget itemFriend(String image, String username){
-    return Padding(padding: EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: username,)),
-            );
+    return Padding(padding: EdgeInsets.all(2),
+      child: Card(
+        elevation: 0,
+        color: Colors.red[50],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
 
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.account_circle, size: 30,),
-                    Padding(padding: EdgeInsets.all(10)
-                    ,child: Text(username,style: TextStyle(fontSize: 15),),)
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: username,)),
+                );
+
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Icon(Icons.account_circle, size: 30,),
+                  Padding(padding: EdgeInsets.all(10)
+                    ,child: Text(username,style: TextStyle(fontSize: 15),),)
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
                 IconButton(onPressed: (){
                   showDialog(context: context, builder: (context) => showMoneyToSendDialog(context, username));
                 }, icon: Icon(Icons.toll, size: 30, color: Colors.red[700])),
@@ -118,7 +127,8 @@ class _FriendListState extends State<FriendList> {
                 },)
               ],)
 
-            ],
+          ],
+        ),
       )
        ,
     );
@@ -195,14 +205,6 @@ class _FriendListState extends State<FriendList> {
           }
         },
 
-//      )Center(
-//
-//          child: ListView.builder(
-//            itemCount: friends.length,
-//            itemBuilder: (context, index) {
-//              return itemFriend('image', friends[index].username);
-//          },
-//          )
 
       ),
 

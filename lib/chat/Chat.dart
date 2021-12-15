@@ -70,8 +70,8 @@ class _ChatState extends State<Chat> {
 
   @override
   initState()  {
-    startInd = 5;
-    endInd = startInd+ 5;
+    startInd = 10;
+    endInd = startInd+ 10;
     scrollController = ScrollController();
     scrollController.addListener(scrollListener);
     fetchUsername();
@@ -87,8 +87,8 @@ class _ChatState extends State<Chat> {
     var data = await getUserMessagePageable(widget.receiverUsername, startInd, endInd);
     responseOldMessage = data;
     messages.insertAll(0, responseOldMessage.oldmessages);
-    startInd+=5;
-    endInd+=5;
+    startInd+=10;
+    endInd+=10;
     streamController.add("event");
   }
 
@@ -132,9 +132,7 @@ class _ChatState extends State<Chat> {
 
     socket.on("messagesuccess",(data) => {
       log("OK"),
-      setState(() {
-        addMessageToList(messageSent);
-      }),
+    addMessageToList(messageSent),
      // scrollController.animateTo(
      // scrollController.position.maxScrollExtent,
      // duration: Duration(seconds: 1),
@@ -147,7 +145,6 @@ class _ChatState extends State<Chat> {
       setState(() {
         newMessage = MessageModel.fromJsonData(data);
         addMessageToList(newMessage);
-
       }),
 
 
@@ -176,7 +173,6 @@ class _ChatState extends State<Chat> {
 
           onTap: (){
                 goDown();
-//            log("EDIT");
           },
         )),
     IconButton(onPressed: () {
@@ -187,7 +183,7 @@ class _ChatState extends State<Chat> {
     );
   }
   Widget itemMessage(MessageModel messageModel){
-    return Padding(padding: EdgeInsets.all(16),
+    return Padding(padding: EdgeInsets.all(8),
         child : Align(
           alignment:(messageModel.senderUsername == username) ? Alignment.centerRight : Alignment.centerLeft,
           child: ConstrainedBox(
@@ -201,7 +197,7 @@ class _ChatState extends State<Chat> {
                   Icon(Icons.account_circle,size: 40,),
                  Expanded(child:  Card(
 
-                   color: (messageModel.senderUsername == username) ? Colors.red[300] : Colors.white70 ,
+                   color: (messageModel.senderUsername == username) ? Colors.red[50] : Colors.white70 ,
                    child: ListTile(
                      title: Text(messageModel.content, style: TextStyle(color: Colors.black)),
 //                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
@@ -214,7 +210,7 @@ class _ChatState extends State<Chat> {
 
                   Expanded(child:  Card(
 
-                    color: (messageModel.senderUsername == username) ? Colors.red[300] : Colors.white70 ,
+                    color: (messageModel.senderUsername == username) ? Colors.red[50] : Colors.white70 ,
                     child: ListTile(
                       title: Text(messageModel.content),
 //                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),

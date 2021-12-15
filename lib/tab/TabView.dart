@@ -60,7 +60,9 @@ class _TabViewState extends State<TabView> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red[700],
+        selectedItemColor: Colors.black,
+        backgroundColor:Colors.red[700] ,
+        unselectedItemColor: Colors.white70,
         onTap: _onItemTapped,
       ),
     );

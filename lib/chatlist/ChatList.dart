@@ -33,7 +33,7 @@ class _ChatListState extends State<ChatList> {
 
 
     String receiverUserame = conversationModel.members.first == currentUsername ? conversationModel.members.last : conversationModel.members.first;
-    return Padding(padding: EdgeInsets.all(16),
+    return Padding(padding: EdgeInsets.all(4),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -118,15 +118,6 @@ class _ChatListState extends State<ChatList> {
             );
           }
         },
-
-//      )Center(
-//
-//          child: ListView.builder(
-//            itemCount: friends.length,
-//            itemBuilder: (context, index) {
-//              return itemFriend('image', friends[index].username);
-//          },
-//          )
 
       ),
 
