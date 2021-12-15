@@ -39,8 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       });
 
-    // TODO: implement initState
-
   }
 
   @override
