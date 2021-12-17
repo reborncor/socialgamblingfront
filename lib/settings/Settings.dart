@@ -86,6 +86,7 @@ class SettingState extends State<Setting> {
           stopWatchTimer.setPresetTime(mSec:  timeLeftHours.toInt());
           stopWatchTimer.onExecute.add(StopWatchExecute.start);
           return Column(children: <Widget>[
+            Padding(padding: EdgeInsets.only(bottom: 10,top: 10),child: Icon(Icons.account_circle_rounded, size: 100,),),
             paddingTextLabel(userModel.firstName),
             paddingTextLabel(userModel.lastName),
             paddingTextLabel(userModel.email),
