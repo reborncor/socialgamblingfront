@@ -119,7 +119,7 @@ class _AddFriendsState extends State<AddFriends> {
             );
           }
           else{
-            return Text("Pas d'amis");
+            return Text("Vous avez aucun amis");
           }
         }
         else{
