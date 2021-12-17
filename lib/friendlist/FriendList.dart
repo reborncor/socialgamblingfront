@@ -37,8 +37,8 @@ class _FriendListState extends State<FriendList> {
         children: <Widget>[
           Row(children : <Widget>[
             ElevatedButton(
-              style : BaseButtonRoundedColor(60,40,Colors.green[700]),
-                onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)-1).toString();}, child: Text('-')),
+              style : BaseButtonRoundedColor(60,40,Colors.amber),
+                onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)-1).toString();}, child: Text('-',style: TextStyle(color: Colors.black))),
             Expanded(child: TextField(
               textAlign: TextAlign.center,
                 controller: moneyToSendController,
@@ -46,8 +46,8 @@ class _FriendListState extends State<FriendList> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
                 ])),
-            ElevatedButton( style : BaseButtonRoundedColor(60,40,Colors.green[700]),
-                onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)+1).toString();}, child: Text('+')),
+            ElevatedButton( style : BaseButtonRoundedColor(60,40,Colors.amber),
+                onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)+1).toString();}, child: Text('+',style: TextStyle(color: Colors.black),)),
 
           ]
 
@@ -64,7 +64,7 @@ class _FriendListState extends State<FriendList> {
           child: Text("Fermer",style: TextStyle(color: Colors.black),),
         ),
         ElevatedButton(
-          style: BaseButtonRoundedColor(60,40,Colors.green[700]),
+          style: BaseButtonRoundedColor(60,40,Colors.amber),
           onPressed: () async {
             var result = await sendMoneyToFriends(receiverUsername, int.parse(moneyToSendController.text));
             if(result.code == SUCESS){
@@ -188,7 +188,7 @@ class _FriendListState extends State<FriendList> {
 
                   child: (friends.length == 0 ) ?
                   ElevatedButton(
-                    style: BaseButtonRoundedColor(100.0,50.0,Colors.red[700]),
+                    style: BaseButtonRoundedColor(100.0,50.0,Colors.red[50]),
                       onPressed: () => Navigator.push(context,  MaterialPageRoute(builder: (context) => AddFriends()),),
                       child: Text("Ajouter des amis !",style: TextStyle(color: Colors.black),),)
                       :ListView.builder(
