@@ -40,7 +40,8 @@ class _SignInState extends State<SignIn> {
           children: <Widget>[
             Padding(padding: EdgeInsets.all(16),
             child: Image.asset("asset/images/logo.png",width: 100, height: 100,),),
-
+            Padding(padding: EdgeInsets.only(bottom: 4),
+              child: Text("Bloden",style: TextStyle( fontSize: 20),)),
             Padding(padding: EdgeInsets.all(16),
                 child:   TextFormField(
                   textAlign: TextAlign.center,
