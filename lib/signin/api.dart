@@ -24,7 +24,7 @@ Future<SigninReponse> signinUser(String username, String password) async{
   }
   catch (e) {
     print(e.toString());
-    return SigninReponse(code: 1);
+    return SigninReponse(code: 1, message: "Erreur serveur");
   }
 
   if(response.statusCode == 200) {
@@ -38,8 +38,13 @@ Future<SigninReponse> signinUser(String username, String password) async{
     return data ;
   }
   else{
-    return SigninReponse(code: 1, message: json.decode(response.body)['message']);
-
+    var message;
+    try{
+      message = json.decode(response.body)['message'];
+    }catch(e){
+      message = "Une erreur est survenue";
+    }
+    return SigninReponse(code: json.decode(response.body)['code'], message: json.decode(response.body)['message']);
   }
 
 

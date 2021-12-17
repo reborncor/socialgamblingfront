@@ -32,7 +32,7 @@ Future<UserResponse> getUserInformation() async{
     return data ;
   }
   else{
-    return UserResponse(code: 1, message: response.error.message.toString());
+    return UserResponse(code: json.decode(response.body)['code'], message: json.decode(response.body)['message']);
   }
 
 

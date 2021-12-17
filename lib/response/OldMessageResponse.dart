@@ -11,7 +11,7 @@ class OldMessageResponse extends BasicResponse{
 
   List<MessageModel> oldmessages;
 
-  OldMessageResponse({ this.oldmessages, code, message}): super(code: null, message:null );
+  OldMessageResponse({ this.oldmessages, code, message}): super(code: code, message:message );
 
   OldMessageResponse.jsonData({this.oldmessages, code, message}) :super(code: code, message: message);
 

@@ -64,5 +64,6 @@ deleteInfo() async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sharedPreferences.setString("token","");
   sharedPreferences.setString("username","");
+  sharedPreferences.setString("money","");
 
 }

@@ -10,6 +10,7 @@ import 'package:socialgamblingfront/model/FriendModel.dart';
 import 'package:socialgamblingfront/response/FriendsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
 class FriendList extends StatefulWidget {
@@ -145,7 +146,7 @@ class _FriendListState extends State<FriendList> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: IconButton(
-                icon: Image.asset('asset/images/add_account.png'),
+                icon: Image.asset('asset/images/add_account.png',width: 30, height: 30,),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -166,7 +167,7 @@ class _FriendListState extends State<FriendList> {
 
                 },
                 child: Icon(
-                    Icons.account_circle,color: Colors.black,
+                    Icons.account_circle,color: Colors.black,size: 30,
                 ),
               )
           ),
@@ -180,6 +181,7 @@ class _FriendListState extends State<FriendList> {
           if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
                 response = snapshot.data;
+                if(response.code == 2) Navigator.pushReplacementNamed(context,SignIn.routeName);
                 friends = response.friends;
                 return Center(
 

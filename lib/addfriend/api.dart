@@ -112,7 +112,7 @@ Future<BasicResponse> sendMoneyToFriends(String username, int amount) async{
   }
   catch (e) {
     print(e.toString());
-    return BasicResponse(code: 1, message: "Erreur : une erreur est survenue");
+    return BasicResponse(code: json.decode(response.body)['code'], message: json.decode(response.body)['message']);
   }
 
 

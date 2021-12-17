@@ -21,7 +21,7 @@ class _BlodenStoreCardState extends State<BlodenStoreCard> {
           widget.callBack(widget.value);
         },
         child: Card(
-            elevation: 20,
+            elevation: 10,
             color: Colors.red[700],
             shape: RoundedRectangleBorder(
               side: BorderSide(color: Colors.black, width: 2.0),

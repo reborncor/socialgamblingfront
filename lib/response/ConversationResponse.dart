@@ -11,7 +11,7 @@ class ConversationResponse extends BasicResponse{
 
   ConversationModel conversation;
 
-  ConversationResponse({ this.conversation, code, message}): super(code: null, message:null );
+  ConversationResponse({ this.conversation, code, message}): super(code: code, message:code );
 
   ConversationResponse.jsonData({this.conversation, code, message}) :super(code: code, message: message);
 

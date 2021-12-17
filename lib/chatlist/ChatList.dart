@@ -7,6 +7,7 @@ import 'package:socialgamblingfront/model/ConversationModel.dart';
 import 'package:socialgamblingfront/response/ConversationsResponse.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
 import 'api.dart';
@@ -43,7 +44,7 @@ class _ChatListState extends State<ChatList> {
         },
     child: Card(
         elevation: 0,
-        color: Colors.black12,
+        color: Colors.red[50] ,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -94,6 +95,10 @@ class _ChatListState extends State<ChatList> {
           if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
               response = snapshot.data;
+              if(response.code == 2) {
+                log("DISCONNECTING");
+                Navigator.pushReplacementNamed(context,SignIn.routeName);
+              };
               conversations = response.conversations;
               return Center(
 

@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       title: 'Bloden',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        backgroundColor: Colors.white70
       ),
       home: SplashScreen(),
     );

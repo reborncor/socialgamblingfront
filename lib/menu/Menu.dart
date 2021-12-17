@@ -168,8 +168,6 @@ class _MenuState extends State<Menu> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-//          headerApp(),
-//          searchFriend(),
           listOfGame()
         ],
       )

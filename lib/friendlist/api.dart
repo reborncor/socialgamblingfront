@@ -29,7 +29,7 @@ Future<FriendsResponse> getUserFriends() async{
     return data ;
   }
   else{
-    return json.decode(response.body);
+    return FriendsResponse(code: json.decode(response.body)['code'], message: json.decode(response.body)['message']);
   }
 
 

@@ -43,6 +43,7 @@ class _SignInState extends State<SignIn> {
 
             Padding(padding: EdgeInsets.all(16),
                 child:   TextFormField(
+                  textAlign: TextAlign.center,
                   controller: usernameController,
                   validator:(value) {
                     if (value == null || value.isEmpty) {
@@ -54,12 +55,13 @@ class _SignInState extends State<SignIn> {
                     enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     border: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    hintText: 'Username',
+                    hintText: "Nom d'utilisateur",
                   ),
                 )),
             Padding(
               padding: EdgeInsets.all(16),
               child: TextFormField(
+                textAlign: TextAlign.center,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Entrer un mot de passe";
@@ -74,7 +76,7 @@ class _SignInState extends State<SignIn> {
                   focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                   enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                   border:setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                  hintText: 'Password',
+                  hintText: 'Mot de passe',
                 ),
               ),)
             ,

@@ -76,6 +76,9 @@ class _BlodenStoreState extends State<BlodenStore> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            color: Colors.black,
+          ),
           backgroundColor: Colors.red[700] ,
           actions: <Widget>[
             Padding(
@@ -106,12 +109,18 @@ class _BlodenStoreState extends State<BlodenStore> {
           ],
           title: Text("Boutique",style: TextStyle(color: Colors.black)),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            listOfDensToBuy(),
-            ElevatedButton(onPressed: (){buyDensForUser(value);}, child: Text('Acheter Maintenant : $value'))
-          ],
+        body: Container(
+          color: Colors.white70,
+          child:  Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              listOfDensToBuy(),
+
+              ElevatedButton(
+                  style: BaseButtonRoundedColor(60,40,Colors.red[700]),
+                  onPressed: (){buyDensForUser(value);}, child: Text('Acheter Maintenant : $value'))
+            ],
+          ),
         )
     );
   }

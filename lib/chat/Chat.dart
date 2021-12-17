@@ -197,6 +197,7 @@ class _ChatState extends State<Chat> {
                   Icon(Icons.account_circle,size: 40,),
                  Expanded(child:  Card(
 
+                   elevation: 0,
                    color: (messageModel.senderUsername == username) ? Colors.red[50] : Colors.white70 ,
                    child: ListTile(
                      title: Text(messageModel.content, style: TextStyle(color: Colors.black)),

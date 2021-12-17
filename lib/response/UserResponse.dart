@@ -12,7 +12,7 @@ class UserResponse extends BasicResponse{
 
   UserModel user;
 
-  UserResponse({ this.user, code, message}): super(code: null, message:null );
+  UserResponse({ this.user, code, message}): super(code: code, message:message );
 
   UserResponse.jsonData({this.user, code, message}) :super(code: code, message: message);
 

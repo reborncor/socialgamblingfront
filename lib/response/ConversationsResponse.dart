@@ -13,9 +13,9 @@ class ConversationsResponse extends BasicResponse{
 
   List<ConversationModel> conversations;
 
-  ConversationsResponse({ this.conversations, code, message}): super(code: null, message:null );
+  ConversationsResponse({ this.conversations, int code, String message}): super(code: code, message:message );
 
-  ConversationsResponse.jsonData({this.conversations, code, message}) :super(code: code, message: message);
+  ConversationsResponse.jsonData({this.conversations, int code, String message}) :super(code: code, message: message);
 
   factory ConversationsResponse.fromJsonData(Map<String,  dynamic> json){
     return ConversationsResponse.jsonData(

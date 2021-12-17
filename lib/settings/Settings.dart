@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/model/UserModel.dart';
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/settings/api.dart';
+import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/util/util.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
@@ -53,10 +54,10 @@ class SettingState extends State<Setting> {
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, ),
         decoration: InputDecoration(
+          alignLabelWithHint: true,
           disabledBorder: BorderRoundedColor(3,Colors.red[700]),
           border: OutlineInputBorder(),
-          labelText: text,
-
+          label: Center(child: Text(text),),
         ),
         //validatePassword,        //Function to check validation
       )
@@ -73,14 +74,14 @@ class SettingState extends State<Setting> {
       if(snapshot.connectionState == ConnectionState.done){
         if(snapshot.hasData){
           UserResponse response = snapshot.data;
+          if(response.code == 2) Navigator.popAndPushNamed(context, SignIn.routeName);
           UserModel userModel = response.user;
-
 
           var userDateOfBan = DateTime.fromMillisecondsSinceEpoch(userModel.dateOfBan);
           var dateToCheck = new DateTime(userDateOfBan.year, userDateOfBan.month, userDateOfBan.day, userDateOfBan.hour+24);
           var moment = DateTime.now();
-          var timeLeftPercentage =(userModel.money == 0) ?  (moment.microsecondsSinceEpoch/dateToCheck.microsecondsSinceEpoch).toDouble()*100 : 0;
           var timeLeftHours =(userModel.money == 0) ? (dateToCheck.millisecondsSinceEpoch - moment.millisecondsSinceEpoch).toDouble() : 0;
+          var timeLeftPercentage =(userModel.money == 0) ?  (timeLeftHours/86400000).toDouble()*100 : 0;
           log(timeLeftPercentage.toString());
           stopWatchTimer.setPresetTime(mSec:  timeLeftHours.toInt());
           stopWatchTimer.onExecute.add(StopWatchExecute.start);
@@ -117,7 +118,6 @@ class SettingState extends State<Setting> {
                         displayTime.toString(),
                         style: const TextStyle(
                             fontSize: 20,
-                            fontFamily: 'Helvetica',
                             fontWeight: FontWeight.bold),
                       );
                     },
@@ -164,6 +164,10 @@ class SettingState extends State<Setting> {
     return Scaffold(
 
       appBar: AppBar(
+        title: Text("Parametre", style: TextStyle(color: Colors.black),),
+        leading: BackButton(
+          color: Colors.black,
+        ),
         backgroundColor: Colors.red[700],
       ),
       body: Center(

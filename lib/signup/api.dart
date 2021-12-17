@@ -21,7 +21,7 @@ Future<BasicResponse> signUpUser(UserModel userModel) async{
   }
   catch (e) {
     print(e.toString());
-    return BasicResponse(code: 1);
+    return BasicResponse(code: json.decode(response.body)['code'], message: json.decode(response.body)['message']);
   }
 
 

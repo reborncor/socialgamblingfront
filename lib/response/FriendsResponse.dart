@@ -12,7 +12,7 @@ class FriendsResponse extends BasicResponse{
 
   List<FriendModel> friends;
 
-  FriendsResponse({ this.friends}) : super(code: null, message:null );
+  FriendsResponse({ this.friends, int code, String message}) : super(code: code, message:message );
 
   FriendsResponse.jsonData({this.friends, code, message}) :super(code: code, message: message);
 
