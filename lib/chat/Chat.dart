@@ -61,12 +61,15 @@ class _ChatState extends State<Chat> {
   }
 
   goDown(){
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent + 100,
-      duration: Duration(seconds: 1),
-      curve: Curves.easeOut,
-    );
-  }
+    if(scrollController.hasClients){
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent + 100,
+        duration: Duration(seconds: 1),
+        curve: Curves.easeOut,
+      );
+    }
+    }
+
 
   @override
   initState()  {
