@@ -30,11 +30,19 @@ class _BlodenStoreCardState extends State<BlodenStoreCard> {
 
             child:  Column(
               children: [
-                Image(image: AssetImage("asset/images/donkeykong.jpg")),
+                Container(
+                  height :80,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.none,
+                      image: AssetImage('asset/images/treasure-opened.png'),
+                    ),
+                  ),
+                ),
                 ListTile(
 
-                  title:  Text(widget.value.toString()),
-                  subtitle:  Text("Pack dens classique"),
+                  title:  Text(widget.value.toString(), textAlign: TextAlign.center,),
+                  subtitle:  Text("Pack dens classique",textAlign: TextAlign.center,),
                 ),
               ],
             )
