@@ -18,8 +18,8 @@ class _SelectGambleState extends State<SelectGamble> {
   GameModel game1 = new GameModel(id: "1", image: "asset/images/donkeykong.jpg", name: "Donkey Kong", description: "Lorem Ipsum");
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
-  List<String> gambles = ['0-10','10-20','20-30'];
-  Widget cardGame(GameModel gameModel, String gamble, int niveau){
+  List<String> gambles = ['10','20','30','50','100'];
+  Widget cardGame(String gamble, int niveau){
     return  InkWell(
         onTap:() {
 //          Navigator.pushNamed(context, SelectGamble.routeName);
@@ -51,14 +51,16 @@ class _SelectGambleState extends State<SelectGamble> {
     games.add(game3);
     return Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            color: Colors.black,
+          ),
           backgroundColor: Colors.red[700],
           title: Text("Selection du Palier",style: TextStyle(color: Colors.black),),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-
-            gridOfGamble(games.length)
+            gridOfGamble(gambles.length)
           ],
         )
     );
@@ -74,7 +76,7 @@ class _SelectGambleState extends State<SelectGamble> {
           crossAxisSpacing: 20,
           mainAxisSpacing: 20),
       itemBuilder: (context, index) {
-        return cardGame(games[index],gambles[index], index);
+        return cardGame(gambles[index], index);
 
 
 

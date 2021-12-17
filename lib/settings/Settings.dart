@@ -58,6 +58,7 @@ class SettingState extends State<Setting> {
           disabledBorder: BorderRoundedColor(3,Colors.red[700]),
           border: OutlineInputBorder(),
           label: Center(child: Text(text),),
+          labelStyle: TextStyle(color: Colors.black87)
         ),
         //validatePassword,        //Function to check validation
       )

@@ -63,9 +63,11 @@ class _SelectGameState extends State<SelectGame> {
     games.add(game2);
     games.add(game3);
     return Scaffold(
+
         appBar: AppBar(
+          leading: BackButton(color: Colors.black,),
           backgroundColor: Colors.red[700],
-          title: Text("Selection du Jeu"),
+          title: Text("Selection du Jeu",style: TextStyle(color: Colors.black)),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
