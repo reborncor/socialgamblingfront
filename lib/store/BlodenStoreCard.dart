@@ -41,8 +41,8 @@ class _BlodenStoreCardState extends State<BlodenStoreCard> {
                 ),
                 ListTile(
 
-                  title:  Text(widget.value.toString(), textAlign: TextAlign.center,),
-                  subtitle:  Text("Pack dens classique",textAlign: TextAlign.center,),
+                  title:  Text(widget.value.toString(), textAlign: TextAlign.center, style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),),
+                  subtitle:  Text("Pack dens classique",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
                 ),
               ],
             )

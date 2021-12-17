@@ -85,7 +85,7 @@ class _BlodenStoreState extends State<BlodenStore> {
                 padding: EdgeInsets.only(right: 20.0),
                   child: Row( children: [
                     Icon(Icons.store,color: Colors.black,size: 30,),
-                    Text(userCurrentDens.toString()+' Dens')
+                    Text(userCurrentDens.toString()+' Dens', style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),)
                   ]
 
                   ),
