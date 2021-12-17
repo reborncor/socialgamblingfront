@@ -186,7 +186,12 @@ class _FriendListState extends State<FriendList> {
                 friends = response.friends;
                 return Center(
 
-                  child: ListView.builder(
+                  child: (friends.length == 0 ) ?
+                  ElevatedButton(
+                    style: BaseButtonRoundedColor(100.0,50.0,Colors.red[700]),
+                      onPressed: () => Navigator.push(context,  MaterialPageRoute(builder: (context) => AddFriends()),),
+                      child: Text("Ajouter des amis !",style: TextStyle(color: Colors.black),),)
+                      :ListView.builder(
                   itemCount: friends.length,
                   itemBuilder: (context, index) {
                     return itemFriend('image', friends[index].username);
