@@ -32,6 +32,7 @@ class _SignUpState extends State<SignUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
 
+            Padding(padding: EdgeInsets.all(8),child: Text("Inscrivez vous !",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black87),),),
             Padding(padding: EdgeInsets.all(8),
                 child:   TextFormField(
                   controller: usernameController,
@@ -42,8 +43,8 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
                     hintText: 'Username',
                   ),
@@ -58,8 +59,8 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
                     hintText: 'Nom',
                   ),
@@ -74,8 +75,8 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
                     hintText: 'Prénom',
                   ),
@@ -94,8 +95,8 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
                     hintText: 'Adresse email',
                   ),
@@ -111,8 +112,8 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                     border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
                     hintText: 'Numéro de téléphone',
                   ),
@@ -131,8 +132,8 @@ class _SignUpState extends State<SignUp> {
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-                  enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                  focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                  enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
                   border:setOutlineBorder(5.0, 25.0, Colors.red[700]),
                   hintText: 'Password',
                 ),
