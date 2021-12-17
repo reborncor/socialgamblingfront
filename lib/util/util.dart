@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final SUCESS = 0;
 final ERROR = 1;
+final BAN = 2;
+final NOT_CONNECTED = 3;
 
 setOutlineBorder(borderSide, borderRadius, color){
   return
@@ -65,5 +67,4 @@ deleteInfo() async{
   sharedPreferences.setString("token","");
   sharedPreferences.setString("username","");
   sharedPreferences.setString("money","");
-
 }

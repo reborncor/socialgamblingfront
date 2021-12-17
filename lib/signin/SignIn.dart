@@ -90,7 +90,7 @@ class _SignInState extends State<SignIn> {
                     var result =  await signinUser(usernameController.text, passwordController.text);
 
                     if(result.code ==  0){
-                      Navigator.pushNamed(context, TabView.routeName);
+                      Navigator.pushReplacementNamed(context, TabView.routeName);
                     }
                     else{
                       ScaffoldMessenger.of(context).showSnackBar(

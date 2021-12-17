@@ -29,6 +29,7 @@ class _FriendListState extends State<FriendList> {
 
   Widget showMoneyToSendDialog(BuildContext context, String receiverUsername) {
     return new AlertDialog(
+      backgroundColor: Colors.grey[50],
       title: Text("Envoyer des Dens à $receiverUsername"),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
@@ -181,7 +182,7 @@ class _FriendListState extends State<FriendList> {
           if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
                 response = snapshot.data;
-                if(response.code == 2) Navigator.pushReplacementNamed(context,SignIn.routeName);
+                if(response.code == BAN ||response.code == NOT_CONNECTED) Navigator.pushReplacementNamed(context,SignIn.routeName);
                 friends = response.friends;
                 return Center(
 

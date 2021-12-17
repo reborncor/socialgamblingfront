@@ -139,8 +139,8 @@ class SettingState extends State<Setting> {
                 style: BaseButtonRoundedColor(200,40,Colors.red[700]),
 
                 onPressed: () async {
-//            await deleteInfo();
-                  Navigator.popAndPushNamed(context, '/signin' );
+                  await deleteInfo();
+                  Navigator.pushReplacementNamed(context, '/signin' );
                 },
                 child: Text("Se deconnecter"),
               ),)

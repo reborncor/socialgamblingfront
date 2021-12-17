@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
+import 'package:socialgamblingfront/tab/TabView.dart';
+import 'package:socialgamblingfront/util/util.dart';
 import 'package:video_player/video_player.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,7 +18,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
 
-
+  bool isUserLogged = false;
   @override
   void dispose() {
     super.dispose();
@@ -27,23 +31,38 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset('asset/videos/logo.mp4')
-      ..initialize().then((_) {
+      ..initialize().then((_)  async {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         _controller.play();
         setState(() {});
         Future.delayed(const Duration(milliseconds: 2500), () {
+
           setState(() {
-            Navigator.pushReplacementNamed(context, SignIn.routeName);
+            if(this.isUserLogged){
+              Navigator.pushReplacementNamed(context, TabView.routeName);
+            }
+            else{
+              Navigator.pushReplacementNamed(context, SignIn.routeName);
+            }
+
           });
 
         });
       });
 
   }
+  fetchData() async {
+    String data = await getCurrentUserToken();
+    log("INFO UTILISATEUR :"+data);
+    if (data != ""){
+      log("ACCESS GRANTED");
+      this.isUserLogged = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
+    fetchData();
     return Scaffold(
       backgroundColor: Colors.black,
 

@@ -8,6 +8,7 @@ import 'package:socialgamblingfront/model/FriendModel.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
 import 'package:socialgamblingfront/response/FriendsResponse.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/util/util.dart';
 
 class AddFriends extends StatefulWidget {
 
@@ -25,12 +26,8 @@ class _AddFriendsState extends State<AddFriends> {
 
   Widget itemFriend(String image, String username){
     return Padding(padding: EdgeInsets.all(8),
-      child: InkWell(
-          onTap: () {
-          },
           child: Card(
-            elevation: 0,
-            color: Colors.black12,
+            color: Colors.red[50],
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -39,9 +36,10 @@ class _AddFriendsState extends State<AddFriends> {
               mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
               Expanded(child: ListTile(
-                leading: Icon(Icons.account_circle),
+                leading: Icon(Icons.account_circle, color: Colors.black,),
                 title: Text(username),
                 trailing: Card(
+                  color: Colors.green[100],
                   child: GestureDetector(
                     onTap: () async {
                       BasicResponse result = await confirmFriends(username, true);
@@ -58,7 +56,7 @@ class _AddFriendsState extends State<AddFriends> {
                           leading :Image.asset('asset/images/add_account.png',width: 30,),
                           title: Text('Accepter',style: TextStyle(fontSize: 10),)) ,),
                 ),),),),
-              IconButton(icon: Icon(Icons.clear), onPressed: () async {
+              IconButton(icon: Icon(Icons.clear, color: Colors.black,), onPressed: () async {
                 BasicResponse result = await confirmFriends(username, false);
                 setState(() {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -68,7 +66,7 @@ class _AddFriendsState extends State<AddFriends> {
               },),
 
     ]),)
-      ),
+
     );
 
   }
@@ -77,21 +75,21 @@ class _AddFriendsState extends State<AddFriends> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Expanded(child: TextField(
+
           controller: friendUsernameController,
           onChanged: (value) {
             //Future Ajouter recherche Users
           },
           decoration: InputDecoration(
+            focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+            enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+            border:setOutlineBorder(3.0, 25.0, Colors.red[700]),
             hintText: "Ajouter un ami !",
-        prefixIcon: IconButton(icon :Icon(Icons.clear), onPressed: () => friendUsernameController.clear(),),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
-              ),
-            ),
+        prefixIcon: IconButton(icon :Icon(Icons.clear, color: Colors.black,), onPressed: () => friendUsernameController.clear(),),
+
           ),
         ),),
-        IconButton(icon: Icon(Icons.search), onPressed: () async {
+        IconButton(icon: Icon(Icons.search, color: Colors.black,), onPressed: () async {
 //          friendUsernameController.clear();
           BasicResponse response = await addFriends(friendUsernameController.text);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -111,17 +109,13 @@ class _AddFriendsState extends State<AddFriends> {
           if(snapshot.hasData){
             response = snapshot.data;
             friends = response.friends;
-            return Card(
-
-                child: SingleChildScrollView(
+            return SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: ListView.builder(itemCount: friends.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return itemFriend("", friends[index].username);
                     },),
-
-                )
             );
           }
           else{
@@ -145,7 +139,10 @@ class _AddFriendsState extends State<AddFriends> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
+        leading: BackButton(
+          color: Colors.black,
+        ),
         backgroundColor: Colors.red[700],
         actions: <Widget>[
           Padding(
@@ -171,6 +168,7 @@ class _AddFriendsState extends State<AddFriends> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          SizedBox.fromSize(size: Size(20, 20),),
           inputAddFriend(),
           SizedBox.fromSize(size: Size(20,20),),
           getListPendingInvitations(),

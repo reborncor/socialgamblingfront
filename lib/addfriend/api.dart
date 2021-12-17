@@ -52,7 +52,6 @@ Future<FriendsResponse> getUserInvitations() async{
   }
 
   if(response.statusCode == 200) {
-    log("DATA :"+ json.decode(response.body).toString());
     FriendsResponse data = FriendsResponse.fromJsonDataInvitaions(json.decode(response.body));
     return data ;
   }

@@ -95,7 +95,7 @@ class _ChatListState extends State<ChatList> {
           if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
               response = snapshot.data;
-              if(response.code == 2) {
+              if(response.code == BAN ||response.code== NOT_CONNECTED) {
                 log("DISCONNECTING");
                 Navigator.pushReplacementNamed(context,SignIn.routeName);
               };

@@ -12,8 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$USER_HOME$/flutterdir/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.7/android" />
-            <option value="$USER_HOME$/flutterdir/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.2.3/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.9/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.2.7/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
