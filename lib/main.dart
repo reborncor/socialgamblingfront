@@ -80,18 +80,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         primaryColor: Colors.white,
         primaryColorBrightness: Brightness.light,
         brightness: Brightness.light,
-        primaryColorDark: Colors.black,
+        // primaryColorDark: Colors.black,
         canvasColor: Colors.white,
 
       ),
-      darkTheme: ThemeData(
-          primarySwatch: Colors.blue,
-          brightness: Brightness.dark,
-          primaryColorDark: Colors.black,
-          indicatorColor: Colors.white,
-          backgroundColor: Colors.grey[900]
-      ) ,
-      themeMode: _brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
+      // darkTheme: ThemeData(
+      //     primarySwatch: Colors.blue,
+      //     brightness: Brightness.dark,
+      //     primaryColorDark: Colors.black,
+      //     indicatorColor: Colors.white,
+      //     backgroundColor: Colors.grey[900]
+      // ) ,
+      // themeMode: _brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
       home: SplashScreen(),
     );
   }

@@ -168,10 +168,9 @@ class SettingState extends State<Setting> {
                       activeTrackColor: Colors.red[700],
                       onChanged: (bool value) =>
                           setState(() {
-                            log(value.toString());
+                            // log(value.toString());
                         isDark = value;
-                        brightnessValue = Brightness.light;
-                        log(isDark.toString());
+                        // brightnessValue = Brightness.light;
 
                           }),
                     ),
