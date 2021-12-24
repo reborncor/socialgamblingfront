@@ -21,11 +21,12 @@ class FriendList extends StatefulWidget {
   _FriendListState createState() => _FriendListState();
 }
 
-class _FriendListState extends State<FriendList> {
+class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   FriendsResponse response;
   List<FriendModel> friends = [];
 
   TextEditingController moneyToSendController = TextEditingController();
+  Brightness _brightness;
 
 
   bool isDarkMode = false;
@@ -38,8 +39,29 @@ class _FriendListState extends State<FriendList> {
   @override
   initState(){
     fetchData();
+    WidgetsBinding.instance?.addObserver(this);
+    _brightness = WidgetsBinding.instance?.window.platformBrightness;
     super.initState();
   }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    if (mounted) {
+      setState(() {
+        _brightness = WidgetsBinding.instance.window.platformBrightness;
+      });
+    }
+
+    super.didChangePlatformBrightness();
+  }
+
+
   Widget showMoneyToSendDialog(BuildContext context, String receiverUsername) {
     return new AlertDialog(
       backgroundColor: Colors.grey[50],

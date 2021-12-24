@@ -18,10 +18,41 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatefulWidget {
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // This widget is the root of your application.
 
+  Brightness _brightness;
 
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+    _brightness = WidgetsBinding.instance.window.platformBrightness;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    if (mounted) {
+      setState(() {
+        _brightness = WidgetsBinding.instance.window.platformBrightness;
+      });
+    }
+
+    super.didChangePlatformBrightness();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +77,21 @@ class MyApp extends StatelessWidget {
       },
       title: 'Bloden',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        backgroundColor: Colors.grey[900]
+        primaryColor: Colors.white,
+        primaryColorBrightness: Brightness.light,
+        brightness: Brightness.light,
+        primaryColorDark: Colors.black,
+        canvasColor: Colors.white,
+
       ),
+      darkTheme: ThemeData(
+          primarySwatch: Colors.blue,
+          brightness: Brightness.dark,
+          primaryColorDark: Colors.black,
+          indicatorColor: Colors.white,
+          backgroundColor: Colors.grey[900]
+      ) ,
+      themeMode: _brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
       home: SplashScreen(),
     );
   }

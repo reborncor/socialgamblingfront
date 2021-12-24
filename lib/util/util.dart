@@ -180,3 +180,5 @@ deleteInfo() async{
   sharedPreferences.setString("dateOfBan","");
 
 }
+
+

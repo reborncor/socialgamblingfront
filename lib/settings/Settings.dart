@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,7 @@ import 'package:socialgamblingfront/util/util.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 
-class Setting extends StatefulWidget {
+class Setting extends StatefulWidget with WidgetsBindingObserver {
 
   @override
   SettingState createState() => SettingState();
@@ -20,8 +21,8 @@ class Setting extends StatefulWidget {
 
 class SettingState extends State<Setting> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
-
+  StreamController<UserResponse> streamController = StreamController();
+  UserResponse response = UserResponse();
 
 
   final stopWatchTimer = StopWatchTimer(
@@ -32,10 +33,17 @@ class SettingState extends State<Setting> {
     //onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
   );
   bool isDarkMode = false;
+  int test = 0;
+  bool isDark = false;
+
   fetchData() async {
+
     bool result = await getIsDarkMode();
+    response = await getUserInformation();
     setState(() {
       isDarkMode = result;
+      streamController.add(response);
+      streamController.close();
     });
   }
   @override
@@ -50,8 +58,6 @@ class SettingState extends State<Setting> {
   void dispose() async {
     super.dispose();
     await stopWatchTimer.dispose();
-
-
   }
 
   Widget paddingTextLabel(String text){
@@ -76,11 +82,13 @@ class SettingState extends State<Setting> {
 
 
   Widget userParametre(){
-    return FutureBuilder(
-      future: getUserInformation(),
+    Brightness brightnessValue = MediaQuery.of(context).platformBrightness;
+    isDark = brightnessValue == Brightness.dark;
+
+    return StreamBuilder<dynamic>(
+      stream: streamController.stream,
       builder: (context, snapshot) {
         stopWatchTimer.clearPresetTime();
-      
       if(snapshot.connectionState == ConnectionState.done){
         if(snapshot.hasData){
           UserResponse response = snapshot.data;
@@ -93,7 +101,7 @@ class SettingState extends State<Setting> {
           var moment = DateTime.now();
           var timeLeftHours =(userModel.dateOfBan != 0) ? (dateToCheck.millisecondsSinceEpoch - moment.millisecondsSinceEpoch).toDouble() : 0;
           var timeLeftPercentage = (userModel.dateOfBan != 0) ?  (timeLeftHours/86400000).toDouble()*100 : 0;
-          log(timeLeftPercentage.toString());
+          // log(timeLeftPercentage.toString());
           stopWatchTimer.setPresetTime(mSec:  timeLeftHours.toInt());
           stopWatchTimer.onExecute.add(StopWatchExecute.start);
           return  ListView(
@@ -154,14 +162,18 @@ class SettingState extends State<Setting> {
                   children: <Widget>[
                     Text("Dark Mode", style: TextStyle( fontSize : 15, fontWeight : FontWeight.bold, color: isDarkMode ? Colors.white: Colors.black),),
                     Switch(
-                      value: isDarkMode,
+                      value: isDark,
                       inactiveTrackColor: Colors.grey,
                       activeColor: Colors.white,
                       activeTrackColor: Colors.red[700],
-                      onChanged: (bool value) => setState(() {
-                        isDarkMode = value;
-                        setDarkMode(isDarkMode);
-                      }),
+                      onChanged: (bool value) =>
+                          setState(() {
+                            log(value.toString());
+                        isDark = value;
+                        brightnessValue = Brightness.light;
+                        log(isDark.toString());
+
+                          }),
                     ),
                   ],
                 )),
