@@ -144,6 +144,7 @@ getUserStatusColors(status, bool isDarkmode){
 }
 
 Future<void> saveCard(String cardNumber, String expiryDate, String cardHolderName, String cvvCode) async {
+
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sharedPreferences.setString("cardNumber",cardNumber);
   sharedPreferences.setString("expiryDate",expiryDate);

@@ -24,6 +24,13 @@ class CreditCardModels{
     );
   }
 
+  Map<String, dynamic> toJson() => {
+    "cardNumber" : cardNumber,
+    "expiryDate" : expiryDate,
+    "cardHolderName" : cardHolderName,
+    "cvvCode" : cvvCode,
+  };
+
 }
 
 

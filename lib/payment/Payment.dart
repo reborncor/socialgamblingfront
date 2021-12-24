@@ -11,6 +11,7 @@ import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:socialgamblingfront/model/CreditCardModel.dart';
 import 'package:socialgamblingfront/model/UserModel.dart';
+import 'package:socialgamblingfront/payment/api.dart';
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/settings/api.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
@@ -185,13 +186,18 @@ class PaymentState extends State<Payment> {
                               ),
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
 
                             if (formKey.currentState.validate()) {
                               print('valid!');
-
-                              saveCard(cardNumber,expiryDate,cardHolderName,cvvCode);
-                              fetchData();
+                              final result = await updateCreditCard(cardNumber,expiryDate,cardHolderName,cvvCode);
+                              if(result.code == SUCESS){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(result.message)),
+                                );
+                                saveCard(cardNumber,expiryDate,cardHolderName,cvvCode);
+                                fetchData();
+                              }
 
                             } else {
                               print('invalid!');
@@ -199,10 +205,17 @@ class PaymentState extends State<Payment> {
                           },
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 50,
                         ),
-                        (cardModels.cardNumber != null) ? Row(children: [Text("Carte"), Text(cardModels.cardNumber.substring(0,4)+""
-                            "****")],) : const SizedBox(
+                        (cardModels.cardNumber != null) ?
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment : CrossAxisAlignment.center,
+                          children: [
+                            Image(image: AssetImage("asset/images/credit-card.png"),height: 50, width: 50,),
+                            Text("Carte : ", style: TextStyle(fontSize: 20, color: Colors.white),),
+                            Text(cardModels.cardNumber.substring(0,4)+""
+                            "****", style: TextStyle(fontSize: 20, color: Colors.white),)],) : const SizedBox(
                           height: 1,
                         )
                       ],

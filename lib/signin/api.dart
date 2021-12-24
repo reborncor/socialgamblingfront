@@ -36,6 +36,7 @@ Future<SigninReponse> signinUser(String username, String password) async{
       sharedPreferences.setString("money", data.payload.money.toString());
       sharedPreferences.setString("dateOfBan", data.payload.dateOfBan.toString());
 
+      sharedPreferences.setString("creditCard", jsonEncode(data.payload.creditCard));
     }
     return data ;
   }

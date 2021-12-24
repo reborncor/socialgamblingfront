@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 
-import 'package:socialgamblingfront/model/UserModel.dart';
-import 'package:socialgamblingfront/response/ConversationResponse.dart';
+
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:http/http.dart'as http;
