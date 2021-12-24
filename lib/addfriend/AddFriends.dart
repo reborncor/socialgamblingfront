@@ -24,6 +24,18 @@ class _AddFriendsState extends State<AddFriends> {
   TextEditingController friendUsernameController = TextEditingController();
 
 
+
+  bool isDarkMode = false;
+  fetchData() async {
+    isDarkMode = await getIsDarkMode();
+  }
+
+  @override
+  initState(){
+
+    fetchData();
+    super.initState();
+  }
   Widget itemFriend(String image, String username){
     return Padding(padding: EdgeInsets.all(8),
           child: Card(
@@ -81,9 +93,9 @@ class _AddFriendsState extends State<AddFriends> {
             //Future Ajouter recherche Users
           },
           decoration: InputDecoration(
-            focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-            enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-            border:setOutlineBorder(3.0, 25.0, Colors.red[700]),
+            focusedBorder: setOutlineBorder(3.0, 25.0, ),
+            enabledBorder: setOutlineBorder(3.0, 25.0, ),
+            border:setOutlineBorder(3.0, 25.0, ),
             hintText: "Ajouter un ami !",
         prefixIcon: IconButton(icon :Icon(Icons.clear, color: Colors.black,), onPressed: () => friendUsernameController.clear(),),
 
@@ -126,7 +138,7 @@ class _AddFriendsState extends State<AddFriends> {
           return Center(
 
               child: CircularProgressIndicator(
-                color: Colors.red[700],
+                color:Colors.red[700] ,
               )
           );
         }
@@ -143,7 +155,7 @@ class _AddFriendsState extends State<AddFriends> {
         leading: BackButton(
           color: Colors.black,
         ),
-        backgroundColor: Colors.red[700],
+        backgroundColor:Colors.red[700] ,
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),

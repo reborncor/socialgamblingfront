@@ -31,10 +31,19 @@ class SettingState extends State<Setting> {
     //onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
     //onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
   );
-
+  bool isDarkMode = false;
+  fetchData() async {
+    bool result = await getIsDarkMode();
+    setState(() {
+      isDarkMode = result;
+    });
+  }
   @override
   void initState() {
+
     super.initState();
+    fetchData();
+
   }
 
   @override
@@ -55,10 +64,10 @@ class SettingState extends State<Setting> {
         style: TextStyle(fontWeight: FontWeight.bold, ),
         decoration: InputDecoration(
           alignLabelWithHint: true,
-          disabledBorder: BorderRoundedColor(3,Colors.red[700]),
+          disabledBorder: BorderRoundedColor(3,isDarkMode ?  Colors.white : Colors.red[700]),
           border: OutlineInputBorder(),
           label: Center(child: Text(text),),
-          labelStyle: TextStyle(color: Colors.black87)
+          labelStyle: TextStyle(color: getUserStatusColors(text, isDarkMode) )
         ),
         //validatePassword,        //Function to check validation
       )
@@ -78,78 +87,113 @@ class SettingState extends State<Setting> {
           if(response.code == 2) Navigator.popAndPushNamed(context, SignIn.routeName);
           UserModel userModel = response.user;
 
-          var userDateOfBan = DateTime.fromMillisecondsSinceEpoch(userModel.dateOfBan);
+          DateTime userDateOfBan = DateTime.fromMillisecondsSinceEpoch(userModel.dateOfBan * 1000);
+
           var dateToCheck = new DateTime(userDateOfBan.year, userDateOfBan.month, userDateOfBan.day, userDateOfBan.hour+24);
           var moment = DateTime.now();
-          var timeLeftHours =(userModel.money == 0) ? (dateToCheck.millisecondsSinceEpoch - moment.millisecondsSinceEpoch).toDouble() : 0;
-          var timeLeftPercentage =(userModel.money == 0) ?  (timeLeftHours/86400000).toDouble()*100 : 0;
+          var timeLeftHours =(userModel.dateOfBan != 0) ? (dateToCheck.millisecondsSinceEpoch - moment.millisecondsSinceEpoch).toDouble() : 0;
+          var timeLeftPercentage = (userModel.dateOfBan != 0) ?  (timeLeftHours/86400000).toDouble()*100 : 0;
           log(timeLeftPercentage.toString());
           stopWatchTimer.setPresetTime(mSec:  timeLeftHours.toInt());
           stopWatchTimer.onExecute.add(StopWatchExecute.start);
-          return Column(children: <Widget>[
-            Padding(padding: EdgeInsets.only(bottom: 10,top: 10),child: Icon(Icons.account_circle_rounded, size: 100,),),
-            paddingTextLabel(userModel.firstName),
-            paddingTextLabel(userModel.lastName),
-            paddingTextLabel(userModel.email),
-            paddingTextLabel(userModel.money.toString()+" Dens"),
-            paddingTextLabel("Victoire : "+userModel.wins.toString()+"/"+userModel.games.toString()),
-            Padding(padding: const EdgeInsets.all(15),
-            child:(userModel.money == 0) ?
-                SizedBox(
-                child:  Stack(
-                children: [
-                  Center(
-                    child:  Container(
-                      width : 200,
+          return  ListView(
+            scrollDirection: Axis.vertical,
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(bottom: 10,top: 10),child: Icon(Icons.account_circle_rounded, size: 100,),),
+              paddingTextLabel(userModel.firstName),
+              paddingTextLabel(userModel.lastName),
+              paddingTextLabel(userModel.email),
+              paddingTextLabel(userModel.money.toString()+" Dens"),
+              paddingTextLabel(getUserStatus(userModel.money)),
+              paddingTextLabel("Victoire : "+userModel.wins.toString()+"/"+userModel.games.toString()),
+
+              Padding(padding: const EdgeInsets.all(15),
+                  child:(userModel.dateOfBan != 0.0) ?
+                  SizedBox(
+                    child:  Stack(
+                      children: [
+                        Center(
+                          child:  Container(
+                            width : 200,
+                            height: 200,
+                            child:CircularProgressIndicator(
+                              value: (100-timeLeftPercentage)/100,
+                              strokeWidth: 8,
+                              color: Colors.red[700],
+                            ),
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 0, bottom: 50),child : Center(child: Text('Temps restant', style: TextStyle(color:isDarkMode ?  Colors.white : Colors.red[700] ),),)),
+                        Center(child: StreamBuilder<int>(
+                          stream: stopWatchTimer.rawTime,
+                          initialData: stopWatchTimer.rawTime.value,
+                          builder: (context, snapshot) {
+                            final value = snapshot.data;
+                            final displayTime = StopWatchTimer.getDisplayTime(value, hours: true,milliSecond: false);
+                            return  Text(
+                              displayTime.toString(),
+                              style: TextStyle(
+                                  color: isDarkMode ? Colors.white : Colors.red[700],
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            );
+                          },
+
+                        ),)
+                      ],
+                    ),
                     height: 200,
-                    child:CircularProgressIndicator(
-                      value: timeLeftPercentage,
-                      strokeWidth: 8,
-                      color: Colors.red[700],
+                    width: 200,
+                  ) : null
+              ) ,
+
+              Padding(padding: EdgeInsets.only(top: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Dark Mode", style: TextStyle( fontSize : 15, fontWeight : FontWeight.bold, color: isDarkMode ? Colors.white: Colors.black),),
+                    Switch(
+                      value: isDarkMode,
+                      inactiveTrackColor: Colors.grey,
+                      activeColor: Colors.white,
+                      activeTrackColor: Colors.red[700],
+                      onChanged: (bool value) => setState(() {
+                        isDarkMode = value;
+                        setDarkMode(isDarkMode);
+                      }),
                     ),
-                    ),
-                ),
-                  Padding(padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 0, bottom: 50),child : Center(child: Text('Temps restant'),)),
-                  Center(child: StreamBuilder<int>(
-                    stream: stopWatchTimer.rawTime,
-                    initialData: stopWatchTimer.rawTime.value,
-                    builder: (context, snapshot) {
-                      final value = snapshot.data;
-                      final displayTime = StopWatchTimer.getDisplayTime(value, hours: true,milliSecond: false);
-                      return  Text(
-                        displayTime.toString(),
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      );
-                    },
+                  ],
+                )),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 15, bottom: 0),
+                child : ElevatedButton(
+                  style: BaseButtonRoundedColor(200,40,Colors.red[700]),
 
-                  ),)
-                ],
-                ),
-                  height: 200,
-                  width: 200,
-                ) : null
-          ) ,
+                  onPressed: () async {
+                    Navigator.pushNamed(context, '/payment' );
+                  },
+                  child: Text("Parametre de paiement"),
+                ),),
 
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 15, bottom: 0),
+                child : ElevatedButton(
+                  style: BaseButtonRoundedColor(200,40,Colors.red[700]),
 
-
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child : ElevatedButton(
-                style: BaseButtonRoundedColor(200,40,Colors.red[700]),
-
-                onPressed: () async {
-                  await deleteInfo();
-                  Navigator.pushReplacementNamed(context, '/signin' );
-                },
-                child: Text("Se deconnecter"),
-              ),)
+                  onPressed: () async {
+                    await deleteInfo();
+                    Navigator.pushReplacementNamed(context, '/signin' );
+                  },
+                  child: Text("Se deconnecter"),
+                ),),
 
 
 
-          ],);
+
+            ],);
         }
         else{
           return Center(child: Text("Pas de donnée"),);
@@ -165,16 +209,21 @@ class SettingState extends State<Setting> {
   Widget build(BuildContext context) {
     return Scaffold(
 
+        backgroundColor: isDarkMode ? Colors.grey[900] : null,
       appBar: AppBar(
+        backgroundColor: Colors.red[700],
         title: Text("Parametre", style: TextStyle(color: Colors.black),),
         leading: BackButton(
           color: Colors.black,
+          onPressed:() {
+            Navigator.pop(context,isDarkMode);
+          },
         ),
-        backgroundColor: Colors.red[700],
+
       ),
-      body: Center(
-        child:userParametre()
-      ),
+      body:
+      Center(child:userParametre() )
+
     );
   }
 }

@@ -21,6 +21,20 @@ class _MenuState extends State<Menu> {
   GameModel game1 = new GameModel(id: "1", image: "asset/images/donkeykong.jpg", name: "Donkey Kong", description: "Lorem Ipsum");
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
+
+  bool isDarkMode = false;
+  fetchData() async {
+    bool result = await getIsDarkMode();
+    setState(() {
+      isDarkMode = result;
+    });
+  }
+
+  @override
+  initState(){
+    fetchData();
+    super.initState();
+  }
   Widget headerApp(){
     return Container(
      child: Row(
@@ -125,35 +139,28 @@ class _MenuState extends State<Menu> {
     games.add(game2);
     games.add(game3);
     return Scaffold(
-      appBar: AppBar(
+        backgroundColor: isDarkMode ? Colors.grey[900] : null,
+        appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.red[700] ,
+        backgroundColor:Colors.red[700]  ,
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  BlodenStore()),
-                  );
+                  try{
+                    final data = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  Setting()),
+                    );
+                    setState(() {
+                      isDarkMode = data as bool;
+                    });
 
-                },
-                child: Icon(
-                  Icons.store,color: Colors.black,size: 30,
-                ),
-              )
-          ),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  Setting()),
-                  );
+                  }catch(e) {
+                    fetchData();
+                  }
 
                 },
                 child: Icon(

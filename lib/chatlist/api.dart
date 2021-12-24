@@ -27,9 +27,7 @@ Future<ConversationsResponse> getUserConversations() async{
   }
 
   if(response.statusCode == 200) {
-   log("DATA :"+ json.decode(response.body).toString());
     ConversationsResponse data = ConversationsResponse.fromJsonData(json.decode(response.body));
-    log("Code :"+data.code.toString());
     return data ;
   }
   else{

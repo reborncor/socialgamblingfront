@@ -27,6 +27,19 @@ class _FriendListState extends State<FriendList> {
 
   TextEditingController moneyToSendController = TextEditingController();
 
+
+  bool isDarkMode = false;
+  fetchData() async {
+    bool result = await getIsDarkMode();
+    setState(() {
+      isDarkMode = result;
+    });
+  }
+  @override
+  initState(){
+    fetchData();
+    super.initState();
+  }
   Widget showMoneyToSendDialog(BuildContext context, String receiverUsername) {
     return new AlertDialog(
       backgroundColor: Colors.grey[50],
@@ -140,6 +153,7 @@ class _FriendListState extends State<FriendList> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.grey[900] : null,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.red[700],
@@ -159,12 +173,20 @@ class _FriendListState extends State<FriendList> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  Setting()),
-                  );
+                  try{
+                    final data = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  Setting()),
+                    );
+                    setState(() {
+                      isDarkMode = data as bool;
+                    });
+                  }catch(e){
+                    fetchData();
+                  }
+
 
                 },
                 child: Icon(

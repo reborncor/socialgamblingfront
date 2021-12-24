@@ -29,6 +29,7 @@ Future<UserResponse> getUserInformation() async{
   if(response.statusCode == 200) {
 //    log("DATA :"+ json.decode(response.body).toString());
     UserResponse data = UserResponse.fromJsonData(json.decode(response.body));
+    setUserData("money", data.user.money.toString());
     return data ;
   }
   else{

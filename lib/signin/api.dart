@@ -34,6 +34,8 @@ Future<SigninReponse> signinUser(String username, String password) async{
       sharedPreferences.setString("token", data.token);
       sharedPreferences.setString("username", data.payload.username);
       sharedPreferences.setString("money", data.payload.money.toString());
+      sharedPreferences.setString("dateOfBan", data.payload.dateOfBan.toString());
+
     }
     return data ;
   }
@@ -44,7 +46,7 @@ Future<SigninReponse> signinUser(String username, String password) async{
     }catch(e){
       message = "Une erreur est survenue";
     }
-    return SigninReponse(code: json.decode(response.body)['code'], message: json.decode(response.body)['message']);
+    return SigninReponse(code: json.decode(response.body)['code'], message: message);
   }
 
 

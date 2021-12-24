@@ -1,16 +1,11 @@
 /// Flutter code sample for BottomNavigationBar
 
-// This example shows a [BottomNavigationBar] as it is used within a [Scaffold]
-// widget. The [BottomNavigationBar] has three [BottomNavigationBarItem]
-// widgets, which means it defaults to [BottomNavigationBarType.fixed], and
-// the [currentIndex] is set to index 0. The selected item is
-// amber. The `_onItemTapped` function changes the selected item's index
-// and displays a corresponding message in the center of the [Scaffold].
 
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/chatlist/ChatList.dart';
 import 'package:socialgamblingfront/friendlist/FriendList.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
+import 'package:socialgamblingfront/store/BlodenStore.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class TabView extends StatefulWidget {
@@ -27,6 +22,7 @@ class _TabViewState extends State<TabView> {
   static List<Widget> _widgetOptions = <Widget>[
     FriendList(),
     Menu(),
+    BlodenStore(),
     ChatList(),
   ];
   void _onItemTapped(int index) {
@@ -42,24 +38,36 @@ class _TabViewState extends State<TabView> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
             label: 'Amis',
+            backgroundColor: Colors.red[700],
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.videogame_asset),
             label: 'Jeux',
+            backgroundColor: Colors.red[700],
+
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.store),
+            label: 'Boutique',
+            backgroundColor: Colors.red[700],
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble),
             label: 'Chat',
+            backgroundColor: Colors.red[700],
+
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        backgroundColor:Colors.red[700] ,
-        unselectedItemColor: Colors.white70,
+        selectedItemColor: Colors.black87,
+        backgroundColor: Colors.red[700],
+        unselectedItemColor: Colors.red[50],
         onTap: _onItemTapped,
       ),
     );

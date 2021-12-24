@@ -71,6 +71,8 @@ class _ChatState extends State<Chat> {
     }
 
 
+
+
   @override
   initState()  {
     startInd = 10;
@@ -95,11 +97,16 @@ class _ChatState extends State<Chat> {
     streamController.add("event");
   }
 
+  bool isDarkMode = false;
   fetchData() async{
     var data = await getUserConversation(widget.receiverUsername);
     response = data;
     messages = response.conversation.chat;
     streamController.add(data);
+    bool result = await getIsDarkMode();
+    setState(() {
+      isDarkMode = result;
+    });
   }
   addMessageToList(MessageModel messageModel){
     messages.add(messageModel);
@@ -134,13 +141,13 @@ class _ChatState extends State<Chat> {
     socket.on('send_conversation', (data) => log("Data :"+data.toString()));
 
     socket.on("messagesuccess",(data) => {
-      log("OK"),
-    addMessageToList(messageSent),
-     // scrollController.animateTo(
-     // scrollController.position.maxScrollExtent,
-     // duration: Duration(seconds: 1),
-     // curve: Curves.easeOut,
-      //)
+      if(data == "0"){
+        addMessageToList(messageSent),
+      }
+      else{
+        //TODO: Unsend message
+      }
+
     });
 
     socket.on("instantmessage",(data) =>  {
@@ -167,11 +174,12 @@ class _ChatState extends State<Chat> {
       children: <Widget>[
         Expanded(
             child: TextField(
+              style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
               controller: messageToSend,
           decoration: InputDecoration(
-            enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-            focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-            border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+            enabledBorder: setOutlineBorder(5.0, 25.0, ),
+            focusedBorder: setOutlineBorder(5.0, 25.0, ),
+            border: setOutlineBorder(5.0, 25.0, ),
           ),
 
           onTap: (){
@@ -181,7 +189,7 @@ class _ChatState extends State<Chat> {
     IconButton(onPressed: () {
       sendMessage(messageToSend.text);
       messageToSend.clear();
-    }, icon: Icon(Icons.send))
+    }, icon: Icon(Icons.send, color: isDarkMode ? Colors.red[50]: Colors.black,))
       ],
     );
   }
@@ -197,7 +205,7 @@ class _ChatState extends State<Chat> {
               child: (messageModel.senderUsername != username) ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(Icons.account_circle,size: 40,),
+                  Icon(Icons.account_circle,size: 40, color: isDarkMode ? Colors.red[50] : Colors.black,),
                  Expanded(child:  Card(
 
                    elevation: 0,
@@ -219,7 +227,7 @@ class _ChatState extends State<Chat> {
                       title: Text(messageModel.content),
 //                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
                     ),
-                  ),),  Icon(Icons.account_circle, size: 40,),
+                  ),),  Icon(Icons.account_circle, size: 40,color: isDarkMode ? Colors.red[50] : Colors.black,),
                 ],
               ),
 
@@ -232,8 +240,9 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.grey[900] : null,
       appBar: AppBar(
-        backgroundColor: Colors.red[700],
+        backgroundColor: Colors.red[700] ,
 
         title: Text(widget.receiverUsername),
 

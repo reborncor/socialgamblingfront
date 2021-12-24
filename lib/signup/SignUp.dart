@@ -25,6 +25,10 @@ class _SignUpState extends State<SignUp> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+
+
+
+
   Widget inputUserData(){
       return Form(
         key: _formkey,
@@ -43,9 +47,9 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0),
+                    focusedBorder: setOutlineBorder(3.0, 25.0),
+                    border: setOutlineBorder(5.0, 25.0),
                     hintText: 'Username',
                   ),
                 )),
@@ -59,9 +63,9 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0),
+                    focusedBorder: setOutlineBorder(3.0, 25.0),
+                    border: setOutlineBorder(5.0, 25.0, ),
                     hintText: 'Nom',
                   ),
                 )),
@@ -75,9 +79,9 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, ),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, ),
+                    border: setOutlineBorder(5.0, 25.0, ),
                     hintText: 'Prénom',
                   ),
                 )),
@@ -95,9 +99,9 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, ),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, ),
+                    border: setOutlineBorder(5.0, 25.0, ),
                     hintText: 'Adresse email',
                   ),
                 )),
@@ -112,9 +116,9 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0, ),
+                    focusedBorder: setOutlineBorder(3.0, 25.0, ),
+                    border: setOutlineBorder(5.0, 25.0, ),
                     hintText: 'Numéro de téléphone',
                   ),
                 )),
@@ -132,9 +136,9 @@ class _SignUpState extends State<SignUp> {
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                  enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                  border:setOutlineBorder(5.0, 25.0, Colors.red[700]),
+                  focusedBorder: setOutlineBorder(3.0, 25.0, ),
+                  enabledBorder: setOutlineBorder(3.0, 25.0, ),
+                  border:setOutlineBorder(5.0, 25.0, ),
                   hintText: 'Password',
                 ),
               ),)
@@ -176,15 +180,15 @@ class _SignUpState extends State<SignUp> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-//      appBar: AppBar(
-//         backgroundColor: Colors.red[700],
-//        title: Text("Connexion utilisateur"),
-//      ),
-      body: Center(
+
+
+
+        body: Center(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: inputUserData(),
