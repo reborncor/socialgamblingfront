@@ -27,17 +27,8 @@ class _ChatListState extends State<ChatList> {
 
 
 
-  bool isDarkMode = false;
-  fetchData() async {
-    bool result = await getIsDarkMode();
-    setState(() {
-      isDarkMode = result;
-    });
-  }
-
   @override
   initState() {
-    fetchData();
     getCurrentUsername().then((value) => currentUsername = value);
     super.initState();
     setState(() {
@@ -80,7 +71,6 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.grey[900] : null,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.red[700],
@@ -95,11 +85,8 @@ class _ChatListState extends State<ChatList> {
                       context,
                       MaterialPageRoute(builder: (context) =>  Setting()),
                     );
-                    setState(() {
-                      isDarkMode = data as bool;
-                    });
+
                   }catch(e){
-                    fetchData();
                   }
 
 

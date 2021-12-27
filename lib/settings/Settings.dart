@@ -4,6 +4,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/model/UserModel.dart';
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/settings/api.dart';
@@ -34,14 +36,12 @@ class SettingState extends State<Setting> {
   );
   bool isDarkMode = false;
   int test = 0;
+  ThemeModel themeNotifier;
   bool isDark = false;
-
   fetchData() async {
 
-    bool result = await getIsDarkMode();
     response = await getUserInformation();
     setState(() {
-      isDarkMode = result;
       streamController.add(response);
       streamController.close();
     });
@@ -70,10 +70,10 @@ class SettingState extends State<Setting> {
         style: TextStyle(fontWeight: FontWeight.bold, ),
         decoration: InputDecoration(
           alignLabelWithHint: true,
-          disabledBorder: BorderRoundedColor(3,isDarkMode ?  Colors.white : Colors.red[700]),
+          disabledBorder: BorderRoundedColor(3,Colors.red[700]),
           border: OutlineInputBorder(),
           label: Center(child: Text(text),),
-          labelStyle: TextStyle(color: getUserStatusColors(text, isDarkMode) )
+          labelStyle: TextStyle(color: getUserStatusColors(text, themeNotifier.isDark) )
         ),
         //validatePassword,        //Function to check validation
       )
@@ -82,10 +82,8 @@ class SettingState extends State<Setting> {
 
 
   Widget userParametre(){
-    Brightness brightnessValue = MediaQuery.of(context).platformBrightness;
-    isDark = brightnessValue == Brightness.dark;
 
-    return StreamBuilder<dynamic>(
+    return StreamBuilder<UserResponse>(
       stream: streamController.stream,
       builder: (context, snapshot) {
         stopWatchTimer.clearPresetTime();
@@ -160,7 +158,7 @@ class SettingState extends State<Setting> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Dark Mode", style: TextStyle( fontSize : 15, fontWeight : FontWeight.bold, color: isDarkMode ? Colors.white: Colors.black),),
+                    Text("Dark Mode", style: TextStyle( fontSize : 15, fontWeight : FontWeight.bold, color: themeNotifier.isDark ? Colors.white: Colors.black),),
                     Switch(
                       value: isDark,
                       inactiveTrackColor: Colors.grey,
@@ -168,9 +166,13 @@ class SettingState extends State<Setting> {
                       activeTrackColor: Colors.red[700],
                       onChanged: (bool value) =>
                           setState(() {
-                            // log(value.toString());
                         isDark = value;
-                        // brightnessValue = Brightness.light;
+                        if(value == true) {
+                          this.themeNotifier.isDark = true;
+                        }
+                        else{
+                          this.themeNotifier.isDark = false;
+                        }
 
                           }),
                     ),
@@ -210,7 +212,12 @@ class SettingState extends State<Setting> {
           return Center(child: Text("Pas de donnée"),);
         }
       }
-      else return Center(child: Text("Chargement en cours"),);
+      else return Center(
+
+            child: CircularProgressIndicator(
+              color: Colors.red[700],
+            )
+        );
     },);
   }
 
@@ -218,23 +225,40 @@ class SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<ThemeModel>(
+      builder: (context, ThemeModel themeNotifier, child) {
+        this.themeNotifier = themeNotifier;
+        isDark = this.themeNotifier.isDark;
+        return  Scaffold(
 
-        backgroundColor: isDarkMode ? Colors.grey[900] : null,
-      appBar: AppBar(
-        backgroundColor: Colors.red[700],
-        title: Text("Parametre", style: TextStyle(color: Colors.black),),
-        leading: BackButton(
-          color: Colors.black,
-          onPressed:() {
-            Navigator.pop(context,isDarkMode);
-          },
-        ),
+            appBar: AppBar(
+              backgroundColor: Colors.red[700],
+              title: Text("Parametre", style: TextStyle(color: Colors.black),),
+              leading: BackButton(
+                color: Colors.black,
+                onPressed:() {
+                  Navigator.pop(context,isDarkMode);
+                },
+              ),
 
-      ),
-      body:
-      Center(child:userParametre() )
+              actions: [
+                IconButton(
+                    icon: Icon(themeNotifier.isDark
+                        ? Icons.nightlight_round
+                        : Icons.wb_sunny),
+                    onPressed: () {
+                      themeNotifier.isDark
+                          ? themeNotifier.isDark = false
+                          : themeNotifier.isDark = true;
+                    })
+              ],
 
+            ),
+            body:
+            Center(child:userParametre() )
+
+        );
+      }
     );
   }
 }

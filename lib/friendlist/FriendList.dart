@@ -26,45 +26,19 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   List<FriendModel> friends = [];
 
   TextEditingController moneyToSendController = TextEditingController();
-  Brightness _brightness;
 
-
-  bool isDarkMode = false;
-  fetchData() async {
-    bool result = await getIsDarkMode();
-    setState(() {
-      isDarkMode = result;
-    });
-  }
-  @override
-  initState(){
-    fetchData();
-    WidgetsBinding.instance?.addObserver(this);
-    _brightness = WidgetsBinding.instance?.window.platformBrightness;
-    super.initState();
-  }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
-  void didChangePlatformBrightness() {
-    if (mounted) {
-      setState(() {
-        _brightness = WidgetsBinding.instance.window.platformBrightness;
-      });
-    }
 
-    super.didChangePlatformBrightness();
-  }
 
 
   Widget showMoneyToSendDialog(BuildContext context, String receiverUsername) {
     return new AlertDialog(
-      backgroundColor: Colors.grey[50],
       title: Text("Envoyer des Dens à $receiverUsername"),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
@@ -175,7 +149,6 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.grey[900] : null,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.red[700],
@@ -202,11 +175,9 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
                       context,
                       MaterialPageRoute(builder: (context) =>  Setting()),
                     );
-                    setState(() {
-                      isDarkMode = data as bool;
-                    });
+
                   }catch(e){
-                    fetchData();
+
                   }
 
 

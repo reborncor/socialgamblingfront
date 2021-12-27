@@ -28,14 +28,11 @@ class _SignInState extends State<SignIn> {
   @override
   initState(){
 
-    fethData();
     super.initState();
 
   }
 
-  fethData() async {
-    isDarkMode = await getIsDarkMode();
-  }
+
   Widget inputUserData(){
     return Center(
       child:Form(

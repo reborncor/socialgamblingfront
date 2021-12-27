@@ -16,12 +16,9 @@ final BAN = 2;
 final NOT_CONNECTED = 3;
 
 setOutlineBorder(borderSide, borderRadius)  {
-  bool isDarkMode = false;
-  getIsDarkMode().then((value) => {
-    isDarkMode = value,
-  } );
+
   return OutlineInputBorder(
-    borderSide: BorderSide(width: borderSide, color: isDarkMode ? Colors.amber[700] : Colors.red[700]),
+    borderSide: BorderSide(width: borderSide, color: Colors.red[700]),
     borderRadius: BorderRadius.circular(borderRadius),
   );
 
@@ -71,24 +68,6 @@ Future<String> getCurrentUserDateOfban()async{
   String dateOfBan = sharedPreferences.get("dateOfBan");
   return dateOfBan;
 }
-
-setDarkMode(bool darkmode)async{
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  final data = darkmode? "darkmode" : "";
-  sharedPreferences.setString("darkmode", data);
-}
-cancelDarkMode() async{
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.setString("darkmode", "");
-}
-
-Future<bool> getIsDarkMode()async{
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String darkmode = sharedPreferences.get("darkmode");
-  if(darkmode != "") return true;
-  return false;
-}
-
 
 
 setUserData(String key, data) async {

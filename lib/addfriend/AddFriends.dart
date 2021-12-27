@@ -24,18 +24,6 @@ class _AddFriendsState extends State<AddFriends> {
   TextEditingController friendUsernameController = TextEditingController();
 
 
-
-  bool isDarkMode = false;
-  fetchData() async {
-    isDarkMode = await getIsDarkMode();
-  }
-
-  @override
-  initState(){
-
-    fetchData();
-    super.initState();
-  }
   Widget itemFriend(String image, String username){
     return Padding(padding: EdgeInsets.all(8),
           child: Card(

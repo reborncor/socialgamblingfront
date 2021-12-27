@@ -21,13 +21,8 @@ class _SelectGambleState extends State<SelectGamble> {
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
   List<String> gambles = ['10','20','30','50','100'];
 
-  bool isDarkMode = false;
-  fetchData() async {
-    isDarkMode = await getIsDarkMode();
-  }
   @override
   initState(){
-    fetchData();
     super.initState();
   }
   Widget cardGame(String gamble, int niveau){
