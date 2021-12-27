@@ -60,11 +60,12 @@ class SettingState extends State<Setting> {
     await stopWatchTimer.dispose();
   }
 
-  Widget paddingTextLabel(String text){
+  Widget paddingTextLabel(String text, hasSuffix){
     return  Padding(
       padding: const EdgeInsets.only(
           left: 15.0, right: 15.0, top: 15, bottom: 0),
       child: TextField(
+
         enabled: false,
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, ),
@@ -106,13 +107,22 @@ class SettingState extends State<Setting> {
             scrollDirection: Axis.vertical,
             children: <Widget>[
               Padding(padding: EdgeInsets.only(bottom: 10,top: 10),child: Icon(Icons.account_circle_rounded, size: 100,),),
-              paddingTextLabel(userModel.firstName),
-              paddingTextLabel(userModel.lastName),
-              paddingTextLabel(userModel.email),
-              paddingTextLabel(userModel.money.toString()+" Dens"),
-              paddingTextLabel(getUserStatus(userModel.money)),
-              paddingTextLabel("Victoire : "+userModel.wins.toString()+"/"+userModel.games.toString()),
-
+              paddingTextLabel(userModel.firstName,false),
+              paddingTextLabel(userModel.lastName,false),
+              paddingTextLabel(userModel.email,false),
+              paddingTextLabel(userModel.money.toString()+" Dens",false),
+              Padding(padding: const EdgeInsets.only(
+                  top: 15, bottom: 0),
+                  child :Row(children: <Widget>[
+                    Expanded(child: paddingTextLabel(getUserStatus(userModel.money),true)),
+                    Padding(padding: EdgeInsets.only(top: 15, right: 10),
+                        child: IconButton(
+                          tooltip: toolTipStatutMessage,
+                          iconSize: 30,
+                        onPressed: () {} ,
+                        icon: Icon(Icons.info,)))
+                  ], ),),
+              paddingTextLabel("Victoire : "+userModel.wins.toString()+"/"+userModel.games.toString(), false),
               Padding(padding: const EdgeInsets.all(15),
                   child:(userModel.dateOfBan != 0.0) ?
                   SizedBox(

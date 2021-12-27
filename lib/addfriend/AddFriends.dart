@@ -78,7 +78,8 @@ class _AddFriendsState extends State<AddFriends> {
     return Flexible(child:  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Expanded(child: TextField(
+        Expanded(
+          child: TextField(
           style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
 
           controller: friendUsernameController,
@@ -90,7 +91,7 @@ class _AddFriendsState extends State<AddFriends> {
             enabledBorder: setOutlineBorder(3.0, 25.0, ),
             border:setOutlineBorder(3.0, 25.0, ),
             hintText: "Ajouter un ami !",
-        prefixIcon: IconButton(icon :Icon(Icons.clear, color: themeNotifier.isDark ? Colors.white : Colors.black,), onPressed: () => friendUsernameController.clear(),),
+            prefixIcon: IconButton(icon :Icon(Icons.clear, color: themeNotifier.isDark ? Colors.white : Colors.black,), onPressed: () => friendUsernameController.clear(),),
 
           ),
         ),),

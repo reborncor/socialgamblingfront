@@ -14,7 +14,7 @@ final SUCESS = 0;
 final ERROR = 1;
 final BAN = 2;
 final NOT_CONNECTED = 3;
-
+final toolTipStatutMessage = "Le tableau de statut représente selon le nombre de dens la place que vous occupez dans la hiérarchie. Ainsi à titre indicatif, les couleurs renseignent sur votre statut actuel. Gagnez le plus de dens et fixez vous des objectifs!! ";
 setOutlineBorder(borderSide, borderRadius)  {
 
   return OutlineInputBorder(
@@ -104,10 +104,11 @@ String getUserStatus(int money){
 
 }
 
-getUserStatusColors(status, bool isDarkmode){
+getUserStatusColors(String status, bool isDarkmode){
+
 
   var defaultColor = (isDarkmode) ? Colors.white: Colors.black;
-  switch(status){
+  switch(status.replaceAll(" ", "")){
     case "Ecumeur" : return Colors.amber;
     case "Vicomte" : return Colors.greenAccent;
     case "Comte" : return Colors.blueAccent;
