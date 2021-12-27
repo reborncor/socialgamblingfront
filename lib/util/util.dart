@@ -157,7 +157,7 @@ deleteInfo() async{
   sharedPreferences.setString("username","");
   sharedPreferences.setString("money","");
   sharedPreferences.setString("dateOfBan","");
-
+  // sharedPreferences.setBool("darkTheme",false);
 }
 
 
