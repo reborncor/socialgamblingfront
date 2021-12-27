@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget  {
             return MaterialApp(
 
               routes: {
-                // When navigating to the "/second" route, build the SecondScreen widget.
                 '/signin': (context) => SignIn(),
                 '/menu': (context) => Menu(),
                 '/tabview': (context) => TabView(),
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget  {
 
               },
               title: 'Bloden',
-              // theme:  themeNotifier.isDark ? ThemeData.dark() : ThemeData.light(),
+
               theme: ThemeData.light(),
               darkTheme  : ThemeData(
                   brightness: Brightness.dark,
@@ -76,42 +75,8 @@ class MyApp extends StatelessWidget  {
             );
           }),
     );
-    // return MaterialApp(
-    //
-    //   routes: {
-    //     // When navigating to the "/second" route, build the SecondScreen widget.
-    //     '/signin': (context) => SignIn(),
-    //     '/menu': (context) => Menu(),
-    //     '/tabview': (context) => TabView(),
-    //     '/chat': (context) => Chat(),
-    //     '/selectgame': (context) => SelectGame(),
-    //     '/selectgamble': (context) => SelectGamble(),
-    //     '/signup': (context) => SignUp(),
-    //     '/addfriends': (context) => AddFriends(),
-    //     '/payment' : (context) => Payment(),
-    //     '/store' : (context) => BlodenStore(),
-    //
-    //
-    //   },
-    //   title: 'Bloden',
-    //   theme: ThemeData(
-    //     primaryColor: Colors.white,
-    //     primaryColorBrightness: Brightness.light,
-    //     brightness: Brightness.light,
-    //     // primaryColorDark: Colors.black,
-    //     canvasColor: Colors.white,
-    //
-    //   ),
-    //   // darkTheme: ThemeData(
-    //   //     primarySwatch: Colors.blue,
-    //   //     brightness: Brightness.dark,
-    //   //     primaryColorDark: Colors.black,
-    //   //     indicatorColor: Colors.white,
-    //   //     backgroundColor: Colors.grey[900]
-    //   // ) ,
-    //   // themeMode: _brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
-    //   home: SplashScreen(),
-    // );
+
+
   }
 }
 

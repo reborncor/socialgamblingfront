@@ -93,7 +93,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
       ],
     );
   }
-  Widget itemFriend(String image, String username){
+  Widget itemFriend(String image, FriendModel friendModel){
     return Padding(padding: EdgeInsets.all(2),
       child: Card(
         elevation: 0,
@@ -108,35 +108,42 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: username,)),
-                );
-
+                if(friendModel.confirmed){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: friendModel.username,)),
+                  );
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Cet utilisateur ne vous a pas ajouté")),
+                  );
+                }
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(Icons.account_circle, size: 30,),
                   Padding(padding: EdgeInsets.all(10)
-                    ,child: Text(username,style: TextStyle(fontSize: 15),),)
+                    ,child: Text(friendModel.username,style: TextStyle(fontSize: 15),),)
                 ],
               ),
             ),
-            Row(
+            (friendModel.confirmed) ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 IconButton(onPressed: (){
-                  showDialog(context: context, builder: (context) => showMoneyToSendDialog(context, username));
+                  showDialog(context: context, builder: (context) => showMoneyToSendDialog(context, friendModel.username));
                 }, icon: Icon(Icons.toll, size: 30, color: Colors.red[700])),
-                IconButton(icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
+                IconButton(
+                  icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SelectGame()),
                   );
 
                 },)
-              ],)
+              ],) : null
 
           ],
         ),
@@ -209,7 +216,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
                       :ListView.builder(
                   itemCount: friends.length,
                   itemBuilder: (context, index) {
-                    return itemFriend('image', friends[index].username);
+                    return itemFriend('image', friends[index]);
                     },
                   )
                 );
