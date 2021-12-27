@@ -4,8 +4,10 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/chat/api.dart';
 import 'package:socialgamblingfront/model/MessageModel.dart';
+import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/response/ConversationResponse.dart';
 import 'package:socialgamblingfront/response/OldMessageResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
@@ -36,6 +38,7 @@ class _ChatState extends State<Chat> {
   MessageModel newMessage;
   int startInd;
   int endInd;
+  ThemeModel themeNotifier;
   scrollListener(){
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
@@ -61,12 +64,17 @@ class _ChatState extends State<Chat> {
   }
 
   goDown(){
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent + 100,
-      duration: Duration(seconds: 1),
-      curve: Curves.easeOut,
-    );
-  }
+    if(scrollController.hasClients){
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent + 100,
+        duration: Duration(seconds: 1),
+        curve: Curves.easeOut,
+      );
+    }
+    }
+
+
+
 
   @override
   initState()  {
@@ -131,13 +139,13 @@ class _ChatState extends State<Chat> {
     socket.on('send_conversation', (data) => log("Data :"+data.toString()));
 
     socket.on("messagesuccess",(data) => {
-      log("OK"),
-    addMessageToList(messageSent),
-     // scrollController.animateTo(
-     // scrollController.position.maxScrollExtent,
-     // duration: Duration(seconds: 1),
-     // curve: Curves.easeOut,
-      //)
+      if(data == "0"){
+        addMessageToList(messageSent),
+      }
+      else{
+        //TODO: Unsend message
+      }
+
     });
 
     socket.on("instantmessage",(data) =>  {
@@ -164,11 +172,12 @@ class _ChatState extends State<Chat> {
       children: <Widget>[
         Expanded(
             child: TextField(
+              style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
               controller: messageToSend,
           decoration: InputDecoration(
-            enabledBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-            focusedBorder: setOutlineBorder(5.0, 25.0, Colors.red[700]),
-            border: setOutlineBorder(5.0, 25.0, Colors.red[700]),
+            enabledBorder: setOutlineBorder(5.0, 25.0, ),
+            focusedBorder: setOutlineBorder(5.0, 25.0, ),
+            border: setOutlineBorder(5.0, 25.0, ),
           ),
 
           onTap: (){
@@ -178,7 +187,7 @@ class _ChatState extends State<Chat> {
     IconButton(onPressed: () {
       sendMessage(messageToSend.text);
       messageToSend.clear();
-    }, icon: Icon(Icons.send))
+    }, icon: Icon(Icons.send, color : Colors.red[700]))
       ],
     );
   }
@@ -194,7 +203,7 @@ class _ChatState extends State<Chat> {
               child: (messageModel.senderUsername != username) ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(Icons.account_circle,size: 40,),
+                  Icon(Icons.account_circle,size: 40, color: themeNotifier.isDark ? Colors.white : Colors.black,),
                  Expanded(child:  Card(
 
                    elevation: 0,
@@ -216,7 +225,7 @@ class _ChatState extends State<Chat> {
                       title: Text(messageModel.content),
 //                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
                     ),
-                  ),),  Icon(Icons.account_circle, size: 40,),
+                  ),),  Icon(Icons.account_circle, size: 40, color: themeNotifier.isDark ? Colors.white: Colors.black,),
                 ],
               ),
 
@@ -227,59 +236,60 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
+     return  Consumer<ThemeModel>(
+         builder: (context,ThemeModel themeNotifier , child) {
+           this.themeNotifier = themeNotifier;
+           return Scaffold(
+             appBar: AppBar(
+               backgroundColor: Colors.red[700] ,
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red[700],
+               title: Text(widget.receiverUsername),
 
-        title: Text(widget.receiverUsername),
-
-      ),
-      //floatingActionButton: FloatingActionButton(
-      //  child: Icon(Icons.arrow_upward),
-      //  onPressed: goUp,
-      //),
-      body:StreamBuilder(
-        stream: streamController.stream,
-        builder: (context, snapshot) {
-            if(snapshot.hasData){
+             ),
+             body:StreamBuilder(
+               stream: streamController.stream,
+               builder: (context, snapshot) {
+                 if(snapshot.hasData){
 //              response = snapshot.data;
 //              messages = response.conversation.chat;
 
-              return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          child:new ListView.builder(
-                            reverse: false,
-                            controller: scrollController,
-                            shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
+                   return Column(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: <Widget>[
+                         Expanded(
+                           child:new ListView.builder(
+                             reverse: false,
+                             controller: scrollController,
+                             shrinkWrap: true,
+                             scrollDirection: Axis.vertical,
 
-                        itemCount: messages.length,
-                        itemBuilder: (context, index) {
-                          return itemMessage(messages[index]);
-                        },
-                      ),),
+                             itemCount: messages.length,
+                             itemBuilder: (context, index) {
+                               return itemMessage(messages[index]);
+                             },
+                           ),),
 
-                        Expanded(flex: 0,child: messageEditor())]
+                         Expanded(flex: 0,child: messageEditor())]
 
-              );
-            }
-            else{
-              return Center(
+                   );
+                 }
+                 else{
+                   return Center(
 
-                  child: CircularProgressIndicator(
-                    color: Colors.red[700],
-                  )
-              );
-            }
-        },
+                       child: CircularProgressIndicator(
+                         color: Colors.red[700],
+                       )
+                   );
+                 }
+               },
 
 
-      ),
+             ),
 
-    );
+           );
+     });
+
   }
 
 }
+

@@ -20,7 +20,7 @@ class _SignInState extends State<SignIn> {
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  bool isDarkMode = false;
 
 
 
@@ -31,6 +31,8 @@ class _SignInState extends State<SignIn> {
     super.initState();
 
   }
+
+
   Widget inputUserData(){
     return Center(
       child:Form(
@@ -53,9 +55,9 @@ class _SignInState extends State<SignIn> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                    border: setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                    enabledBorder: setOutlineBorder(3.0, 25.0,),
+                    focusedBorder: setOutlineBorder(3.0, 25.0),
+                    border: setOutlineBorder(3.0, 25.0),
                     hintText: "Nom d'utilisateur",
                   ),
                 )),
@@ -74,9 +76,9 @@ class _SignInState extends State<SignIn> {
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  focusedBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                  enabledBorder: setOutlineBorder(3.0, 25.0, Colors.red[700]),
-                  border:setOutlineBorder(3.0, 25.0, Colors.red[700]),
+                  focusedBorder: setOutlineBorder(3.0, 25.0),
+                  enabledBorder: setOutlineBorder(3.0, 25.0),
+                  border:setOutlineBorder(3.0, 25.0),
                   hintText: 'Mot de passe',
                 ),
               ),)
@@ -123,7 +125,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: Colors.white,
 //      appBar: AppBar(
-//         backgroundColor: Colors.red[700],
+//         backgroundColor: ,
 //        title: Text("Connexion utilisateur"),
 //      ),
       body: Center(

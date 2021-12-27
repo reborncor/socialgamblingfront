@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
+import 'package:socialgamblingfront/util/util.dart';
 
 class SelectGamble extends StatefulWidget {
   static final routeName = '/selectgamble';
@@ -19,6 +20,11 @@ class _SelectGambleState extends State<SelectGamble> {
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
   List<String> gambles = ['10','20','30','50','100'];
+
+  @override
+  initState(){
+    super.initState();
+  }
   Widget cardGame(String gamble, int niveau){
     return  InkWell(
         onTap:() {
@@ -26,7 +32,7 @@ class _SelectGambleState extends State<SelectGamble> {
         } ,
         child: Card(
           elevation: 20,
-          color: Colors.red[700],
+          color: Colors.red[700] ,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
@@ -54,7 +60,7 @@ class _SelectGambleState extends State<SelectGamble> {
           leading: BackButton(
             color: Colors.black,
           ),
-          backgroundColor: Colors.red[700],
+          backgroundColor:  Colors.red[700],
           title: Text("Selection du Palier",style: TextStyle(color: Colors.black),),
         ),
         body: Column(

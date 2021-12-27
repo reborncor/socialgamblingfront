@@ -1,5 +1,7 @@
 import 'dart:core';
 
+import 'package:socialgamblingfront/model/CreditCardModel.dart';
+
 
 
 class UserModel{
@@ -12,7 +14,7 @@ class UserModel{
   String email ;
   bool admin;
   String phoneNumber;
-
+  CreditCardModels creditCard;
   int level;
   double xp ;
   int money ;
@@ -25,7 +27,7 @@ class UserModel{
 
   UserModel.forJson({this.username, this.password, this.firstName, this.lastName, this.email, this.phoneNumber});
 
-  UserModel.jsonData({ this.id,  this.username,  this.firstName, this.lastName,  this.email, this.admin,this.phoneNumber, this.level,
+  UserModel.jsonData({ this.id,  this.username,  this.firstName, this.lastName,  this.email, this.admin,this.phoneNumber, this.creditCard,  this.level,
   this.xp ,
   this.money ,
   this.isBanned ,
@@ -41,6 +43,7 @@ class UserModel{
       lastName: json['lastName'],
       admin: json['admin'],
       email: json['email'],
+      creditCard: CreditCardModels.fromJsonData(json['creditCard']) ,
       phoneNumber : json['phoneNumber'],
          level: json['level'],
          xp : json['xp'],

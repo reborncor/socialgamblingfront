@@ -21,15 +21,24 @@ class FriendList extends StatefulWidget {
   _FriendListState createState() => _FriendListState();
 }
 
-class _FriendListState extends State<FriendList> {
+class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   FriendsResponse response;
   List<FriendModel> friends = [];
 
   TextEditingController moneyToSendController = TextEditingController();
 
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+
+
+
   Widget showMoneyToSendDialog(BuildContext context, String receiverUsername) {
     return new AlertDialog(
-      backgroundColor: Colors.grey[50],
       title: Text("Envoyer des Dens à $receiverUsername"),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
@@ -159,12 +168,18 @@ class _FriendListState extends State<FriendList> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  Setting()),
-                  );
+                  try{
+                    final data = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  Setting()),
+                    );
+
+                  }catch(e){
+
+                  }
+
 
                 },
                 child: Icon(

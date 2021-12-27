@@ -1,9 +1,13 @@
 
 
 
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialgamblingfront/model/CreditCardModel.dart';
 
 
 final SUCESS = 0;
@@ -11,12 +15,13 @@ final ERROR = 1;
 final BAN = 2;
 final NOT_CONNECTED = 3;
 
-setOutlineBorder(borderSide, borderRadius, color){
-  return
-    OutlineInputBorder(
-    borderSide: BorderSide(width: borderSide, color: color),
+setOutlineBorder(borderSide, borderRadius)  {
+
+  return OutlineInputBorder(
+    borderSide: BorderSide(width: borderSide, color: Colors.red[700]),
     borderRadius: BorderRadius.circular(borderRadius),
   );
+
 }
 BorderRoundedColor(double size, color){
   return OutlineInputBorder(
@@ -45,6 +50,7 @@ BaseButtonRoundedColor(double width, double height,color){
 
 
 
+
 Future<String> getCurrentUserToken()async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String token = sharedPreferences.get("token");
@@ -57,6 +63,89 @@ Future<String> getCurrentUserMoney()async{
   return money;
 }
 
+Future<String> getCurrentUserDateOfban()async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String dateOfBan = sharedPreferences.get("dateOfBan");
+  return dateOfBan;
+}
+
+
+setUserData(String key, data) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.setString(key, data);
+}
+
+enum StatusPlayer {
+  Ecumeur,
+  Vicomte,
+Comte,
+Kid,
+Lord,
+}
+
+String getUserStatus(int money){
+
+  if(money < 400 ){
+    return "Ecumeur";
+  }
+  else if(money < 800 ){
+    return "Vicomte";
+  }
+  else if(money < 1200 ){
+    return "Comte";
+  }
+  else if(money < 1600 ){
+    return "Kid";
+  }
+
+  else{
+    return "Lord";
+  }
+
+}
+
+getUserStatusColors(status, bool isDarkmode){
+
+  var defaultColor = (isDarkmode) ? Colors.white: Colors.black;
+  switch(status){
+    case "Ecumeur" : return Colors.amber;
+    case "Vicomte" : return Colors.greenAccent;
+    case "Comte" : return Colors.blueAccent;
+    case "Kid" : return Colors.redAccent;
+    case "Lord" : return Colors.black26;
+    default : return defaultColor;
+
+
+  }
+
+
+
+}
+
+Future<void> saveCard(String cardNumber, String expiryDate, String cardHolderName, String cvvCode) async {
+
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.setString("cardNumber",cardNumber);
+  sharedPreferences.setString("expiryDate",expiryDate);
+  sharedPreferences.setString("cardHolderName",cardHolderName);
+  sharedPreferences.setString("cvvCode",cvvCode);
+
+}
+
+Future<CreditCardModels> getCard() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  final cardNumber = sharedPreferences.get("cardNumber");
+  final expiryDate =sharedPreferences.get("expiryDate");
+  final cardHolderName =sharedPreferences.get("cardHolderName");
+  final cvvCode =sharedPreferences.get("cvvCode");
+
+  return CreditCardModels(cvvCode :cvvCode, cardHolderName : cardHolderName, cardNumber : cardNumber, expiryDate : expiryDate);
+
+
+
+
+}
+
 Future<String> getCurrentUsername()async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String type = sharedPreferences.get("username");
@@ -67,4 +156,8 @@ deleteInfo() async{
   sharedPreferences.setString("token","");
   sharedPreferences.setString("username","");
   sharedPreferences.setString("money","");
+  sharedPreferences.setString("dateOfBan","");
+
 }
+
+

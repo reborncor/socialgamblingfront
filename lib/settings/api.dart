@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 
-import 'package:socialgamblingfront/model/UserModel.dart';
-import 'package:socialgamblingfront/response/ConversationResponse.dart';
+
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:http/http.dart'as http;
@@ -29,6 +28,7 @@ Future<UserResponse> getUserInformation() async{
   if(response.statusCode == 200) {
 //    log("DATA :"+ json.decode(response.body).toString());
     UserResponse data = UserResponse.fromJsonData(json.decode(response.body));
+    setUserData("money", data.user.money.toString());
     return data ;
   }
   else{

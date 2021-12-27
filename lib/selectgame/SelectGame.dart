@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
+import 'package:socialgamblingfront/util/util.dart';
 
 class SelectGame extends StatefulWidget {
   static final routeName = '/selectgame';
@@ -20,15 +21,22 @@ class _SelectGameState extends State<SelectGame> {
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
 
+
+
+
+  @override
+  initState(){
+    super.initState();
+
+  }
   Widget cardGame(GameModel gameModel){
     return  InkWell(
         onTap:() {
-          print('CLICK');
           Navigator.pushNamed(context, SelectGamble.routeName);
         } ,
         child: Card(
           elevation: 20,
-          color: Colors.red[700],
+          color:  Colors.red[700],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
@@ -66,7 +74,7 @@ class _SelectGameState extends State<SelectGame> {
 
         appBar: AppBar(
           leading: BackButton(color: Colors.black,),
-          backgroundColor: Colors.red[700],
+          backgroundColor: Colors.red[700] ,
           title: Text("Selection du Jeu",style: TextStyle(color: Colors.black)),
         ),
         body: Column(

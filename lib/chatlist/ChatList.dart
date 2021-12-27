@@ -25,10 +25,15 @@ class _ChatListState extends State<ChatList> {
   List<ConversationModel> conversations = [];
   String currentUsername;
 
+
+
   @override
   initState() {
     getCurrentUsername().then((value) => currentUsername = value);
     super.initState();
+    setState(() {
+
+    });
   }
   Widget itemFriend(String image, ConversationModel conversationModel) {
 
@@ -73,12 +78,17 @@ class _ChatListState extends State<ChatList> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  Setting()),
-                  );
+                  try{
+                    final data = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  Setting()),
+                    );
+
+                  }catch(e){
+                  }
+
 
                 },
                 child: Icon(
