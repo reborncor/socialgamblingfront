@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/signin/api.dart';
 import 'package:socialgamblingfront/signup/SignUp.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
-import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
 class SignIn extends StatefulWidget {
@@ -28,14 +27,11 @@ class _SignInState extends State<SignIn> {
   @override
   initState(){
 
-    fethData();
     super.initState();
 
   }
 
-  fethData() async {
-    isDarkMode = await getIsDarkMode();
-  }
+
   Widget inputUserData(){
     return Center(
       child:Form(
@@ -95,7 +91,7 @@ class _SignInState extends State<SignIn> {
                     // you'd often call a server or save the information in a database.
                     var result =  await signinUser(usernameController.text, passwordController.text);
 
-                    if(result.code ==  0){
+                    if(result.code == 0){
                       Navigator.pushReplacementNamed(context, TabView.routeName);
                     }
                     else{

@@ -22,14 +22,10 @@ class _SelectGameState extends State<SelectGame> {
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
 
 
-  bool isDarkMode = false;
-  fetchData() async {
-    isDarkMode = await getIsDarkMode();
-  }
+
 
   @override
   initState(){
-    fetchData();
     super.initState();
 
   }

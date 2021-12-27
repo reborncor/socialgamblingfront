@@ -67,6 +67,7 @@ class PaymentState extends State<Payment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Parametre de paiement"), backgroundColor: Colors.red[700],),
         resizeToAvoidBottomInset: false,
         body: Container(
           decoration: BoxDecoration(

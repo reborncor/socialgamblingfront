@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/addfriend/api.dart';
 import 'package:socialgamblingfront/model/FriendModel.dart';
+import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
 import 'package:socialgamblingfront/response/FriendsResponse.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
@@ -23,19 +25,9 @@ class _AddFriendsState extends State<AddFriends> {
   List<FriendModel> friends = [];
   TextEditingController friendUsernameController = TextEditingController();
 
+  ThemeModel themeNotifier;
 
 
-  bool isDarkMode = false;
-  fetchData() async {
-    isDarkMode = await getIsDarkMode();
-  }
-
-  @override
-  initState(){
-
-    fetchData();
-    super.initState();
-  }
   Widget itemFriend(String image, String username){
     return Padding(padding: EdgeInsets.all(8),
           child: Card(
@@ -86,7 +78,9 @@ class _AddFriendsState extends State<AddFriends> {
     return Flexible(child:  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Expanded(child: TextField(
+        Expanded(
+          child: TextField(
+          style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
 
           controller: friendUsernameController,
           onChanged: (value) {
@@ -97,11 +91,11 @@ class _AddFriendsState extends State<AddFriends> {
             enabledBorder: setOutlineBorder(3.0, 25.0, ),
             border:setOutlineBorder(3.0, 25.0, ),
             hintText: "Ajouter un ami !",
-        prefixIcon: IconButton(icon :Icon(Icons.clear, color: Colors.black,), onPressed: () => friendUsernameController.clear(),),
+            prefixIcon: IconButton(icon :Icon(Icons.clear, color: themeNotifier.isDark ? Colors.white : Colors.black,), onPressed: () => friendUsernameController.clear(),),
 
           ),
         ),),
-        IconButton(icon: Icon(Icons.search, color: Colors.black,), onPressed: () async {
+        IconButton(icon: Icon(Icons.search, color: themeNotifier.isDark ? Colors.white : Colors.black,), onPressed: () async {
 //          friendUsernameController.clear();
           BasicResponse response = await addFriends(friendUsernameController.text);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -149,45 +143,48 @@ class _AddFriendsState extends State<AddFriends> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        leading: BackButton(
-          color: Colors.black,
-        ),
-        backgroundColor:Colors.red[700] ,
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
+    return Consumer<ThemeModel>(builder: (context, ThemeModel themeNofitier, child) {
+      this.themeNotifier = themeNofitier;
+      return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: true,
+            leading: BackButton(
+              color: Colors.black,
+            ),
+            backgroundColor:Colors.red[700] ,
+            actions: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () {
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  Setting()),
-                  );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  Setting()),
+                      );
 
-                },
-                child: Icon(
-                    Icons.account_circle,color: Colors.black,size: 30,
-                ),
-              )
+                    },
+                    child: Icon(
+                      Icons.account_circle,color: Colors.black,size: 30,
+                    ),
+                  )
+              ),
+            ],
+
+            title: Text("Ajouter des amis",style: TextStyle(color: Colors.black)),
           ),
-        ],
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox.fromSize(size: Size(20, 20),),
+              inputAddFriend(),
+              SizedBox.fromSize(size: Size(20,20),),
+              getListPendingInvitations(),
 
-        title: Text("Ajouter des amis",style: TextStyle(color: Colors.black)),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          SizedBox.fromSize(size: Size(20, 20),),
-          inputAddFriend(),
-          SizedBox.fromSize(size: Size(20,20),),
-          getListPendingInvitations(),
+            ],
+          )
 
-        ],
-      )
-
-    );
+      );
+    },);
   }
 }

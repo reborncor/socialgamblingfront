@@ -17,7 +17,7 @@ class TabView extends StatefulWidget {
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
-class _TabViewState extends State<TabView> {
+class _TabViewState extends State<TabView> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     FriendList(),

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/model/UserModel.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/signin/api.dart';
@@ -24,7 +26,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  ThemeModel themeNotifier;
 
 
 
@@ -36,9 +38,10 @@ class _SignUpState extends State<SignUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
 
-            Padding(padding: EdgeInsets.all(8),child: Text("Inscrivez vous !",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black87),),),
+            Padding(padding: EdgeInsets.all(8),child: Text("Inscrivez vous !",style: TextStyle( color: themeNotifier.isDark ? Colors.white : Colors.black,fontWeight: FontWeight.bold, fontSize: 18),),),
             Padding(padding: EdgeInsets.all(8),
                 child:   TextFormField(
+                  style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
                   controller: usernameController,
                   validator:(value) {
                     if (value == null || value.isEmpty) {
@@ -55,6 +58,7 @@ class _SignUpState extends State<SignUp> {
                 )),
             Padding(padding: EdgeInsets.all(8),
                 child:   TextFormField(
+                  style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
                   controller: lastNameController,
                   validator:(value) {
                     if (value == null || value.isEmpty) {
@@ -71,6 +75,7 @@ class _SignUpState extends State<SignUp> {
                 )),
             Padding(padding: EdgeInsets.all(8),
                 child:   TextFormField(
+                  style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
                   controller: firstNameController,
                   validator:(value) {
                     if (value == null || value.isEmpty) {
@@ -87,6 +92,7 @@ class _SignUpState extends State<SignUp> {
                 )),
             Padding(padding: EdgeInsets.all(8),
                 child:   TextFormField(
+                  style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
                   controller: emailController,
                   validator:(value) {
                     final bool isValid = EmailValidator.validate(value);
@@ -107,6 +113,7 @@ class _SignUpState extends State<SignUp> {
                 )),
             Padding(padding: EdgeInsets.all(8),
                 child:   TextFormField(
+                  style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
                   controller: phoneNumberController,
                     keyboardType: TextInputType.number,
                     validator:(value) {
@@ -125,6 +132,7 @@ class _SignUpState extends State<SignUp> {
             Padding(
               padding: EdgeInsets.all(8),
               child: TextFormField(
+                style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Entrer un mot de passe";
@@ -184,16 +192,20 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return Consumer<ThemeModel>(
+      builder: (context, ThemeModel themeNotifier, child) {
+        this.themeNotifier = themeNotifier;
+      return Scaffold(
 
 
 
-        body: Center(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: inputUserData(),
-        )
-      )
-    );
+          body: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: inputUserData(),
+              )
+          )
+      );
+    },);
   }
 }

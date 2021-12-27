@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
+import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
 import 'package:socialgamblingfront/store/BlodenStore.dart';
 import 'package:socialgamblingfront/util/util.dart';
@@ -22,17 +24,11 @@ class _MenuState extends State<Menu> {
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
 
-  bool isDarkMode = false;
-  fetchData() async {
-    bool result = await getIsDarkMode();
-    setState(() {
-      isDarkMode = result;
-    });
-  }
+  ThemeModel themeNotifier;
+
 
   @override
   initState(){
-    fetchData();
     super.initState();
   }
   Widget headerApp(){
@@ -117,7 +113,7 @@ class _MenuState extends State<Menu> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(gameModel.description),
+          Text(gameModel.description, style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),),
         ],
       ),
       actions: <Widget>[
@@ -138,46 +134,45 @@ class _MenuState extends State<Menu> {
     games.add(game1);
     games.add(game2);
     games.add(game3);
-    return Scaffold(
-        backgroundColor: isDarkMode ? Colors.grey[900] : null,
-        appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor:Colors.red[700]  ,
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () async {
+    return Consumer<ThemeModel>(builder: (context, ThemeModel themeNotifier, child) {
+      this.themeNotifier = themeNotifier;
 
-                  try{
-                    final data = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>  Setting()),
-                    );
-                    setState(() {
-                      isDarkMode = data as bool;
-                    });
+      return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor:Colors.red[700]  ,
+            actions: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () async {
 
-                  }catch(e) {
-                    fetchData();
-                  }
+                      try{
+                        final data = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  Setting()),
+                        );
+                      }catch(e) {
 
-                },
-                child: Icon(
-                    Icons.account_circle,color: Colors.black,size: 30,
-                ),
-              )
+                      }
+
+                    },
+                    child: Icon(
+                      Icons.account_circle,color: Colors.black,size: 30,
+                    ),
+                  )
+              ),
+
+            ],
+            title: Text("Menu",style: TextStyle(color: Colors.black)),
           ),
-
-        ],
-        title: Text("Menu",style: TextStyle(color: Colors.black)),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          listOfGame()
-        ],
-      )
-    );
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              listOfGame()
+            ],
+          )
+      );
+    },);
   }
 }

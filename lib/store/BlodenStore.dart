@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
@@ -27,6 +29,8 @@ class _BlodenStoreState extends State<BlodenStore> {
   int userCurrentDens = 0;
   int userCurrentDateOfBan = 0;
   bool isDarkMode = false;
+
+  ThemeModel themeNotifier;
   @override
   initState() {
     fetchData();
@@ -37,17 +41,10 @@ class _BlodenStoreState extends State<BlodenStore> {
 
     String response = await getCurrentUserMoney();
     String responseDateOfban = await getCurrentUserDateOfban();
-    bool result = false;
-    try{
-      result = await getIsDarkMode();
-    }catch(e){
-    }
 
     setState(() {
       userCurrentDens = int.parse(response);
       userCurrentDateOfBan = int.parse(responseDateOfban);
-
-      isDarkMode = result;
     });
   }
   callBack(data){
@@ -111,7 +108,7 @@ class _BlodenStoreState extends State<BlodenStore> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Vous disposez de moins de 10 Dens et vous risquez de vous faire bannir de l'application, effectuez un credit et obtenez 50 Dens que vous pouvez rembourser sous 24h !"),
+          Text("Vous disposez de moins de 10 Dens et vous risquez de vous faire bannir de l'application, effectuez un credit et obtenez 50 Dens que vous pouvez rembourser sous 24h !", style:TextStyle(color : themeNotifier.isDark ? Colors.white : Colors.black),),
         ],
       ),
       actions: <Widget>[
@@ -136,30 +133,32 @@ class _BlodenStoreState extends State<BlodenStore> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-        appBar: AppBar(
-          leading: BackButton(
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.red[700] ,
-          actions: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: InkWell(child: (userCurrentDateOfBan != 0 ? Row( children: [
-                IconButton(icon : Icon(Icons.store , size: 30,),color: Colors.black, onPressed: () async {
-                  refundDensUser(50);
-                },),
-                Text("Remboursement", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),)
-              ]
-              ) : SizedBox.fromSize(size: Size(1,1))),onTap: (){
-                  refundDensUser(50);
-                }
+    return Consumer<ThemeModel>(builder: (context, ThemeModel themeNotifier, child) {
+      this.themeNotifier = themeNotifier;
 
-              ,)
+      return new Scaffold(
+          appBar: AppBar(
+            leading: BackButton(
+              color: Colors.black,
             ),
-            Padding(
-                padding: EdgeInsets.only(right: 20.0),
+            backgroundColor: Colors.red[700] ,
+            actions: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: InkWell(child: (userCurrentDateOfBan != 0 ? Row( children: [
+                    IconButton(icon : Icon(Icons.store , size: 30,),color: Colors.black, onPressed: () async {
+                      refundDensUser(50);
+                    },),
+                    Text("Remboursement", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),)
+                  ]
+                  ) : SizedBox.fromSize(size: Size(1,1))),onTap: (){
+                    refundDensUser(50);
+                  }
+
+                    ,)
+              ),
+              Padding(
+                  padding: EdgeInsets.only(right: 20.0),
                   child: InkWell(child:  Row( children: [
                     IconButton(icon : Icon(Icons.monetization_on_outlined, size: 30,),color: Colors.black, onPressed: () {
 
@@ -177,47 +176,47 @@ class _BlodenStoreState extends State<BlodenStore> {
                       );
                     }
                   },)
-                ),
+              ),
 
-            Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: GestureDetector(
-                  onTap: () async {
-                    try{
-                      final data = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Setting()),
-                      );
-                      setState(() {
-                        isDarkMode = data as bool;
-                      });
-                    }catch(e){
-                      fetchData();
-                    }
+              Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () async {
+                      try{
+                        final data = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  Setting()),
+                        );
+                        setState(() {
+                          isDarkMode = data as bool;
+                        });
+                      }catch(e){
+                        fetchData();
+                      }
 
 
-                  },
-                  child: Icon(
-                    Icons.account_circle,color: Colors.black,size: 30,
-                  ),
-                )
-            ),
-          ],
-          title: Text("Boutique",style: TextStyle(color: Colors.black)),
-        ),
-        body: Container(
-          color: Colors.white70,
-          child:  Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              listOfDensToBuy(),
-
-              ElevatedButton(
-                  style: BaseButtonRoundedColor(60,40,Colors.red[700]),
-                  onPressed: (){buyDensForUser(value, false);}, child: Text('Acheter Maintenant : $value'))
+                    },
+                    child: Icon(
+                      Icons.account_circle,color: Colors.black,size: 30,
+                    ),
+                  )
+              ),
             ],
+            title: Text("Boutique",style: TextStyle(color: Colors.black)),
           ),
-        )
-    );
+          body: Container(
+            child:  Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                listOfDensToBuy(),
+
+                ElevatedButton(
+                    style: BaseButtonRoundedColor(60,40,Colors.red[700]),
+                    onPressed: (){buyDensForUser(value, false);}, child: Text('Acheter Maintenant : $value'))
+              ],
+            ),
+          )
+      );
+    },);
   }
 }
