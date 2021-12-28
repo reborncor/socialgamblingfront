@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:circle_list/circle_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
@@ -20,15 +23,56 @@ class _SelectGambleState extends State<SelectGamble> {
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
   List<String> gambles = ['10','20','30','50','100'];
+  String selectedValue = "";
 
   @override
   initState(){
     super.initState();
   }
+
+  Widget showSelectDensDialog(BuildContext context, int palier) {
+    return StatefulBuilder(builder: (context, setState) {
+      return AlertDialog(
+        title: Text("Selectioner la somme à parier"),
+        content: Container(
+            height: 300,
+            width: double.maxFinite,
+            child: Stack(children: <Widget>[
+              Center( child: Text(selectedValue, style: TextStyle(fontSize: 40, color: Colors.amber[700]),),),
+              CircleList(
+                origin: Offset(-60, 50),
+                innerRadius: 5,
+                children: List.generate(10, (index) {
+                  int value = index+palier;
+                  return InkWell(child: Text(value.toString(), style: TextStyle(fontSize: 30, color: Colors.red[700]),), onTap: (){setState(() {
+                    setState(() {
+                      log('$index');
+                      selectedValue = value.toString();
+                    });
+                  });},);
+                }),
+              )
+            ])),
+        actions: <Widget>[
+          ElevatedButton(
+            style: BaseButtonRoundedColor(60,40,Colors.red[700]),
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+            child: Text("Ok",),
+          ),
+        ],
+      );
+    },);
+  }
   Widget cardGame(String gamble, int niveau){
+
     return  InkWell(
         onTap:() {
-//          Navigator.pushNamed(context, SelectGamble.routeName);
+          setState(() {
+            selectedValue = gamble;
+          });
+          showDialog(context: context, builder: (context) => showSelectDensDialog(context, int.parse(gamble)),);
         } ,
         child: Card(
           elevation: 20,

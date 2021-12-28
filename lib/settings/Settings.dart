@@ -25,7 +25,8 @@ class SettingState extends State<Setting> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   StreamController<UserResponse> streamController = StreamController();
   UserResponse response = UserResponse();
-
+  List<String> statuts = ["Ecumeur","Vicomte","Comte","Kid","Lord",];
+  List<String> statutsValue = ["- 400"," - 800"," - 1200","- 1600","Plus",];
 
   final stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countDown,
@@ -58,6 +59,42 @@ class SettingState extends State<Setting> {
   void dispose() async {
     super.dispose();
     await stopWatchTimer.dispose();
+  }
+
+  Widget showStatutsDialog(BuildContext context) {
+    return new AlertDialog(
+      title: Text("Status d'un joueur"),
+      content: Container(
+        height: 200,
+        width: double.maxFinite,
+        child:  Column(
+          mainAxisAlignment:MainAxisAlignment.start,
+            children: [
+
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+
+            itemCount: statuts.length,
+            itemBuilder: (context, index) {
+              return Row(mainAxisAlignment : MainAxisAlignment.spaceBetween, children: <Widget>[Text(statuts[index], style: TextStyle(color: getUserStatusColors(statuts[index], themeNotifier.isDark)),),Text(statutsValue[index])],);
+            },),),
+          Text(toolTipStatutMessage, style: TextStyle(fontSize: 13, color: themeNotifier.isDark ? Colors.white : Colors.black),),
+        ]
+
+
+        )
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          style: BaseButtonRoundedColor(60,40,Colors.red[700]),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          child: Text("Ok",),
+        ),
+      ],
+    );
   }
 
   Widget paddingTextLabel(String text, hasSuffix){
@@ -113,15 +150,21 @@ class SettingState extends State<Setting> {
               paddingTextLabel(userModel.money.toString()+" Dens",false),
               Padding(padding: const EdgeInsets.only(
                   top: 15, bottom: 0),
-                  child :Row(children: <Widget>[
-                    Expanded(child: paddingTextLabel(getUserStatus(userModel.money),true)),
-                    Padding(padding: EdgeInsets.only(top: 15, right: 10),
-                        child: IconButton(
+                child :Row(children: <Widget>[
+                  Expanded(child: InkWell(
+                    child : paddingTextLabel(getUserStatus(userModel.money),true),
+                    onTap: (){
+                      showDialog(context: context, builder: (context) => showStatutsDialog(context),);
+                    },)),
+                  Padding(padding: EdgeInsets.only(top: 15, right: 10),
+                      child: IconButton(
                           tooltip: toolTipStatutMessage,
                           iconSize: 30,
-                        onPressed: () {} ,
-                        icon: Icon(Icons.info,)))
-                  ], ),),
+                          onPressed: () {
+                            showDialog(context: context, builder: (context) => showStatutsDialog(context),);
+                          } ,
+                          icon: Icon(Icons.info,)))
+                ], ),),
               paddingTextLabel("Victoire : "+userModel.wins.toString()+"/"+userModel.games.toString(), false),
               Padding(padding: const EdgeInsets.all(15),
                   child:(userModel.dateOfBan != 0.0) ?
@@ -133,6 +176,7 @@ class SettingState extends State<Setting> {
                             width : 200,
                             height: 200,
                             child:CircularProgressIndicator(
+
                               value: (100-timeLeftPercentage)/100,
                               strokeWidth: 8,
                               color: Colors.red[700],

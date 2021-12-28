@@ -116,7 +116,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
                 }
                 else{
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Cet utilisateur ne vous a pas ajouté")),
+                    SnackBar(content: Text("Cet utilisateur ne vous a pas encore ajouté")),
                   );
                 }
               },
@@ -143,7 +143,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
                   );
 
                 },)
-              ],) : null
+              ],) : SizedBox.fromSize(size: Size(0,0),)
 
           ],
         ),
