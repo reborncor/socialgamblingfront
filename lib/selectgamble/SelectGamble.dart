@@ -26,6 +26,7 @@ class _SelectGambleState extends State<SelectGamble> {
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
   List<String> gambles = ['10','20','30','50','100'];
+  List<String> gamblesPalier = ['0-10','11-20','21-30','31-40','41-50'];
   List<String> pyramidGambles = ['100','50','30','20','10'];
   TextEditingController moneyToSendController = TextEditingController();
 
@@ -110,9 +111,9 @@ class _SelectGambleState extends State<SelectGamble> {
     return  InkWell(
         onTap:() {
           setState(() {
-            selectedValue = gamble;
+            selectedValue = gambles[niveau];
           });
-          showDialog(context: context, builder: (context) => showSelectDensDialog(context, int.parse(gamble)),);
+          showDialog(context: context, builder: (context) => showSelectDensDialog(context, int.parse(gambles[niveau])),);
         } ,
         child: Card(
           elevation: 20,
@@ -203,7 +204,7 @@ class _SelectGambleState extends State<SelectGamble> {
           crossAxisSpacing: 20,
           mainAxisSpacing: 20),
       itemBuilder: (context, index) {
-        return cardGame(gambles[index], index);
+        return cardGame(gamblesPalier[index], index);
 
 
 
