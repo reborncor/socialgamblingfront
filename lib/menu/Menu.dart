@@ -116,6 +116,7 @@ class _MenuState extends State<Menu> {
           Text(gameModel.description, style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),),
         ],
       ),
+      actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         ElevatedButton(
           style: BaseButtonRoundedColor(60,40,Colors.red[700]),

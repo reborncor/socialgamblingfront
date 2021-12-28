@@ -49,6 +49,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
               style : BaseButtonRoundedColor(60,40,Colors.amber),
                 onPressed: (){moneyToSendController.text = (int.parse(moneyToSendController.text)-1).toString();}, child: Text('-',style: TextStyle(color: Colors.black))),
             Expanded(child: TextField(
+
               textAlign: TextAlign.center,
                 controller: moneyToSendController,
                 keyboardType: TextInputType.number,
@@ -64,6 +65,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
 
         ],
       ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: <Widget>[
         ElevatedButton(
           style: BaseButtonRoundedColor(60,40,Colors.red[700]),

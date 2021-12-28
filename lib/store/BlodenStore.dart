@@ -111,6 +111,7 @@ class _BlodenStoreState extends State<BlodenStore> {
           Text("Vous disposez de moins de 10 Dens et vous risquez de vous faire bannir de l'application, effectuez un credit et obtenez 50 Dens que vous pouvez rembourser sous 24h !", style:TextStyle(color : themeNotifier.isDark ? Colors.white : Colors.black),),
         ],
       ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: <Widget>[
         ElevatedButton(
           style: BaseButtonRoundedColor(60,40,Colors.red[700]),

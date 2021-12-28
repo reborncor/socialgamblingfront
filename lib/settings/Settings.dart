@@ -94,6 +94,7 @@ class SettingState extends State<Setting> {
 
         )
       ),
+      actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         ElevatedButton(
           style: BaseButtonRoundedColor(60,40,Colors.red[700]),

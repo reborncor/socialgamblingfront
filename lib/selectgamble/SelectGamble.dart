@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:circle_list/circle_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/util/util.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SelectGamble extends StatefulWidget {
   static final routeName = '/selectgamble';
@@ -15,6 +17,7 @@ class SelectGamble extends StatefulWidget {
 
 class _SelectGambleState extends State<SelectGamble> {
 
+
   TextEditingController searchController = new TextEditingController();
 
   int selectedIndex = 0;
@@ -23,7 +26,19 @@ class _SelectGambleState extends State<SelectGamble> {
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
   List<String> gambles = ['10','20','30','50','100'];
+  List<String> pyramidGambles = ['100','50','30','20','10'];
+  TextEditingController moneyToSendController = TextEditingController();
+
   String selectedValue = "";
+
+  final List<ChartData> chartData = [
+    ChartData('Palier 5', 100, Colors.greenAccent),
+    ChartData('Palier 4', 50, Colors.red),
+    ChartData('Palier 3', 30,Colors.greenAccent),
+    ChartData('Palier 2', 20,Colors.greenAccent),
+    ChartData('Palier 1', 10,Colors.greenAccent)
+
+  ];
 
   @override
   initState(){
@@ -40,6 +55,7 @@ class _SelectGambleState extends State<SelectGamble> {
             height: 300,
             width: double.maxFinite,
             child: Stack(children: <Widget>[
+
               Center( child: Text(selectedValue, style: TextStyle(fontSize: 40, color: Colors.amber),),),
               CircleList(
                 origin: Offset(-60, 50),
@@ -50,12 +66,16 @@ class _SelectGambleState extends State<SelectGamble> {
                     setState(() {
                       log('$index');
                       selectedValue = value.toString();
+                      moneyToSendController.text = value.toString();
                     });
                   });},);
                 }),
               )
             ])),
+        actionsAlignment: MainAxisAlignment.spaceBetween,
         actions: <Widget>[
+
+
           ElevatedButton(
             style: BaseButtonRoundedColor(60,40,Colors.red[700]),
             onPressed: () async {
@@ -63,6 +83,17 @@ class _SelectGambleState extends State<SelectGamble> {
             },
             child: Text("Annuler",),
           ),
+          Container(width : 50, child: TextField(
+            onChanged: (value) => setState((){
+              selectedValue = moneyToSendController.text;
+            }),
+              style: TextStyle(fontSize: 25),
+              textAlign: TextAlign.center,
+              controller: moneyToSendController,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ]),),
           ElevatedButton(
             style: BaseButtonRoundedColor(60,40,Colors.amber),
             onPressed: () async {
@@ -108,6 +139,8 @@ class _SelectGambleState extends State<SelectGamble> {
     games.add(game1);
     games.add(game2);
     games.add(game3);
+
+
     return Scaffold(
         appBar: AppBar(
           leading: BackButton(
@@ -119,8 +152,43 @@ class _SelectGambleState extends State<SelectGamble> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+
+              // pyramidOfGamble(),
             gridOfGamble(gambles.length)
           ],
+        )
+    );
+  }
+
+  Widget pyramidOfGamble(){
+    return Center(
+        child: Container(
+            height: 600,
+            child: SfPyramidChart(
+              palette: <Color>[
+                Colors.red[400],
+              ],
+
+
+              title: ChartTitle(text: "Selection du Palier"),
+              legend: Legend(isVisible: false,alignment: ChartAlignment.far, position: LegendPosition.bottom),
+              series:PyramidSeries<ChartData, String>(
+                borderColor: Colors.red[700],
+
+                dataSource: chartData,
+                onPointTap: (pointInteractionDetails) {
+                  showSelectDensDialog(context, 0);
+                },
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y,
+                pyramidMode: PyramidMode.linear ,
+                gapRatio: 0.1,
+
+                dataLabelSettings:DataLabelSettings(isVisible : true,textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+
+
+              ),
+            )
         )
     );
   }
@@ -144,4 +212,12 @@ class _SelectGambleState extends State<SelectGamble> {
 
 
   }
+
+}
+
+class ChartData {
+  ChartData(this.x, this.y, [this.color]);
+  final String x;
+  final double y;
+  final Color color;
 }
