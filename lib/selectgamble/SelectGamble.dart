@@ -69,7 +69,7 @@ class _SelectGambleState extends State<SelectGamble> {
                origin: Offset(-65, 60),
                innerRadius: 5,
                children: List.generate(10, (index) {
-                 int value = index+palier;
+                 int value = index+palier-9;
                  return InkWell(
                    customBorder:  RoundedRectangleBorder(
                      borderRadius: BorderRadius.circular(20),

@@ -124,10 +124,8 @@ class _ChatState extends State<Chat> {
       'upgrade':false,
       'autoConnect': false,
     });
-    log("Test");
     socket.connect();
     socket.onConnecting((data) => print(data));
-//    socket.on("message", (data) => log("Data :"+data.toString()));
     socket.onConnect((data) => {
       log("Connected"),
       socket.emit("credentials", username),
