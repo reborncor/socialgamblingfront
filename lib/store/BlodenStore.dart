@@ -210,7 +210,8 @@ class _BlodenStoreState extends State<BlodenStore> {
 
                 ElevatedButton(
                     style: BaseButtonRoundedColor(60,40,Colors.red[700]),
-                    onPressed: (){buyDensForUser(value, false);}, child: Text('Acheter Maintenant : $value'))
+                    onPressed: (){
+                      if(value != 0 )buyDensForUser(value, false);}, child: Text('Acheter Maintenant : $value'))
               ],
             ),
           )
