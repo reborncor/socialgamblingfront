@@ -38,6 +38,7 @@ class _SelectGameState extends State<SelectGame> {
           elevation: 20,
           color:  Colors.red[700],
           shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black, width: 2.0),
             borderRadius: BorderRadius.circular(50),
           ),
         child: ConstrainedBox(

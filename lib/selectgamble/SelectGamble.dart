@@ -58,20 +58,31 @@ class _SelectGambleState extends State<SelectGamble> {
             child: Stack(children: <Widget>[
 
               Center( child: Text(selectedValue, style: TextStyle(fontSize: 40, color: Colors.amber),),),
-              CircleList(
-                origin: Offset(-60, 50),
-                innerRadius: 5,
-                children: List.generate(10, (index) {
-                  int value = index+palier;
-                  return InkWell(child: Text(value.toString(), style: TextStyle(fontSize: 30, color: Colors.red[700]),), onTap: (){setState(() {
-                    setState(() {
-                      log('$index');
-                      selectedValue = value.toString();
-                      moneyToSendController.text = value.toString();
-                    });
-                  });},);
-                }),
-              )
+             Container(
+                 decoration: BoxDecoration(
+                   border: Border.all(color: Colors.red[700], width: 3.0),
+
+                   shape: BoxShape.circle,
+                 ),
+                 child:  CircleList(
+
+               origin: Offset(-65, 60),
+               innerRadius: 5,
+               children: List.generate(10, (index) {
+                 int value = index+palier;
+                 return InkWell(
+                   customBorder:  RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(20),
+                   ),
+                   child: Text(value.toString(), style: TextStyle(fontSize: 30, color: Colors.red[700]),), onTap: (){setState(() {
+                   setState(() {
+                     log('$index');
+                     selectedValue = value.toString();
+                     moneyToSendController.text = value.toString();
+                   });
+                 });},);
+               }),
+             ))
             ])),
         actionsAlignment: MainAxisAlignment.spaceBetween,
         actions: <Widget>[
@@ -109,6 +120,7 @@ class _SelectGambleState extends State<SelectGamble> {
   Widget cardGame(String gamble, int niveau){
 
     return  InkWell(
+
         onTap:() {
           setState(() {
             selectedValue = gambles[niveau];
@@ -117,9 +129,12 @@ class _SelectGambleState extends State<SelectGamble> {
           showDialog(context: context, builder: (context) => showSelectDensDialog(context, int.parse(gambles[niveau])),);
         } ,
         child: Card(
-          elevation: 20,
-          color: Colors.red[700] ,
+          elevation: 30.0,
+            color: Colors.red[700] ,
+          // shadowColor: Colors.amber,
           shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black, width: 2.0),
+
             borderRadius: BorderRadius.circular(50),
           ),
               child:  Column(
@@ -127,7 +142,7 @@ class _SelectGambleState extends State<SelectGamble> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(gamble, style: TextStyle(fontSize: 40),),
-                  Text('Palier '+(niveau+1).toString()),
+                  Card(elevation: 10.0, color: Colors.red[700],child: Text('Palier '+(niveau+1).toString(), style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),)),
                 ],
             )
         )
