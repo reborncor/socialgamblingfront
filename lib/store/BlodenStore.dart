@@ -160,9 +160,7 @@ class _BlodenStoreState extends State<BlodenStore> {
               Padding(
                   padding: EdgeInsets.only(right: 20.0),
                   child: InkWell(child:  Row( children: [
-                    IconButton(icon : Icon(Icons.monetization_on_outlined, size: 30,),color: Colors.black, onPressed: () {
-
-                    },),
+                    Icon(Icons.monetization_on_outlined, size: 30,color: Colors.black,),
                     Text(userCurrentDens.toString()+' Dens', style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),)
                   ]
                   ),onTap: (){
