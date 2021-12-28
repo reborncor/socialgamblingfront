@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
-import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
-import 'package:socialgamblingfront/settings/api.dart';
 import 'package:socialgamblingfront/store/BlodenStoreCard.dart';
 import 'package:socialgamblingfront/store/api.dart';
 import 'package:socialgamblingfront/util/util.dart';
@@ -31,6 +29,7 @@ class _BlodenStoreState extends State<BlodenStore> {
   bool isDarkMode = false;
 
   ThemeModel themeNotifier;
+
   @override
   initState() {
     fetchData();
@@ -82,7 +81,7 @@ class _BlodenStoreState extends State<BlodenStore> {
   }
 
   refundDensUser(int amount) async {
-    //TODO: Get User info
+
     BasicResponse result = await refundMoney(amount);
     if(result.code == SUCESS) {
       ScaffoldMessenger.of(context).showSnackBar(

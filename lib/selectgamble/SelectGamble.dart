@@ -25,9 +25,9 @@ class _SelectGambleState extends State<SelectGamble> {
   GameModel game1 = new GameModel(id: "1", image: "asset/images/donkeykong.jpg", name: "Donkey Kong", description: "Lorem Ipsum");
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
-  List<String> gambles = ['10','20','30','50','100'];
+  List<String> gambles = ['10','20','30','40','50'];
   List<String> gamblesPalier = ['0-10','11-20','21-30','31-40','41-50'];
-  List<String> pyramidGambles = ['100','50','30','20','10'];
+  List<String> pyramidGambles = ['50','40','30','20','10'];
   TextEditingController moneyToSendController = TextEditingController();
 
   String selectedValue = "";
@@ -88,7 +88,7 @@ class _SelectGambleState extends State<SelectGamble> {
             onChanged: (value) => setState((){
               selectedValue = moneyToSendController.text;
             }),
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25, color: Colors.amber),
               textAlign: TextAlign.center,
               controller: moneyToSendController,
               keyboardType: TextInputType.number,
@@ -127,7 +127,7 @@ class _SelectGambleState extends State<SelectGamble> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(gamble, style: TextStyle(fontSize: 40),),
-                  Text('Palier '+niveau.toString()),
+                  Text('Palier '+(niveau+1).toString()),
                 ],
             )
         )

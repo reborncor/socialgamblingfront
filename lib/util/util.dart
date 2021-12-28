@@ -49,8 +49,6 @@ BaseButtonRoundedColor(double width, double height,color){
 
 
 
-
-
 Future<String> getCurrentUserToken()async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String token = sharedPreferences.get("token");
@@ -94,6 +92,7 @@ String getUserStatus(int money){
   else if(money < 1200 ){
     return "Comte";
   }
+
   else if(money < 1600 ){
     return "Kid";
   }
