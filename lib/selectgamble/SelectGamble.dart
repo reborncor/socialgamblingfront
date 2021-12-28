@@ -33,12 +33,14 @@ class _SelectGambleState extends State<SelectGamble> {
   Widget showSelectDensDialog(BuildContext context, int palier) {
     return StatefulBuilder(builder: (context, setState) {
       return AlertDialog(
+
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), //this right here
         title: Text("Selectioner la somme à parier"),
         content: Container(
             height: 300,
             width: double.maxFinite,
             child: Stack(children: <Widget>[
-              Center( child: Text(selectedValue, style: TextStyle(fontSize: 40, color: Colors.amber[700]),),),
+              Center( child: Text(selectedValue, style: TextStyle(fontSize: 40, color: Colors.amber),),),
               CircleList(
                 origin: Offset(-60, 50),
                 innerRadius: 5,
@@ -56,6 +58,13 @@ class _SelectGambleState extends State<SelectGamble> {
         actions: <Widget>[
           ElevatedButton(
             style: BaseButtonRoundedColor(60,40,Colors.red[700]),
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+            child: Text("Annuler",),
+          ),
+          ElevatedButton(
+            style: BaseButtonRoundedColor(60,40,Colors.amber),
             onPressed: () async {
               Navigator.pop(context);
             },

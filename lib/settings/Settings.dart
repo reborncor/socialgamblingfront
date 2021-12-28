@@ -65,10 +65,10 @@ class SettingState extends State<Setting> {
     return new AlertDialog(
       title: Text("Status d'un joueur"),
       content: Container(
-        height: 200,
+        height: 210,
         width: double.maxFinite,
         child:  Column(
-          mainAxisAlignment:MainAxisAlignment.start,
+          mainAxisAlignment:MainAxisAlignment.spaceEvenly,
             children: [
 
           Expanded(
@@ -77,7 +77,16 @@ class SettingState extends State<Setting> {
 
             itemCount: statuts.length,
             itemBuilder: (context, index) {
-              return Row(mainAxisAlignment : MainAxisAlignment.spaceBetween, children: <Widget>[Text(statuts[index], style: TextStyle(color: getUserStatusColors(statuts[index], themeNotifier.isDark)),),Text(statutsValue[index])],);
+              return Container(
+                margin: EdgeInsets.only(top: 3),
+                decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: Colors.red[700])
+              ),child: Row(
+                mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(statuts[index], style: TextStyle(color: getUserStatusColors(statuts[index], themeNotifier.isDark)),),
+                  Text(statutsValue[index])],),);
             },),),
           Text(toolTipStatutMessage, style: TextStyle(fontSize: 13, color: themeNotifier.isDark ? Colors.white : Colors.black),),
         ]
