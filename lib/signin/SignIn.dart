@@ -45,6 +45,7 @@ class _SignInState extends State<SignIn> {
               child: Text("Bloden",style: TextStyle( fontSize: 20),)),
             Padding(padding: EdgeInsets.all(16),
                 child:   TextFormField(
+                  autofillHints:const <String>[AutofillHints.username],
                   textAlign: TextAlign.center,
                   controller: usernameController,
                   validator:(value) {
@@ -63,6 +64,7 @@ class _SignInState extends State<SignIn> {
             Padding(
               padding: EdgeInsets.all(16),
               child: TextFormField(
+                autofillHints: const <String>[AutofillHints.password],
                 textAlign: TextAlign.center,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
