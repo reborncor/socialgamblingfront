@@ -112,6 +112,7 @@ class _SelectGambleState extends State<SelectGamble> {
         onTap:() {
           setState(() {
             selectedValue = gambles[niveau];
+            moneyToSendController.text =  gambles[niveau];
           });
           showDialog(context: context, builder: (context) => showSelectDensDialog(context, int.parse(gambles[niveau])),);
         } ,
