@@ -69,20 +69,9 @@ class PaymentState extends State<Payment> {
     return Scaffold(
       appBar: AppBar(title: Text("Parametre de paiement"), backgroundColor: Colors.red[700],),
         resizeToAvoidBottomInset: false,
-        body: Container(
-          decoration: BoxDecoration(
-            image: useBackgroundImage
-                ? const DecorationImage(
-              image: ExactAssetImage('asset/images/bg.png'),
-              fit: BoxFit.fill,
-            )
-                : null,
-            color: Colors.grey[900],
-          ),
-          child: SafeArea(
-            child: Column(
+        body: ListView(
               children: <Widget>[
-                const SizedBox(
+                SizedBox(
                   height: 30,
                 ),
                 CreditCardWidget(
@@ -112,9 +101,7 @@ class PaymentState extends State<Payment> {
                     ),
                   ],
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
+                  Column(
                       children: <Widget>[
                         CreditCardForm(
                           formKey: formKey,
@@ -221,12 +208,8 @@ class PaymentState extends State<Payment> {
                         )
                       ],
                     ),
-                  ),
-                ),
               ],
             ),
-          ),
-        ),
     );
   }
 

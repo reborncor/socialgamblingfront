@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/response/SigninResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:http/http.dart'as http;
+import 'package:socialgamblingfront/util/util.dart';
 
 
 
@@ -36,7 +37,7 @@ Future<SigninReponse> signinUser(String username, String password) async{
       sharedPreferences.setString("money", data.payload.money.toString());
       sharedPreferences.setString("dateOfBan", data.payload.dateOfBan.toString());
 
-      sharedPreferences.setString("creditCard", jsonEncode(data.payload.creditCard));
+      saveCard(data.payload.creditCard.cardNumber, data.payload.creditCard.expiryDate, data.payload.creditCard.cardHolderName, data.payload.creditCard.cvvCode);
     }
     return data ;
   }

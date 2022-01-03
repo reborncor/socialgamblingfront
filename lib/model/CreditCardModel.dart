@@ -20,6 +20,11 @@ class CreditCardModels{
 
   factory CreditCardModels.fromJsonData(Map<String,  dynamic> json){
     return CreditCardModels.jsonData(
+      cardNumber: json['cardNumber'],
+      expiryDate: json['expiryDate'],
+      cardHolderName: json['cardHolderName'],
+      cvvCode: json['cvvCode'],
+
 
     );
   }
