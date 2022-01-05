@@ -242,17 +242,17 @@ class SettingState extends State<Setting> {
                     ),
                   ],
                 )),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 15, bottom: 0),
-                child : ElevatedButton(
-                  style: BaseButtonRoundedColor(200,40,Colors.red[700]),
-
-                  onPressed: () async {
-                    Navigator.pushNamed(context, '/payment' );
-                  },
-                  child: Text("Parametre de paiement"),
-                ),),
+              // Padding(
+              //   padding: const EdgeInsets.only(
+              //       left: 15.0, right: 15.0, top: 15, bottom: 0),
+              //   child : ElevatedButton(
+              //     style: BaseButtonRoundedColor(200,40,Colors.red[700]),
+              //
+              //     onPressed: () async {
+              //       Navigator.pushNamed(context, '/payment' );
+              //     },
+              //     child: Text("Parametre de paiement"),
+              //   ),),
 
               Padding(
                 padding: const EdgeInsets.only(

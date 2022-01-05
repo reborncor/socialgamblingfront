@@ -10,6 +10,8 @@
       <root url="file://$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-2.0.3" />
       <root url="file://$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-2.0.3" />
       <root url="file://$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/contacts_service-0.6.3" />
+      <root url="file://$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_ios-2.1.0" />
+      <root url="file://$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_android-2.1.0" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

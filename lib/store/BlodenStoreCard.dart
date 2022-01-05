@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class BlodenStoreCard extends StatefulWidget {
   final int value;
+  final int price;
   Function callBack;
-  BlodenStoreCard({this.value, this.callBack});
+  BlodenStoreCard({this.value, this.callBack, this.price});
 
   @override
   _BlodenStoreCardState createState() => _BlodenStoreCardState();
@@ -19,7 +20,7 @@ class _BlodenStoreCardState extends State<BlodenStoreCard> {
       child: Padding(padding: EdgeInsets.all(16),
         child: InkWell(
           onTap: () {
-            widget.callBack(widget.value);
+            widget.callBack(widget.value, widget.price);
           },
           child: Card(
 
@@ -43,7 +44,7 @@ class _BlodenStoreCardState extends State<BlodenStoreCard> {
                   ),
                   ListTile(
 
-                    title:  Text(widget.value.toString(), textAlign: TextAlign.center, style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),),
+                    title:  Text(widget.value.toString()+" ("+widget.price.toString()+" EUR)", textAlign: TextAlign.center, style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),),
                     subtitle:  Text("Pack dens classique",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
                   ),
                 ],

@@ -33,6 +33,30 @@ Future<BasicResponse> buyDens(int amount, bool isCredit) async{
 
 }
 
+Future<BasicResponse> buyDensStripe(int amount) async{
+  var response;
+
+  final String PATH = "/user/createpayment";
+  String token = await getCurrentUserToken();
+  Map data = {
+    "amount":amount,
+    "currency":"eur",
+  };
+  try {
+    response = await http.post(URL+PATH,
+        headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
+    BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
+    return result ;
+  }
+  catch (e) {
+    print(e.toString());
+    return BasicResponse(code: 1, message: "Erreur : $e");
+  }
+
+
+
+}
+
 
 Future<BasicResponse> refundMoney(int amount) async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -58,3 +82,4 @@ Future<BasicResponse> refundMoney(int amount) async{
 
 
 }
+

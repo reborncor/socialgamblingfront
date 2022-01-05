@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/addfriend/AddFriends.dart';
 import 'package:socialgamblingfront/chat/Chat.dart';
@@ -13,10 +14,13 @@ import 'package:socialgamblingfront/signup/SignUp.dart';
 import 'package:socialgamblingfront/splashscreen/SplashScreen.dart';
 import 'package:socialgamblingfront/store/BlodenStore.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
+import 'package:socialgamblingfront/util/config.dart';
 
 import 'model/ThemeModel.dart';
 
 void main() {
+
+  Stripe.publishableKey = STRIPE_KEY;
   runApp(MyApp());
 }
 

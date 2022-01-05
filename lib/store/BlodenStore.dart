@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
@@ -23,7 +24,10 @@ class _BlodenStoreState extends State<BlodenStore> {
   TextEditingController searchController = new TextEditingController();
 
   int value = 0;
+  int selectedAmount = 0;
   List<int> dens = [10,20,50,100];
+  List<int> densPrice = [1,1,1,1];
+
   int userCurrentDens = 0;
   int userCurrentDateOfBan = 0;
   bool isDarkMode = false;
@@ -36,6 +40,12 @@ class _BlodenStoreState extends State<BlodenStore> {
     super.initState();
   }
 
+  stripePayment(int value){
+   if(value != 0){
+   }
+
+  }
+
   fetchData() async{
 
     String response = await getCurrentUserMoney();
@@ -46,9 +56,11 @@ class _BlodenStoreState extends State<BlodenStore> {
       userCurrentDateOfBan = int.parse(responseDateOfban);
     });
   }
-  callBack(data){
+  callBack(value,amount){
     setState(() {
-      value = data;
+      this.value = value;
+      this.selectedAmount = amount;
+
     });
   }
   Widget listOfDensToBuy(){
@@ -57,7 +69,7 @@ class _BlodenStoreState extends State<BlodenStore> {
         shrinkWrap: true,
         itemCount :dens.length,
         itemBuilder: (context, index) {
-          return BlodenStoreCard(value : dens[index], callBack:callBack);
+          return BlodenStoreCard(value : dens[index],price: densPrice[index], callBack:callBack);
         })
     );
   }
@@ -129,6 +141,39 @@ class _BlodenStoreState extends State<BlodenStore> {
         ),
       ],
     );
+  }
+
+   Future<void> makePayment(int amount) async{
+    final result = await buyDensStripe(amount);
+
+    await Stripe.instance.initPaymentSheet(paymentSheetParameters: SetupPaymentSheetParameters(
+      paymentIntentClientSecret: result.payload["paymentIntent"],
+      applePay: true,
+      googlePay: true,
+      style: ThemeMode.dark,
+      testEnv: false,
+      merchantCountryCode: 'FR',
+      merchantDisplayName: 'Prospects',
+    ));
+    setState(() {
+    });
+    displayPaymentStripe(result.payload["paymentIntent"]);
+  }
+
+  Future<int> displayPaymentStripe(clientSecret) async {
+    try{
+        await Stripe.instance.presentPaymentSheet();
+
+        await Stripe.instance.retrievePaymentIntent(clientSecret).then((value) =>{
+          if(value.status == PaymentIntentsStatus.Succeeded){
+            buyDensForUser(this.value, false)
+          }
+        });
+    }catch(e){
+      log("ERREUR");
+      print(e);
+    }
+
   }
 
   @override
@@ -210,8 +255,15 @@ class _BlodenStoreState extends State<BlodenStore> {
 
                 ElevatedButton(
                     style: BaseButtonRoundedColor(60,40,Colors.red[700]),
-                    onPressed: (){
-                      if(value != 0 )buyDensForUser(value, false);}, child: Text('Acheter Maintenant : $value'))
+                    onPressed: () async {
+                      if(value!=0){
+                        await makePayment(this.selectedAmount*100);
+                        //TODO: Conditionner l'achat de dens
+                        // buyDensForUser(value, false);
+                      }
+
+                      },
+                    child: Text('Acheter Maintenant : $value'))
               ],
             ),
           )
@@ -219,3 +271,5 @@ class _BlodenStoreState extends State<BlodenStore> {
     },);
   }
 }
+
+
