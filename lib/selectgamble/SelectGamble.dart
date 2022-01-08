@@ -4,6 +4,7 @@ import 'package:circle_list/circle_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:socialgamblingfront/confirmgame/ConfirmGame.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/util/util.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -149,6 +150,9 @@ class _SelectGambleState extends State<SelectGamble> {
     );
   }
 
+  void sendInvitation() {
+    Navigator.pushNamed(context, ConfirmGame().routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +175,13 @@ class _SelectGambleState extends State<SelectGamble> {
           children: <Widget>[
 
               // pyramidOfGamble(),
-            gridOfGamble(gambles.length)
+            gridOfGamble(gambles.length),
+            ElevatedButton(
+                style: BaseButtonRoundedColor(200,40,Colors.red[700]),
+                onPressed: () {
+
+                  sendInvitation();
+            }, child: Text("Confirmer"))
           ],
         )
     );
@@ -229,6 +239,8 @@ class _SelectGambleState extends State<SelectGamble> {
 
 
   }
+
+
 
 }
 

@@ -113,6 +113,7 @@ class _ChatState extends State<Chat> {
 
   @override
   void dispose() {
+
     socket.disconnect();
     super.dispose();
   }
@@ -130,7 +131,7 @@ class _ChatState extends State<Chat> {
       socket.emit("credentials", username),
     });
 
-    socket.onDisconnect((data) => log("Disconnect:"));
+    socket.onDisconnect((data) =>  socket.emit("disconnect_user", username),);
     socket.onReconnect((data) => log("Reconnected !"));
 
     socket.on('send_conversation', (data) => log("Data :"+data.toString()));

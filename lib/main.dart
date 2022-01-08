@@ -5,6 +5,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/addfriend/AddFriends.dart';
 import 'package:socialgamblingfront/chat/Chat.dart';
+import 'package:socialgamblingfront/confirmgame/ConfirmGame.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
 import 'package:socialgamblingfront/payment/Payment.dart';
 import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
@@ -50,6 +51,8 @@ class MyApp extends StatelessWidget  {
                 '/addfriends': (context) => AddFriends(),
                 '/payment' : (context) => Payment(),
                 '/store' : (context) => BlodenStore(),
+                '/confirmgame' : (context) => ConfirmGame(),
+
 
 
               },

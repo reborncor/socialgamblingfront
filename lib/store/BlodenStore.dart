@@ -33,6 +33,7 @@ class _BlodenStoreState extends State<BlodenStore> {
   bool isDarkMode = false;
 
   ThemeModel themeNotifier;
+  CardEditController editController;
 
   @override
   initState() {
@@ -148,12 +149,13 @@ class _BlodenStoreState extends State<BlodenStore> {
 
     await Stripe.instance.initPaymentSheet(paymentSheetParameters: SetupPaymentSheetParameters(
       paymentIntentClientSecret: result.payload["paymentIntent"],
-      applePay: true,
+      applePay: Stripe.instance.isApplePaySupported.value,
       googlePay: true,
-      style: ThemeMode.dark,
-      testEnv: false,
+      style: themeNotifier.isDark ? ThemeMode.dark : ThemeMode.light,
+      testEnv: true,
+
       merchantCountryCode: 'FR',
-      merchantDisplayName: 'Prospects',
+      merchantDisplayName: 'Bloden',
     ));
     setState(() {
     });
@@ -162,8 +164,13 @@ class _BlodenStoreState extends State<BlodenStore> {
 
   Future<int> displayPaymentStripe(clientSecret) async {
     try{
-        await Stripe.instance.presentPaymentSheet();
+    // editControl
+    // await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
+    await Stripe.instance.presentPaymentSheet();
+    await Stripe.instance.presentPaymentSheet();
+        setState(() {
 
+        });
         await Stripe.instance.retrievePaymentIntent(clientSecret).then((value) =>{
           if(value.status == PaymentIntentsStatus.Succeeded){
             buyDensForUser(this.value, false)
@@ -258,8 +265,6 @@ class _BlodenStoreState extends State<BlodenStore> {
                     onPressed: () async {
                       if(value!=0){
                         await makePayment(this.selectedAmount*100);
-                        //TODO: Conditionner l'achat de dens
-                        // buyDensForUser(value, false);
                       }
 
                       },
