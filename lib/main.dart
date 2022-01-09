@@ -8,6 +8,7 @@ import 'package:socialgamblingfront/chat/Chat.dart';
 import 'package:socialgamblingfront/confirmgame/ConfirmGame.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
 import 'package:socialgamblingfront/payment/Payment.dart';
+import 'package:socialgamblingfront/resultgame/ResultGame.dart';
 import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget  {
                 '/payment' : (context) => Payment(),
                 '/store' : (context) => BlodenStore(),
                 '/confirmgame' : (context) => ConfirmGame(),
+                '/resultgame' : (context) => ResultGame(),
+
 
 
 

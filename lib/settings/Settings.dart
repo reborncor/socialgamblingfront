@@ -152,7 +152,7 @@ class SettingState extends State<Setting> {
           return  ListView(
             scrollDirection: Axis.vertical,
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(bottom: 10,top: 10),child: Icon(Icons.account_circle_rounded, size: 100,),),
+              Padding(padding: EdgeInsets.only(bottom: 10,top: 10),child:  Image(image : AssetImage('asset/images/user.png'), width : 100, height: 100,),),
               paddingTextLabel(userModel.firstName,false),
               paddingTextLabel(userModel.lastName,false),
               paddingTextLabel(userModel.email,false),

@@ -77,7 +77,7 @@ class _SelectGambleState extends State<SelectGamble> {
                    ),
                    child: Text(value.toString(), style: TextStyle(fontSize: 30, color: Colors.red[700]),), onTap: (){setState(() {
                    setState(() {
-                     log('$index');
+                     log('$selectedValue');
                      selectedValue = value.toString();
                      moneyToSendController.text = value.toString();
                    });
@@ -92,6 +92,7 @@ class _SelectGambleState extends State<SelectGamble> {
           ElevatedButton(
             style: BaseButtonRoundedColor(60,40,Colors.red[700]),
             onPressed: () async {
+
               Navigator.pop(context);
             },
             child: Text("Annuler",),
@@ -110,7 +111,10 @@ class _SelectGambleState extends State<SelectGamble> {
           ElevatedButton(
             style: BaseButtonRoundedColor(60,40,Colors.amber),
             onPressed: () async {
-              Navigator.pop(context);
+              setState((){
+                selectedValue = moneyToSendController.text;
+              });
+              Navigator.pop(context, selectedValue);
             },
             child: Text("Ok",),
           ),
@@ -127,7 +131,14 @@ class _SelectGambleState extends State<SelectGamble> {
             selectedValue = gambles[niveau];
             moneyToSendController.text =  gambles[niveau];
           });
-          showDialog(context: context, builder: (context) => showSelectDensDialog(context, int.parse(gambles[niveau])),);
+          showDialog(
+            context: context,
+            builder: (context) => showSelectDensDialog(context, int.parse(gambles[niveau])),
+          ).then((value) => {
+            setState((){
+              this.selectedValue = value as String;
+            })
+          });
         } ,
         child: Card(
           elevation: 30.0,
@@ -179,43 +190,17 @@ class _SelectGambleState extends State<SelectGamble> {
             ElevatedButton(
                 style: BaseButtonRoundedColor(200,40,Colors.red[700]),
                 onPressed: () {
+                  if(this.selectedValue != ""){
+                    sendInvitation();
+                  }
+                  else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Veuillez selectionner un montant à parier")),
+                    );
+                  }
 
-                  sendInvitation();
-            }, child: Text("Confirmer"))
+            }, child: Text("Confirmer : $selectedValue Dens"))
           ],
-        )
-    );
-  }
-
-  Widget pyramidOfGamble(){
-    return Center(
-        child: Container(
-            height: 600,
-            child: SfPyramidChart(
-              palette: <Color>[
-                Colors.red[400],
-              ],
-
-
-              title: ChartTitle(text: "Selection du Palier"),
-              legend: Legend(isVisible: false,alignment: ChartAlignment.far, position: LegendPosition.bottom),
-              series:PyramidSeries<ChartData, String>(
-                borderColor: Colors.red[700],
-
-                dataSource: chartData,
-                onPointTap: (pointInteractionDetails) {
-                  showSelectDensDialog(context, 0);
-                },
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y,
-                pyramidMode: PyramidMode.linear ,
-                gapRatio: 0.1,
-
-                dataLabelSettings:DataLabelSettings(isVisible : true,textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-
-
-              ),
-            )
         )
     );
   }

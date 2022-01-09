@@ -125,7 +125,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(Icons.account_circle, size: 30,),
+                  Image( image : AssetImage('asset/images/user.png',), width: 30, height: 30,),
                   Padding(padding: EdgeInsets.all(10)
                     ,child: Text(friendModel.username,style: TextStyle(fontSize: 15),),)
                 ],

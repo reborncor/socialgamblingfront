@@ -54,7 +54,7 @@ class _ChatListState extends State<ChatList> {
           borderRadius: BorderRadius.circular(50),
         ),
       child: ListTile(
-        leading: Icon(Icons.account_circle, size: 40, color: Colors.black,),
+        leading: Image( image : AssetImage('asset/images/user.png',), width: 40, height: 40,),
         title: Text(receiverUserame,style: TextStyle(fontSize: 17), ),
         subtitle: Text((conversationModel.chat.length == 0) ? "" : conversationModel.chat.first.content),
         trailing: IconButton(icon: Icon(Icons.videogame_asset, size: 30, color: Colors.red[700],), onPressed: () => {

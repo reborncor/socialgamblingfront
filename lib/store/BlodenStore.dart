@@ -167,7 +167,6 @@ class _BlodenStoreState extends State<BlodenStore> {
     // editControl
     // await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
     await Stripe.instance.presentPaymentSheet();
-    await Stripe.instance.presentPaymentSheet();
         setState(() {
 
         });

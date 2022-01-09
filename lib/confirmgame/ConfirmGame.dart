@@ -5,9 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:socialgamblingfront/addfriend/AddFriends.dart';
+import 'package:socialgamblingfront/resultgame/ResultGame.dart';
 
 
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/tab/TabView.dart';
+import 'package:socialgamblingfront/util/util.dart';
 
 
 class ConfirmGame extends StatefulWidget {
@@ -38,6 +41,9 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     streamController.add("event");
     streamController.close();
   }
+  startGame(){
+    Navigator.pushNamed(context, ResultGame().routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +52,6 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
         automaticallyImplyLeading: false,
         backgroundColor: Colors.red[700],
         actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: Image.asset('asset/images/add_account.png',width: 30, height: 30,),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  AddFriends()),
-                  );
-                },
-              )
-          ),
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
@@ -82,7 +76,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
           ),
         ],
 
-        title: Text("Mes amis",style: TextStyle(color: Colors.black)),
+        title: Text("Jeu",style: TextStyle(color: Colors.black)),
       ),
       body: StreamBuilder(
         stream: streamController.stream,
@@ -100,16 +94,17 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
                       children: [
                         Container(width : 175,child:
                         Column(children: [
-                          Image(image : AssetImage('asset/images/add_account.png'), width: 50, height: 50,),
-                          Text("Username") ,
-                          Text("50") ,])),
-                        Text("VS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
+                          Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
+                          Text("Username",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
+                          Text("50",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
+                        Text("VS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
                         Container(width : 200,child:
                         Column(children: [
-                          Image(image : AssetImage('asset/images/add_account.png'), width: 50, height: 50,),
-                          Text("Username") ,
-                          Text("50") ,])),
+                          Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
+                          Text("Username",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
+                          Text("50",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
                       ],)),
+                Text("Somme Total :"+"100", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                 Column(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -122,14 +117,21 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(onPressed: () {
+                      ElevatedButton(
+                          style: BaseButtonRoundedColor(75,40,Colors.green[700]),
+                          onPressed: () {
                         setState(() {
                           this.isUserReady = true;
+                          startGame();
                         });}, child: Text('Oui')),
 
-                      ElevatedButton(onPressed: () {
+                      ElevatedButton(
+                          style: BaseButtonRoundedColor(75,40,Colors.red[700]),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, TabView.routeName);
 
-                        setState(() {
+
+                            setState(() {
                           this.isUserReady = false;
                         });
                       }, child: Text('Non')),

@@ -39,6 +39,7 @@ class _ChatState extends State<Chat> {
   int endInd;
   ThemeModel themeNotifier;
   scrollListener(){
+    log("POSITION : "+scrollController.position.toString());
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
       setState(() {
@@ -199,31 +200,26 @@ class _ChatState extends State<Chat> {
               maxWidth: 300
             ),
               child: (messageModel.senderUsername != username) ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Icon(Icons.account_circle,size: 40, color: themeNotifier.isDark ? Colors.white : Colors.black,),
-                 Expanded(child:  Card(
-
-                   elevation: 0,
-                   color: (messageModel.senderUsername == username) ? Colors.red[50] : Colors.white70 ,
-                   child: ListTile(
-                     title: Text(messageModel.content, style: TextStyle(color: Colors.black)),
-//                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
-                   ),
-                 ),)
+                  Image( image : AssetImage('asset/images/user.png',), width: 30, height: 30,),
+                  Flexible(child: Card(
+                    color: (messageModel.senderUsername == username) ? Colors.red[50] : Colors.white70 ,
+                    child: Container(
+                      child:Padding(child : Text(messageModel.content), padding: EdgeInsets.all(8),) ,
+                    ),),)
                 ],
               ) :Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
 
-                  Expanded(child:  Card(
-
+                  Flexible(child: Card(
                     color: (messageModel.senderUsername == username) ? Colors.red[50] : Colors.white70 ,
-                    child: ListTile(
-                      title: Text(messageModel.content),
-//                     trailing: IconButton(icon: Icon(Icons.videogame_asset), onPressed: () => {},),
-                    ),
-                  ),),  Icon(Icons.account_circle, size: 40, color: themeNotifier.isDark ? Colors.white: Colors.black,),
+                    child: Container(
+                      child:Padding(child : Text(messageModel.content), padding: EdgeInsets.all(8),) ,
+                    ),),)
+                  ,
+                  Image( image : AssetImage('asset/images/user.png',), width: 40, height: 40,),
                 ],
               ),
 
