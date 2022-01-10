@@ -51,6 +51,7 @@ class _ChatState extends State<Chat> {
       fetchOldMessage();
       setState(() {
         log("reach the top");
+        log("reach the top");
       });
     }
 
@@ -86,6 +87,7 @@ class _ChatState extends State<Chat> {
     fetchData();
     init();
     super.initState();
+
   }
   fetchUsername() async {
     username = await getCurrentUsername();
@@ -117,6 +119,7 @@ class _ChatState extends State<Chat> {
 
     socket.disconnect();
     super.dispose();
+
   }
   init(){
 
@@ -242,8 +245,6 @@ class _ChatState extends State<Chat> {
                stream: streamController.stream,
                builder: (context, snapshot) {
                  if(snapshot.hasData){
-//              response = snapshot.data;
-//              messages = response.conversation.chat;
 
                    return Column(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
