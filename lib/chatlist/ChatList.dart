@@ -59,7 +59,9 @@ class _ChatListState extends State<ChatList> {
         title: Text(receiverUserame,style: TextStyle(fontSize: 17), ),
         subtitle: Text((conversationModel.chat.length == 0) ? "" : conversationModel.chat.first.content),
         trailing: IconButton(icon: Icon(Icons.videogame_asset, size: 30, color: Colors.red[700],), onPressed: () => {
-        Navigator.pushNamed(context, SelectGame.routeName),
+          Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SelectGame(username : receiverUserame)),
+        )
         },),
       ),
     )

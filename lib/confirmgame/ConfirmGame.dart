@@ -116,13 +116,13 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
                         Column(children: [
                           Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
                           Text(this.currentUserName,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                          Text(widget.userGamble.toString(),style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
+                          Text(this.widget.userGamble.toString(),style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
                         Text("VS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
                         Container(width : 200,child:
                         Column(children: [
                           Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
-                          Text(widget.username,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
-                          Text(widget.userGamble.toString(),style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
+                          Text(this.widget.username,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
+                          Text(this.widget.userGamble.toString(),style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
                       ],)),
                 Text("Somme Total :"+(widget.userGamble*2).toString(), style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                 Column(children: [
