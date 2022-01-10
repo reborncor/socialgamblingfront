@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
@@ -82,4 +83,34 @@ Future<BasicResponse> refundMoney(int amount) async{
 
 
 }
+
+Future<BasicResponse> getUserMoney() async{
+
+  String token = await getCurrentUserToken();
+  var response;
+  final String PATH = "/user/money";
+
+  try {
+    response = await http.get(URL+PATH,
+        headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token});
+  }
+  catch (e) {
+    print(e.toString());
+    return BasicResponse(message: "Erreur serveur", code: 1);
+  }
+
+  if(response.statusCode == 200) {
+//    log("DATA :"+ json.decode(response.body).toString());
+    BasicResponse data = BasicResponse.fromJsonData(json.decode(response.body));
+    setUserData("money", data.payload['money'].toString());
+    log("DATA"+data.payload.toString());
+    return data ;
+  }
+  else{
+    return BasicResponse(code: json.decode(response.body)['code'], message: json.decode(response.body)['message']);
+  }
+
+
+}
+
 

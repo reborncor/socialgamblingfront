@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:socialgamblingfront/response/BasicResponse.dart';
 import 'package:socialgamblingfront/response/GameResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
@@ -32,6 +33,29 @@ Future<PGameResponse> getResultGame(String gameId) async{
   else{
     return PGameResponse(code: 1, message: json.decode(response.body)['message']);
   }
+
+
+}
+Future<BasicResponse> handleUserLevel(bool win) async{
+    var response;
+
+  final String PATH = "/user/handlelevel";
+  String token = await getCurrentUserToken();
+  Map data = {
+    "win":win,
+  };
+  BasicResponse result;
+  try {
+    response = await http.put(URL+PATH,
+        headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
+    result = BasicResponse.fromJsonData(json.decode(response.body));
+    return result ;
+  }
+  catch (e) {
+    print(e.toString());
+    return BasicResponse(code: 1, message: result.message);
+  }
+
 
 
 }

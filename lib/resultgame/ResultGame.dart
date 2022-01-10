@@ -11,6 +11,7 @@ import 'package:socialgamblingfront/resultgame/api.dart';
 
 
 import 'package:socialgamblingfront/settings/Settings.dart';
+import 'package:socialgamblingfront/store/api.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
@@ -66,31 +67,11 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
   fetchData() async {
     final gameId  = await getGameId();
     username = await getCurrentUsername();
-    final amountRaw = await getCurrentUserMoney();
-    amount = int.parse(amountRaw);
     response = await getResultGame(gameId);
     this.isUserWon = (username == response.game.winner);
     this.isPlayer1 = (username == response.game.player1);
-
-    if(isUserWon){
-      if(isPlayer1){
-        amount = amount + response.game.player1Gamble;
-      }
-      else{
-        amount = amount + response.game.player2Gamble;
-      }
-      setCurrentUserMoney(amount);
-    }
-    else{
-      if(isPlayer1){
-        amount = amount - response.game.player1Gamble;
-      }
-      else{
-        amount = amount - response.game.player2Gamble;
-      }
-      setCurrentUserMoney(amount);
-
-    }
+    await getUserMoney();
+    await handleUserLevel(this.isUserWon);
     streamController.add("event");
     streamController.close();
 
