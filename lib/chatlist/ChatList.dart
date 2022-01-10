@@ -24,12 +24,13 @@ class _ChatListState extends State<ChatList> {
   ConversationsResponse response;
   List<ConversationModel> conversations = [];
   String currentUsername;
-
+  Future<ConversationsResponse> _futureResponse;
 
 
   @override
   initState() {
     getCurrentUsername().then((value) => currentUsername = value);
+    _futureResponse = getUserConversations();
     super.initState();
     setState(() {
 
@@ -81,7 +82,7 @@ class _ChatListState extends State<ChatList> {
                 onTap: () async {
 
                   try{
-                    final data = await Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>  Setting()),
                     );
@@ -100,7 +101,7 @@ class _ChatListState extends State<ChatList> {
         title: Text("Chat",style: TextStyle(color: Colors.black)),
       ),
       body:FutureBuilder(
-        future: getUserConversations(),
+        future: _futureResponse,
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
@@ -108,9 +109,9 @@ class _ChatListState extends State<ChatList> {
               if(response.code == BAN ||response.code== NOT_CONNECTED) {
                 log("DISCONNECTING");
                 Navigator.pushReplacementNamed(context,SignIn.routeName);
-              };
+              }
               conversations = response.conversations;
-              return Center(
+              return RefreshIndicator(child: Center(
 
                   child: ListView.builder(
                     itemCount: conversations.length,
@@ -118,10 +119,12 @@ class _ChatListState extends State<ChatList> {
                       return itemFriend('image', conversations[index]);
                     },
                   )
-              );
+              ), onRefresh: () {
+                return _futureResponse = getUserConversations();
+              },);
             }
             else{
-              return Center(child: Text("Pas de données"));
+              return Center(child: Text("Aucune conversation"));
             }
           }
           else{

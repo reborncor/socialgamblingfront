@@ -1,8 +1,10 @@
 import 'dart:core';
 
+import 'package:socialgamblingfront/response/BasicResponse.dart';
 
 
-class GameModel{
+
+class GameModel extends BasicResponse{
 
   String id;
   String image;

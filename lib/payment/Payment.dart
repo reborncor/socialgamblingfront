@@ -179,7 +179,7 @@ class PaymentState extends State<Payment> {
                             if (formKey.currentState.validate()) {
                               print('valid!');
                               final result = await updateCreditCard(cardNumber,expiryDate,cardHolderName,cvvCode);
-                              if(result.code == SUCESS){
+                              if(result.code == SUCCESS){
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(result.message)),
                                 );

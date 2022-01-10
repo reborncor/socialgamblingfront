@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 
 
-import 'package:socialgamblingfront/response/BasicResponse.dart';
 import 'package:socialgamblingfront/response/ConversationsResponse.dart';
-import 'package:socialgamblingfront/response/FriendsResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:http/http.dart'as http;
 import 'package:socialgamblingfront/util/util.dart';

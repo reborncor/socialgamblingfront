@@ -2,7 +2,6 @@
 
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/model/CreditCardModel.dart';
 
 
-final SUCESS = 0;
+final SUCCESS = 0;
 final ERROR = 1;
 final BAN = 2;
 final NOT_CONNECTED = 3;
@@ -60,6 +59,11 @@ Future<String> getCurrentUserMoney()async{
   String money = sharedPreferences.get("money");
   return money;
 }
+Future<void> setCurrentUserMoney(int money)async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.setString("money",money.toString());
+}
+
 
 Future<String> getCurrentUserDateOfban()async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -119,6 +123,20 @@ getUserStatusColors(String status, bool isDarkmode){
   }
 
 
+
+}
+Future<void> saveNewGame(String gameId) async {
+
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.setString("gameId",gameId);
+
+}
+
+Future<String> getGameId() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  final gameId =sharedPreferences.get("gameId");
+  return gameId;
 
 }
 

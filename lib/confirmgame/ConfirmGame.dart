@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:socialgamblingfront/addfriend/AddFriends.dart';
+import 'package:socialgamblingfront/confirmgame/api.dart';
 import 'package:socialgamblingfront/resultgame/ResultGame.dart';
 
 
@@ -16,7 +16,10 @@ import 'package:socialgamblingfront/util/util.dart';
 class ConfirmGame extends StatefulWidget {
 
   final routeName = '/confirmgame';
+  final int userGamble;
+  final String username;
 
+  const ConfirmGame({this.userGamble, this.username});
   @override
   _ConfirmGameState createState() => _ConfirmGameState();
 }
@@ -25,7 +28,10 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
   StreamController<dynamic> streamController =  StreamController();
   bool isUserReady = false;
   bool isPlayerReady = false;
-
+  int player2Gamble = 0;
+  int player1Gamble = 0;
+  String currentUserName;
+  String username;
   @override
   void dispose() {
     super.dispose();
@@ -34,15 +40,29 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
   @override
   void initState() {
     // TODO: implement initState
+    this.player1Gamble = this.widget.userGamble;
+    this.player2Gamble = this.widget.userGamble;
+    this.username = this.widget.username;
     fetchData();
     super.initState();
   }
-  fetchData(){
+  fetchData() async {
+    this.currentUserName = await getCurrentUsername();
     streamController.add("event");
     streamController.close();
   }
-  startGame(){
-    Navigator.pushNamed(context, ResultGame().routeName);
+  startGame() async {
+    final result = await createGame(this.username, player1Gamble, player2Gamble);
+    if(result.code == SUCCESS){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ResultGame(userGamble: widget.userGamble,)),);
+
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result.message)),
+      );
+    }
+
   }
 
   @override
@@ -95,16 +115,16 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
                         Container(width : 175,child:
                         Column(children: [
                           Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
-                          Text("Username",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
-                          Text("50",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
+                          Text(this.currentUserName,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                          Text(widget.userGamble.toString(),style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
                         Text("VS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
                         Container(width : 200,child:
                         Column(children: [
                           Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
-                          Text("Username",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
-                          Text("50",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
+                          Text(widget.username,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
+                          Text(widget.userGamble.toString(),style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
                       ],)),
-                Text("Somme Total :"+"100", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                Text("Somme Total :"+(widget.userGamble*2).toString(), style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                 Column(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,10 +1,13 @@
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:socialgamblingfront/addfriend/AddFriends.dart';
+import 'package:socialgamblingfront/response/GameResponse.dart';
+import 'package:socialgamblingfront/resultgame/api.dart';
 
 
 import 'package:socialgamblingfront/settings/Settings.dart';
@@ -15,17 +18,22 @@ import 'package:socialgamblingfront/util/util.dart';
 class ResultGame extends StatefulWidget {
 
   final routeName = '/resultgame';
+  final int userGamble;
 
+  const ResultGame({Key key, this.userGamble}) : super(key: key);
   @override
   _ResultGameState createState() => _ResultGameState();
 }
 
 class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
   StreamController<dynamic> streamController =  StreamController();
-  bool isUserReady = false;
-  bool isPlayerReady = false;
+  PGameResponse response;
   int timeLeft = 15;
   Timer everysecond;
+  bool isUserWon = false;
+  bool isPlayer1 = false;
+  int amount;
+  String username;
   @override
   void dispose() {
     super.dispose();
@@ -54,15 +62,45 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
 
 
   }
-  fetchData(){
+  fetchData() async {
+    final gameId  = await getGameId();
+    username = await getCurrentUsername();
+    final amountRaw = await getCurrentUserMoney();
+    amount = int.parse(amountRaw);
+    response = await getResultGame(gameId);
+    this.isUserWon = (username == response.game.winner);
+    this.isPlayer1 = (username == response.game.player1);
+
+    if(isUserWon){
+      if(isPlayer1){
+        amount = amount + response.game.player1Gamble;
+      }
+      else{
+        amount = amount + response.game.player2Gamble;
+      }
+      setCurrentUserMoney(amount);
+    }
+    else{
+      if(isPlayer1){
+        amount = amount - response.game.player1Gamble;
+      }
+      else{
+        amount = amount - response.game.player2Gamble;
+      }
+      setCurrentUserMoney(amount);
+
+    }
     streamController.add("event");
     streamController.close();
+
     delayedQuit();
   }
 
   delayedQuit(){
     Future.delayed(const Duration(milliseconds: 15000), () {
-      Navigator.pushReplacementNamed(context, TabView.routeName);
+      if(this.mounted){
+        Navigator.pushReplacementNamed(context, TabView.routeName);
+      }
 
     });
   }
@@ -112,8 +150,8 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
                       child:Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,children: [
                     Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
-                    Text("Victoire", style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),) ,
-                    Text("Username",style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),),
+                    Text(this.isUserWon ? "Victoire" : "Defaite", style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),) ,
+                    Text(this.username,style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -122,15 +160,18 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
                           width: 3
                         )
                       ),
-                      child :Text("50 Dens",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)) ,
+                      child :Text((response.game.player1Gamble+response.game.player2Gamble).toString(),style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)) ,
                     ),
-                    Text("Gain : + 20",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)) ,
+                    Text(this.isUserWon ?
+                    "Gain : + "
+                        + (this.isPlayer1 ? response.game.player2Gamble.toString() : response.game.player1Gamble.toString())
+                        :"Perte : -"+((this.isPlayer1 ? response.game.player1Gamble.toString() : response.game.player2Gamble.toString())),style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)) ,
                   ])
                   ),
                   Padding(padding: EdgeInsets.all(20) , child : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                    Text("Revanche :",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    Text(this.isUserWon ? "Rejouer :" : "Revanche :",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     ElevatedButton(
                         style: BaseButtonRoundedColor(75,40,Colors.green[700]),
 

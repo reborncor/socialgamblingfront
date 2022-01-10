@@ -6,6 +6,9 @@ import 'package:socialgamblingfront/util/util.dart';
 
 class SelectGame extends StatefulWidget {
   static final routeName = '/selectgame';
+  final String username;
+
+  const SelectGame({this.username});
 
   @override
   _SelectGameState createState() => _SelectGameState();
@@ -32,7 +35,8 @@ class _SelectGameState extends State<SelectGame> {
   Widget cardGame(GameModel gameModel){
     return  InkWell(
         onTap:() {
-          Navigator.pushNamed(context, SelectGamble.routeName);
+          // MaterialPageRoute(builder: (context) => SelectGamble(username : widget.username));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectGamble(username : widget.username)));
         } ,
         child: Card(
           elevation: 20,

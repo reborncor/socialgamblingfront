@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -77,7 +76,7 @@ class _BlodenStoreState extends State<BlodenStore> {
 
   buyDensForUser(int amount,bool isCredit) async {
     BasicResponse result = await buyDens(amount, isCredit);
-    if(result.code == SUCESS) {
+    if(result.code == SUCCESS) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result.message)),
       );
@@ -96,7 +95,7 @@ class _BlodenStoreState extends State<BlodenStore> {
   refundDensUser(int amount) async {
 
     BasicResponse result = await refundMoney(amount);
-    if(result.code == SUCESS) {
+    if(result.code == SUCCESS) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result.message)),
       );

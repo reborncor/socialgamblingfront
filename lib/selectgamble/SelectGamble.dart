@@ -11,6 +11,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SelectGamble extends StatefulWidget {
   static final routeName = '/selectgamble';
+  final String username;
+
+  const SelectGamble({Key key, this.username}) : super(key: key);
 
   @override
   _SelectGambleState createState() => _SelectGambleState();
@@ -162,7 +165,7 @@ class _SelectGambleState extends State<SelectGamble> {
   }
 
   void sendInvitation() {
-    Navigator.pushNamed(context, ConfirmGame().routeName);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmGame(userGamble: int.parse(this.selectedValue), username: widget.username,)),);
   }
 
   @override

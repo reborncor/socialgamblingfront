@@ -26,7 +26,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   List<FriendModel> friends = [];
 
   TextEditingController moneyToSendController = TextEditingController();
-
+  Future<FriendsResponse> _futureResponse;
 
   @override
   void dispose() {
@@ -34,6 +34,10 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   }
 
   @override
+  initState(){
+    _futureResponse = getUserFriends();
+    super.initState();
+  }
 
 
 
@@ -78,7 +82,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
           style: BaseButtonRoundedColor(60,40,Colors.amber),
           onPressed: () async {
             var result = await sendMoneyToFriends(receiverUsername, int.parse(moneyToSendController.text));
-            if(result.code == SUCESS){
+            if(result.code == SUCCESS){
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(result.message)),
               );
@@ -141,7 +145,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
                   icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SelectGame()),
+                    MaterialPageRoute(builder: (context) => SelectGame(username : friendModel.username)),
                   );
 
                 },)
@@ -201,27 +205,31 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
         title: Text("Mes amis",style: TextStyle(color: Colors.black)),
       ),
       body: FutureBuilder(
-        future: getUserFriends(),
+        future: _futureResponse,
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
                 response = snapshot.data;
                 if(response.code == BAN ||response.code == NOT_CONNECTED) Navigator.pushReplacementNamed(context,SignIn.routeName);
                 friends = response.friends;
-                return Center(
+                return RefreshIndicator(
+                  color: Colors.red[700],
+                  child:  Center(
 
-                  child: (friends.length == 0 ) ?
-                  ElevatedButton(
-                    style: BaseButtonRoundedColor(100.0,50.0,Colors.red[50]),
+                    child: (friends.length == 0 ) ?
+                    ElevatedButton(
+                      style: BaseButtonRoundedColor(100.0,50.0,Colors.red[50]),
                       onPressed: () => Navigator.push(context,  MaterialPageRoute(builder: (context) => AddFriends()),),
-                      child: Text("Ajouter des amis !",style: TextStyle(color: Colors.black),),)
-                      :ListView.builder(
-                  itemCount: friends.length,
-                  itemBuilder: (context, index) {
-                    return itemFriend('image', friends[index]);
-                    },
-                  )
-                );
+                      child: Text("Ajouter des amis !",style: TextStyle(color: Colors.black),),) :
+                    ListView.builder(
+                      itemCount: friends.length,
+                      itemBuilder: (context, index) {
+                        return itemFriend('image', friends[index]);
+                      },
+                    )
+                ), onRefresh: () {
+                  return _futureResponse = getUserFriends();
+                },);
             }
             else{
               return Center(child :Text("Pas de données"));
