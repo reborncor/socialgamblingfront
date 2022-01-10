@@ -34,6 +34,7 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
   bool isPlayer1 = false;
   int amount;
   String username;
+  bool leftView = false;
   @override
   void dispose() {
     super.dispose();
@@ -97,12 +98,16 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
   }
 
   delayedQuit(){
-    Future.delayed(const Duration(milliseconds: 15000), () {
-      if(this.mounted){
-        Navigator.pushReplacementNamed(context, TabView.routeName);
-      }
+    if(this.mounted){
+      Future.delayed(const Duration(milliseconds: 15000), () {
 
-    });
+        if(!this.leftView) {
+          Navigator.pushReplacementNamed(context, TabView.routeName);
+        }
+
+
+      });
+    }
   }
 
   @override
@@ -181,6 +186,7 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
                         style: BaseButtonRoundedColor(75,40,Colors.red[700]),
 
                         onPressed: () {
+                          this.leftView = true;
                           Navigator.pushNamed(context, TabView.routeName);
                         },
                         child: Text("Non")),
