@@ -12,13 +12,13 @@ Future<BasicResponse> updateCreditCard(String cardNumber,String expiryDate,Strin
   CreditCardModels creditCard = new CreditCardModels(cardHolderName: cardHolderName, cardNumber: cardNumber,expiryDate :expiryDate, cvvCode: cvvCode );
   var response;
 
-  final String PATH = "/user/creditcard";
+  final String path = "/user/creditcard";
   String token = await getCurrentUserToken();
   Map data = {
     "creditCard":creditCard.toJson(),
   };
   try {
-    response = await http.put(URL+PATH,
+    response = await http.put(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
     sharedPreferences.setString("creditCard", jsonEncode(result.payload['creditCard']));

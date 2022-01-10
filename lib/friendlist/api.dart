@@ -12,10 +12,10 @@ Future<FriendsResponse> getUserFriends() async{
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/user/getfriends";
+  final String path = "/user/getfriends";
 
   try {
-    response = await http.get(URL+PATH,
+    response = await http.get(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token});
   }
   catch (e) {

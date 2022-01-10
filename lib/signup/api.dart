@@ -10,11 +10,11 @@ import 'package:http/http.dart'as http;
 Future<BasicResponse> signUpUser(UserModel userModel) async{
   var response;
 
-  final String PATH = "/user/signup";
+  final String path = "/user/signup";
 
   Map data =  userModel.toJson();
   try {
-    response = await http.post(URL+PATH,
+    response = await http.post(URL+path,
         headers: {"Content-type": "application/json"}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
     return result ;

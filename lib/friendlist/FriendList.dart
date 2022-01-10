@@ -39,6 +39,13 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
     super.initState();
   }
 
+  Future<void> refreshData() async{
+    _futureResponse = getUserFriends();
+    setState(() {
+
+    });
+  }
+
 
 
   Widget showMoneyToSendDialog(BuildContext context, String receiverUsername) {
@@ -101,57 +108,73 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   }
   Widget itemFriend(String image, FriendModel friendModel){
     return Padding(padding: EdgeInsets.all(2),
-      child: Card(
-        elevation: 0,
-        color: Colors.red[50],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+      child: InkWell(
+        onTap: () {
+          if(friendModel.confirmed){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: friendModel.username,)),
+            );
+          }
+          else{
+            ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Cet utilisateur ne vous a pas encore ajouté")),
+          );
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          }
+        },
+        child: Card(
+          elevation: 0,
+          color: Colors.red[50],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
 
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                if(friendModel.confirmed){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: friendModel.username,)),
-                  );
-                }
-                else{
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Cet utilisateur ne vous a pas encore ajouté")),
-                  );
-                }
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image( image : AssetImage('asset/images/user.png',), width: 30, height: 30,),
-                  Padding(padding: EdgeInsets.all(10)
-                    ,child: Text(friendModel.username,style: TextStyle(fontSize: 15),),)
-                ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  if(friendModel.confirmed){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Chat.withUsername(receiverUsername: friendModel.username,)),
+                    );
+                  }
+                  else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Cet utilisateur ne vous a pas encore ajouté")),
+                    );
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image( image : AssetImage('asset/images/user.png',), width: 30, height: 30,),
+                    Padding(padding: EdgeInsets.all(10)
+                      ,child: Text(friendModel.username,style: TextStyle(fontSize: 15),),)
+                  ],
+                ),
               ),
-            ),
-            (friendModel.confirmed) ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                IconButton(onPressed: (){
-                  showDialog(context: context, builder: (context) => showMoneyToSendDialog(context, friendModel.username));
-                }, icon: Icon(Icons.toll, size: 30, color: Colors.red[700])),
-                IconButton(
-                  icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SelectGame(username : friendModel.username)),
-                  );
+              (friendModel.confirmed) ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  IconButton(onPressed: (){
+                    showDialog(context: context, builder: (context) => showMoneyToSendDialog(context, friendModel.username));
+                  }, icon: Icon(Icons.toll, size: 30, color: Colors.red[700])),
+                  IconButton(
+                    icon: Icon(Icons.videogame_asset, size: 30), color: Colors.red[700], onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SelectGame(username : friendModel.username)),
+                    );
 
-                },)
-              ],) : SizedBox.fromSize(size: Size(0,0),)
+                  },)
+                ],) : SizedBox.fromSize(size: Size(0,0),)
 
-          ],
+            ],
+          ),
         ),
       )
        ,
@@ -184,7 +207,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
                 onTap: () async {
 
                   try{
-                    final data = await Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>  Setting()),
                     );
@@ -227,9 +250,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
                         return itemFriend('image', friends[index]);
                       },
                     )
-                ), onRefresh: () {
-                  return _futureResponse = getUserFriends();
-                },);
+                ), onRefresh: () => refreshData(),);
             }
             else{
               return Center(child :Text("Pas de données"));

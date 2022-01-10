@@ -78,7 +78,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
                 onTap: () async {
 
                   try{
-                    final data = await Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>  Setting()),
                     );

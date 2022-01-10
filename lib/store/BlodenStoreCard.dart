@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class BlodenStoreCard extends StatefulWidget {
   final int value;
   final int price;
-  Function callBack;
+  final Function callBack;
   BlodenStoreCard({this.value, this.callBack, this.price});
 
   @override

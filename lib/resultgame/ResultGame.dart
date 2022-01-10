@@ -1,11 +1,7 @@
 
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:socialgamblingfront/addfriend/AddFriends.dart';
 import 'package:socialgamblingfront/response/GameResponse.dart';
 import 'package:socialgamblingfront/resultgame/api.dart';
 
@@ -104,7 +100,7 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
                 onTap: () async {
 
                   try{
-                    final data = await Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>  Setting()),
                     );

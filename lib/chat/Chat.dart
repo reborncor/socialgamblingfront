@@ -16,9 +16,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class Chat extends StatefulWidget {
 
   final routeName = '/chat';
-  String receiverUsername ;
+  final String receiverUsername;
 
-  Chat();
+  const Chat({this.receiverUsername});
   Chat.withUsername({this.receiverUsername});
   @override
   _ChatState createState() => _ChatState();
@@ -134,8 +134,6 @@ class _ChatState extends State<Chat> {
 
     socket.onDisconnect((data) =>  socket.emit("disconnect_user", username),);
     socket.onReconnect((data) => log("Reconnected !"));
-
-    socket.on('send_conversation', (data) => log("Data :"+data.toString()));
 
     socket.on("messagesuccess",(data) => {
       if(data == "0"){

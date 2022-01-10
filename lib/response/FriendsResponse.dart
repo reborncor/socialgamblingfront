@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:core';
 
-
 import 'package:socialgamblingfront/model/FriendModel.dart';
-import 'package:socialgamblingfront/model/UserModel.dart';
 import 'package:socialgamblingfront/response/BasicResponse.dart';
 
 

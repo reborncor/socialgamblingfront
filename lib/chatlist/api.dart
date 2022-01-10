@@ -12,10 +12,10 @@ Future<ConversationsResponse> getUserConversations() async{
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/conversation/getconversations";
+  final String path = "/conversation/getconversations";
 
   try {
-    response = await http.get(URL+PATH,
+    response = await http.get(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token});
   }
   catch (e) {

@@ -1,6 +1,4 @@
 
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
@@ -10,13 +8,8 @@ import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:socialgamblingfront/model/CreditCardModel.dart';
-import 'package:socialgamblingfront/model/UserModel.dart';
 import 'package:socialgamblingfront/payment/api.dart';
-import 'package:socialgamblingfront/response/UserResponse.dart';
-import 'package:socialgamblingfront/settings/api.dart';
-import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/util/util.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 
 class Payment extends StatefulWidget {

@@ -32,9 +32,7 @@ class _ChatListState extends State<ChatList> {
     getCurrentUsername().then((value) => currentUsername = value);
     _futureResponse = getUserConversations();
     super.initState();
-    setState(() {
 
-    });
   }
   Widget itemFriend(String image, ConversationModel conversationModel) {
 
@@ -70,6 +68,12 @@ class _ChatListState extends State<ChatList> {
 
   }
 
+  Future<void> refreshData()async{
+    _futureResponse = getUserConversations();
+    setState(() {
+    });
+    return;
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -113,7 +117,9 @@ class _ChatListState extends State<ChatList> {
                 Navigator.pushReplacementNamed(context,SignIn.routeName);
               }
               conversations = response.conversations;
-              return RefreshIndicator(child: Center(
+              return RefreshIndicator(
+                color: Colors.red[700],
+                child: Center(
 
                   child: ListView.builder(
                     itemCount: conversations.length,
@@ -121,9 +127,7 @@ class _ChatListState extends State<ChatList> {
                       return itemFriend('image', conversations[index]);
                     },
                   )
-              ), onRefresh: () {
-                return _futureResponse = getUserConversations();
-              },);
+              ), onRefresh: () => refreshData(),);
             }
             else{
               return Center(child: Text("Aucune conversation"));

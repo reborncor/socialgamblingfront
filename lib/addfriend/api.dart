@@ -12,14 +12,14 @@ import 'package:socialgamblingfront/util/util.dart';
 Future<BasicResponse> addFriends(String username) async{
   var response;
 
-  final String PATH = "/user/addfriend";
+  final String path = "/user/addfriend";
   String token = await getCurrentUserToken();
 
   Map data = {
     "username" : username
   };
   try {
-    response = await http.post(URL+PATH,
+    response = await http.post(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
     return result ;
@@ -37,10 +37,10 @@ Future<FriendsResponse> getUserInvitations() async{
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/user/getinvitations";
+  final String path = "/user/getinvitations";
 
   try {
-    response = await http.get(URL+PATH,
+    response = await http.get(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token});
   }
   catch (e) {
@@ -63,14 +63,14 @@ Future<FriendsResponse> getUserInvitations() async{
 Future<BasicResponse> confirmFriends(String username, bool isAccepted) async{
   var response;
 
-  final String PATH = "/user/acceptfriend";
+  final String path = "/user/acceptfriend";
   String token = await getCurrentUserToken();
   Map data = {
     "username":username,
     "isAccepted":isAccepted
   };
   try {
-    response = await http.put(URL+PATH,
+    response = await http.put(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
     return result ;
@@ -90,14 +90,14 @@ Future<BasicResponse> sendMoneyToFriends(String username, int amount) async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var response;
 
-  final String PATH = "/user/sendmoney";
+  final String path = "/user/sendmoney";
   String token = await getCurrentUserToken();
   Map data = {
     "username":username,
     "amount":amount,
   };
   try {
-    response = await http.put(URL+PATH,
+    response = await http.put(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
 

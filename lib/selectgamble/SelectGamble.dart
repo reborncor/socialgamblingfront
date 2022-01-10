@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:socialgamblingfront/confirmgame/ConfirmGame.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/util/util.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SelectGamble extends StatefulWidget {
   static final routeName = '/selectgamble';
@@ -95,8 +94,7 @@ class _SelectGambleState extends State<SelectGamble> {
           ElevatedButton(
             style: BaseButtonRoundedColor(60,40,Colors.red[700]),
             onPressed: () async {
-
-              Navigator.pop(context);
+              Navigator.pop(context, selectedValue);
             },
             child: Text("Annuler",),
           ),

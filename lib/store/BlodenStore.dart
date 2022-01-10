@@ -161,7 +161,7 @@ class _BlodenStoreState extends State<BlodenStore> {
     displayPaymentStripe(result.payload["paymentIntent"]);
   }
 
-  Future<int> displayPaymentStripe(clientSecret) async {
+  Future<void> displayPaymentStripe(clientSecret) async {
     try{
     // editControl
     // await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());

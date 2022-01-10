@@ -14,12 +14,12 @@ Future<ConversationResponse> getUserConversation(String username) async{
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/conversation/getconversation";
+  final String path = "/conversation/getconversation";
   Map data = {
     'username' :username,
   };
   try {
-    response = await http.post(URL+PATH,
+    response = await http.post(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token},body: json.encode(data));
   }
   catch (e) {
@@ -45,13 +45,13 @@ Future<OldMessageResponse> getUserMessagePageable(String username, int startInd,
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/conversation/getconversationpage";
+  final String path = "/conversation/getconversationpage";
   final data = {
     'username' :username,
     'startInd' :startInd.toString(),
     'endInd' :endInd.toString(),
   };
-  final uri = Uri.http(URL.replaceAll("https://", ""),PATH, data);
+  final uri = Uri.http(URL.replaceAll("https://", ""),path, data);
   try {
     response = await http.get(uri,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token},);

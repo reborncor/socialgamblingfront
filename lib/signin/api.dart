@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/response/SigninResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
@@ -13,14 +11,14 @@ Future<SigninReponse> signinUser(String username, String password) async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var response;
 
-  final String PATH = "/user/signin";
+  final String path = "/user/signin";
 
   Map data =  {
     'username' : username,
     'password' : password
   };
   try {
-    response = await http.post(URL+PATH,
+    response = await http.post(URL+path,
         headers: {"Content-type": "application/json"}, body: json.encode(data));
   }
   catch (e) {

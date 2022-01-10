@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
-import 'package:socialgamblingfront/store/BlodenStore.dart';
 import 'package:socialgamblingfront/util/util.dart';
 
 class Menu extends StatefulWidget {
@@ -149,7 +148,7 @@ class _MenuState extends State<Menu> {
                     onTap: () async {
 
                       try{
-                        final data = await Navigator.push(
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>  Setting()),
                         );

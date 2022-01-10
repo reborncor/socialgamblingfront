@@ -11,14 +11,14 @@ Future<BasicResponse> buyDens(int amount, bool isCredit) async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var response;
 
-  final String PATH = "/user/givemoney";
+  final String path = "/user/givemoney";
   String token = await getCurrentUserToken();
   Map data = {
     "amount":amount,
     "isCredit":isCredit,
   };
   try {
-    response = await http.put(URL+PATH,
+    response = await http.put(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
     sharedPreferences.setString("money", result.payload['money'].toString());
@@ -37,14 +37,14 @@ Future<BasicResponse> buyDens(int amount, bool isCredit) async{
 Future<BasicResponse> buyDensStripe(int amount) async{
   var response;
 
-  final String PATH = "/user/createpayment";
+  final String path = "/user/createpayment";
   String token = await getCurrentUserToken();
   Map data = {
     "amount":amount,
     "currency":"eur",
   };
   try {
-    response = await http.post(URL+PATH,
+    response = await http.post(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
     return result ;
@@ -63,13 +63,13 @@ Future<BasicResponse> refundMoney(int amount) async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var response;
 
-  final String PATH = "/user/refundmoney";
+  final String path = "/user/refundmoney";
   String token = await getCurrentUserToken();
   Map data = {
     "amount":amount,
   };
   try {
-    response = await http.put(URL+PATH,
+    response = await http.put(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
     sharedPreferences.setString("money", result.payload['money'].toString());
@@ -88,10 +88,10 @@ Future<BasicResponse> getUserMoney() async{
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/user/money";
+  final String path = "/user/money";
 
   try {
-    response = await http.get(URL+PATH,
+    response = await http.get(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token});
   }
   catch (e) {

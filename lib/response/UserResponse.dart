@@ -1,9 +1,5 @@
 import 'dart:core';
-
-
-import 'package:socialgamblingfront/model/ConversationModel.dart';
 import 'package:socialgamblingfront/model/UserModel.dart';
-
 import 'package:socialgamblingfront/response/BasicResponse.dart';
 
 

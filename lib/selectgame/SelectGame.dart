@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
-import 'package:socialgamblingfront/util/util.dart';
 
 class SelectGame extends StatefulWidget {
   static final routeName = '/selectgame';

@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/model/UserModel.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
-import 'package:socialgamblingfront/signin/api.dart';
 import 'package:socialgamblingfront/signup/api.dart';
-import 'package:socialgamblingfront/tab/TabView.dart';
 import 'package:socialgamblingfront/util/util.dart';
 import 'package:email_validator/email_validator.dart';
 

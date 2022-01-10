@@ -1,8 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
-
-
 import 'package:socialgamblingfront/response/UserResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
 import 'package:http/http.dart'as http;
@@ -14,10 +10,10 @@ Future<UserResponse> getUserInformation() async{
 
   String token = await getCurrentUserToken();
   var response;
-  final String PATH = "/user/getuser";
+  final String path = "/user/getuser";
 
   try {
-    response = await http.get(URL+PATH,
+    response = await http.get(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token});
   }
   catch (e) {
