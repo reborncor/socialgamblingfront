@@ -39,7 +39,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
     super.initState();
   }
 
-  Future<void> refreshData() async{
+  Future<void> refreshData() async {
     _futureResponse = getUserFriends();
     setState(() {
 
@@ -230,6 +230,27 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
       body: FutureBuilder(
         future: _futureResponse,
         builder: (context, snapshot) {
+          if(snapshot.hasData){
+            response = snapshot.data;
+            if(response.code == BAN ||response.code == NOT_CONNECTED) Navigator.pushReplacementNamed(context,SignIn.routeName);
+            friends = response.friends;
+            return RefreshIndicator(
+              color: Colors.red[700],
+              child:  Center(
+
+                  child: (friends.length == 0 ) ?
+                  ElevatedButton(
+                    style: BaseButtonRoundedColor(100.0,50.0,Colors.red[50]),
+                    onPressed: () => Navigator.push(context,  MaterialPageRoute(builder: (context) => AddFriends()),),
+                    child: Text("Ajouter des amis !",style: TextStyle(color: Colors.black),),) :
+                  ListView.builder(
+                    itemCount: friends.length,
+                    itemBuilder: (context, index) {
+                      return itemFriend('image', friends[index]);
+                    },
+                  )
+              ), onRefresh: () => refreshData(),);
+          }
           if(snapshot.connectionState == ConnectionState.done){
             if(snapshot.hasData){
                 response = snapshot.data;

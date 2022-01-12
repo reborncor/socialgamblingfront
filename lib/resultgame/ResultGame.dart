@@ -135,14 +135,15 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
                     Text(this.isUserWon ? "Victoire" : "Defaite", style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),) ,
                     Text(this.username,style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),),
                     Container(
+                      width: 100,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: Colors.green,
+                          color: this.isUserWon ? Colors.green : Colors.red,
                           width: 3
                         )
                       ),
-                      child :Text((response.game.player1Gamble+response.game.player2Gamble).toString(),style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)) ,
+                      child :Center(child : Text((response.game.player1Gamble+response.game.player2Gamble).toString(),style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))) ,
                     ),
                     Text(this.isUserWon ?
                     "Gain : + "

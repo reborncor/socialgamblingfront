@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -133,7 +134,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
                       Visibility(child:Icon(Icons.check,size: 20,color: Colors.green,), visible: isPlayerReady,),
                     ],
                   ),
-                  Text("Commencer",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 70),),
+                  AutoSizeText("Commencer",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50), maxLines: 1,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

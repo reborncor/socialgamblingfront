@@ -41,6 +41,7 @@ dependencies:
   flutter_stripe: ^2.1.0
   pay: ^1.0.7
   pull_to_refresh: ^2.0.0
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.9.2"
