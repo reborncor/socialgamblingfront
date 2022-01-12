@@ -27,7 +27,7 @@ Future<BasicResponse> buyDens(int amount, bool isCredit) async{
   }
   catch (e) {
     print(e.toString());
-    return BasicResponse(code: 1, message: "Erreur : $e");
+    return BasicResponse(code: 1, message: json.decode(response.body)['message']);
   }
 
 
@@ -51,7 +51,7 @@ Future<BasicResponse> buyDensStripe(int amount) async{
   }
   catch (e) {
     print(e.toString());
-    return BasicResponse(code: 1, message: "Erreur : $e");
+    return BasicResponse(code: 1, message: json.decode(response.body)['message']);
   }
 
 
@@ -78,7 +78,7 @@ Future<BasicResponse> refundMoney(int amount) async{
   }
   catch (e) {
     print(e.toString());
-    return BasicResponse(code: 1, message: "Erreur : $e");
+    return BasicResponse(code: 1, message: json.decode(response.body)['message']);
   }
 
 
@@ -96,7 +96,7 @@ Future<BasicResponse> getUserMoney() async{
   }
   catch (e) {
     print(e.toString());
-    return BasicResponse(message: "Erreur serveur", code: 1);
+    return BasicResponse(message: json.decode(response.body)['message'], code: 1);
   }
 
   if(response.statusCode == 200) {

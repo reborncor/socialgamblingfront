@@ -30,11 +30,8 @@ Future<SigninReponse> signinUser(String username, String password) async{
     SigninReponse data = SigninReponse.fromJsonData(json.decode(response.body));
     print(json.decode(response.body));
     if(data != null) {
-      sharedPreferences.setString("token", data.token);
-      sharedPreferences.setString("username", data.payload.username);
-      sharedPreferences.setString("money", data.payload.money.toString());
-      sharedPreferences.setString("dateOfBan", data.payload.dateOfBan.toString());
 
+      saveUserData(data);
       saveCard(data.payload.creditCard.cardNumber, data.payload.creditCard.expiryDate, data.payload.creditCard.cardHolderName, data.payload.creditCard.cvvCode);
     }
     return data ;

@@ -53,8 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   fetchData() async {
     String data = await getCurrentUserToken();
-    log("INFO UTILISATEUR :"+data);
-    if (data != ""){
+    if (data.isNotEmpty){
       log("ACCESS GRANTED");
       this.isUserLogged = true;
     }

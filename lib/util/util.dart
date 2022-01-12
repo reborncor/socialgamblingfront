@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/model/CreditCardModel.dart';
+import 'package:socialgamblingfront/response/SigninResponse.dart';
 
 
 final SUCCESS = 0;
@@ -125,6 +126,17 @@ getUserStatusColors(String status, bool isDarkmode){
 
 
 }
+
+Future<void> saveUserData(SigninReponse data) async {
+
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  sharedPreferences.setString("token", data.token);
+  sharedPreferences.setString("username", data.payload.username);
+  sharedPreferences.setString("money", data.payload.money.toString());
+  sharedPreferences.setString("dateOfBan", data.payload.dateOfBan.toString());
+
+}
 Future<void> saveNewGame(String gameId) async {
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -171,11 +183,7 @@ Future<String> getCurrentUsername()async{
 }
 deleteInfo() async{
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.setString("token","");
-  sharedPreferences.setString("username","");
-  sharedPreferences.setString("money","");
-  sharedPreferences.setString("dateOfBan","");
-  // sharedPreferences.setBool("darkTheme",false);
+  sharedPreferences.clear();
 }
 
 
