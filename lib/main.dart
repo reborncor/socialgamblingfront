@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/addfriend/AddFriends.dart';
@@ -19,12 +20,18 @@ import 'package:socialgamblingfront/util/config.dart';
 
 import 'model/ThemeModel.dart';
 
-void main() {
+Future<void> main() async {
 
-  Stripe.publishableKey = STRIPE_KEY;
+  await setUpEnv();
   runApp(MyApp());
 }
 
+setUpEnv() async {
+  await dotenv.load();
+  URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
+  STRIPE_KEY = dotenv.get('STRIPE_KEY', fallback: 'STRIPE_KEY N/A');
+  Stripe.publishableKey = STRIPE_KEY;
+}
 
 
 class MyApp extends StatelessWidget  {
