@@ -55,7 +55,11 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
   startGame() async {
     final result = await createGame(this.username, player1Gamble, player2Gamble);
     if(result.code == SUCCESS){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ResultGame(userGamble: widget.userGamble,)),);
+      final gamesaved = await writeGame(result.game.id);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result.message)),
+      );
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => ResultGame(userGamble: widget.userGamble,)),);
 
     }
     else{
