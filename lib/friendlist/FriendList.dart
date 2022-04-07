@@ -124,6 +124,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
           }
         },
         child: Card(
+
           elevation: 0,
           color: Colors.red[50],
           shape: RoundedRectangleBorder(
