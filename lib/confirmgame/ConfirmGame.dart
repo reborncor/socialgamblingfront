@@ -70,7 +70,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     socket.onDisconnect((data) =>  socket.emit("disconnect_user_game", currentUserName),);
     socket.onReconnect((data) => log("Reconnected !"));
 
-    socket.on("confirmed_game", (data) => log("GAME CONFIRME"));
+    socket.on("confirmed_game", (data) => {log("GAME CONFIRME"), showSnackBar(context, "Partie Confirmé !")});
   }
 
   void userConfirmGame(){
@@ -98,7 +98,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     // }
 
     userConfirmGame();
-    showSnackBar(context, "Joueur confirmé");
+    // showSnackBar(context, "Joueur confirmé");
 
   }
 

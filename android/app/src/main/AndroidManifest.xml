@@ -42,12 +42,12 @@
             </intent-filter>
 
         </activity>
-       <service
-               android:name=".service.MyFirebaseMessagingService">
-           <intent-filter>
-               <action android:name="com.google.firebase.MESSAGING_EVENT" />
-           </intent-filter>
-       </service>
+<!--       <service-->
+<!--               android:name=".service.FirebaseMessagingService">-->
+<!--           <intent-filter>-->
+<!--               <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--           </intent-filter>-->
+<!--       </service>-->
        <service
                android:name="com.google.firebase.messaging.FirebaseMessagingService"
                android:exported="false">
@@ -55,6 +55,7 @@
                <action android:name="com.google.firebase.MESSAGING_EVENT" />
            </intent-filter>
        </service>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

@@ -35,11 +35,11 @@ setUpEnv() async {
   await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage((message) => firebaseMessagingBackgroundHandler(message) );
+  // FirebaseMessaging.onBackgroundMessage((message) => firebaseMessagingBackgroundHandler(message) );
   FirebaseMessaging _firebaseMessaging =FirebaseMessaging.instance;
   await _firebaseMessaging.getToken();
 
-  FirebaseMessaging.instance.getInitialMessage().then((value) => {print("Un nouveau message")});
+  FirebaseMessaging.instance.getInitialMessage().then((value) => {});
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
     print("message recieved");
     print(event.notification.body);
@@ -48,17 +48,23 @@ setUpEnv() async {
     print('Message clicked!');
   });
 
+  // _firebaseMessaging.subscribeToTopic('Events').then((value) => {
+  //   print("Nouvelle notification")
+  // });
+
+
+
 
   URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
   STRIPE_KEY = dotenv.get('STRIPE_KEY', fallback: 'STRIPE_KEY N/A');
   Stripe.publishableKey = STRIPE_KEY;
 }
 
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-
-  print("Handling a background message");
-}
+// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+//
+//   print("Handling a background message");
+// }
 
 class MyApp extends StatelessWidget  {
   // This widget is the root of your application.
