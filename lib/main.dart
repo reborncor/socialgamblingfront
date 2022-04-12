@@ -1,4 +1,9 @@
 
+import 'dart:developer';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -28,11 +33,32 @@ Future<void> main() async {
 
 setUpEnv() async {
   await dotenv.load();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage((message) => firebaseMessagingBackgroundHandler(message) );
+  FirebaseMessaging _firebaseMessaging =FirebaseMessaging.instance;
+  await _firebaseMessaging.getToken();
+
+  FirebaseMessaging.instance.getInitialMessage().then((value) => {print("Un nouveau message")});
+  FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+    print("message recieved");
+    print(event.notification.body);
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    print('Message clicked!');
+  });
+
+
   URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
   STRIPE_KEY = dotenv.get('STRIPE_KEY', fallback: 'STRIPE_KEY N/A');
   Stripe.publishableKey = STRIPE_KEY;
 }
 
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  print("Handling a background message");
+}
 
 class MyApp extends StatelessWidget  {
   // This widget is the root of your application.
@@ -40,6 +66,8 @@ class MyApp extends StatelessWidget  {
 
   @override
   Widget build(BuildContext context) {
+
+
 
     return ChangeNotifierProvider(
       create: (_) => ThemeModel(),

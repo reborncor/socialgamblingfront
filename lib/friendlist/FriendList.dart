@@ -1,4 +1,7 @@
 
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +39,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   @override
   initState(){
     _futureResponse = getUserFriends();
+    // FirebaseMessaging.instance.getInitialMessage().then((value) => {log("MESSAGE"),print(value)});
     super.initState();
   }
 
@@ -184,6 +188,8 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
+
+
 
     return Scaffold(
       appBar: AppBar(

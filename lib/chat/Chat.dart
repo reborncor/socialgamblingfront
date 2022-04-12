@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/chat/api.dart';
+import 'package:socialgamblingfront/fcm/PushNotificationService.dart';
 import 'package:socialgamblingfront/model/MessageModel.dart';
 import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/response/ConversationResponse.dart';
@@ -38,6 +40,8 @@ class _ChatState extends State<Chat> {
   int startInd;
   int endInd;
   ThemeModel themeNotifier;
+
+
   scrollListener(){
     log("POSITION : "+scrollController.position.toString());
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
@@ -85,7 +89,9 @@ class _ChatState extends State<Chat> {
     scrollController.addListener(scrollListener);
     fetchUsername();
     fetchData();
+
     init();
+
     super.initState();
 
   }

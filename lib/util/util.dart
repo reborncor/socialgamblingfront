@@ -265,3 +265,10 @@ Future<File> writeGame(String data) async {
 
   return newFile.writeAsString(data, mode: FileMode.write);
 }
+
+
+showSnackBar(context, String message){
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+}

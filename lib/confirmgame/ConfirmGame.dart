@@ -1,17 +1,20 @@
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:socialgamblingfront/confirmgame/api.dart';
-import 'package:socialgamblingfront/resultgame/ResultGame.dart';
 
 
 import 'package:socialgamblingfront/settings/Settings.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
+import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:uuid/uuid.dart';
 
 
 class ConfirmGame extends StatefulWidget {
@@ -33,6 +36,8 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
   int player1Gamble = 0;
   String currentUserName;
   String username;
+  IO.Socket socket;
+
   @override
   void dispose() {
     super.dispose();
@@ -45,7 +50,33 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     this.player2Gamble = this.widget.userGamble;
     this.username = this.widget.username;
     fetchData();
+    initSocket();
     super.initState();
+  }
+
+  void initSocket(){
+    socket = IO.io(URL, <String, dynamic>{
+      'transports': ['websocket'],
+      'upgrade':false,
+      'autoConnect': false,
+    });
+    socket.connect();
+    socket.onConnecting((data) => print(data));
+    socket.onConnect((data) => {
+      log("Connected"),
+      socket.emit("credentials_game", currentUserName),
+    });
+
+    socket.onDisconnect((data) =>  socket.emit("disconnect_user_game", currentUserName),);
+    socket.onReconnect((data) => log("Reconnected !"));
+
+    socket.on("confirmed_game", (data) => log("GAME CONFIRME"));
+  }
+
+  void userConfirmGame(){
+    var uuid = Uuid();
+    var v1 = uuid.v1();
+    socket.emit("confirm_game", {"username" : currentUserName,"key" : v1 ,"receiverUsername" :username });
   }
   fetchData() async {
     this.currentUserName = await getCurrentUsername();
@@ -53,20 +84,21 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     streamController.close();
   }
   startGame() async {
-    final result = await createGame(this.username, player1Gamble, player2Gamble);
-    if(result.code == SUCCESS){
-      final gamesaved = await writeGame(result.game.id);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => ResultGame(userGamble: widget.userGamble,)),);
+    // final result = await createGame(this.username, player1Gamble, player2Gamble);
+    // if(result.code == SUCCESS){
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text(result.message)),
+    //   );
+    //
+    // }
+    // else{
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text(result.message)),
+    //   );
+    // }
 
-    }
-    else{
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
-    }
+    userConfirmGame();
+    showSnackBar(context, "Joueur confirmé");
 
   }
 
