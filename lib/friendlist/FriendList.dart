@@ -30,7 +30,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
 
   TextEditingController moneyToSendController = TextEditingController();
   Future<FriendsResponse> _futureResponse;
-
+  String currentUsername;
   @override
   void dispose() {
     super.dispose();
@@ -40,9 +40,15 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   initState(){
     _futureResponse = getUserFriends();
     // FirebaseMessaging.instance.getInitialMessage().then((value) => {log("MESSAGE"),print(value)});
+    fetchData();
     super.initState();
   }
 
+  Future<void> fetchData()async {
+    this.currentUsername = await getCurrentUsername();
+    socketService.initialise(this.currentUsername);
+
+  }
   Future<void> refreshData() async {
     _futureResponse = getUserFriends();
     setState(() {

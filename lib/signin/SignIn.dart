@@ -95,8 +95,8 @@ class _SignInState extends State<SignIn> {
                     var result =  await signinUser(usernameController.text, passwordController.text);
 
                     if(result.code == 0){
-                      final execute = await writeData(usernameController.text);
-                      print(execute);
+                      // final execute = await writeData(usernameController.text);
+                      // print(execute);
                       Navigator.pushReplacementNamed(context, TabView.routeName);
                     }
                     else{

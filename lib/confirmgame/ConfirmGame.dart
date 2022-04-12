@@ -76,7 +76,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
   void userConfirmGame(){
     var uuid = Uuid();
     var v1 = uuid.v1();
-    socket.emit("confirm_game", {"username" : currentUserName,"key" : v1 ,"receiverUsername" :username });
+    socket.emit("confirm_game", {"username" : currentUserName,"key" : v1 ,"receiverUsername" :username, "token":NOTIFICATION_TOKEN });
   }
   fetchData() async {
     this.currentUserName = await getCurrentUsername();

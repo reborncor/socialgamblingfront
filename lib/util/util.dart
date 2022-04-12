@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/model/CreditCardModel.dart';
 import 'package:socialgamblingfront/response/SigninResponse.dart';
+import 'package:socialgamblingfront/socketService/SocketService.dart';
 
 
 final SUCCESS = 0;
@@ -271,4 +272,9 @@ showSnackBar(context, String message){
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text(message)),
   );
+}
+
+SocketService socketService = new SocketService();
+createSocket(){
+  return socketService;
 }

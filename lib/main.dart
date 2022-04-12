@@ -18,10 +18,12 @@ import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/signup/SignUp.dart';
+import 'package:socialgamblingfront/socketService/SocketService.dart';
 import 'package:socialgamblingfront/splashscreen/SplashScreen.dart';
 import 'package:socialgamblingfront/store/BlodenStore.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
 import 'package:socialgamblingfront/util/config.dart';
+import 'package:socialgamblingfront/util/util.dart';
 
 import 'model/ThemeModel.dart';
 
@@ -37,8 +39,9 @@ setUpEnv() async {
   await Firebase.initializeApp();
   // FirebaseMessaging.onBackgroundMessage((message) => firebaseMessagingBackgroundHandler(message) );
   FirebaseMessaging _firebaseMessaging =FirebaseMessaging.instance;
-  await _firebaseMessaging.getToken();
+  NOTIFICATION_TOKEN = await _firebaseMessaging.getToken();
 
+  socketService = createSocket();
   FirebaseMessaging.instance.getInitialMessage().then((value) => {});
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
     print("message recieved");
