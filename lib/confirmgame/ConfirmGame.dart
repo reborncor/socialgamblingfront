@@ -22,8 +22,12 @@ class ConfirmGame extends StatefulWidget {
   final routeName = '/confirmgame';
   final int userGamble;
   final String username;
+  final bool isInvited;
+  final String customKey;
+  final String gameName;
+  const ConfirmGame({this.userGamble, this.username, this.isInvited = false, this.customKey, this.gameName});
+  const ConfirmGame.invited({this.userGamble, this.username, this.isInvited, this.customKey, this.gameName});
 
-  const ConfirmGame({this.userGamble, this.username});
   @override
   _ConfirmGameState createState() => _ConfirmGameState();
 }
@@ -50,33 +54,23 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     this.player2Gamble = this.widget.userGamble;
     this.username = this.widget.username;
     fetchData();
-    initSocket();
+    socket = socketService.getSocket();
+    socket.on("confirmed_game", (data) => {log("GAME CONFIRME"), showSnackBar(context, "Partie Confirmé !")});
+    socket.on("create_game", (data) => {log("Partie créee"), log(data)});
+    socket.on("confirmed_player", (data) => {log("Joueur 2 pret"), setState(() {
+      this.isPlayerReady = true;
+    })});
+    socketService.onInitGameSession(currentUserName, widget.customKey);
     super.initState();
   }
 
-  void initSocket(){
-    socket = IO.io(URL, <String, dynamic>{
-      'transports': ['websocket'],
-      'upgrade':false,
-      'autoConnect': false,
-    });
-    socket.connect();
-    socket.onConnecting((data) => print(data));
-    socket.onConnect((data) => {
-      log("Connected"),
-      socket.emit("credentials_game", currentUserName),
-    });
 
-    socket.onDisconnect((data) =>  socket.emit("disconnect_user_game", currentUserName),);
-    socket.onReconnect((data) => log("Reconnected !"));
 
-    socket.on("confirmed_game", (data) => {log("GAME CONFIRME"), showSnackBar(context, "Partie Confirmé !")});
-  }
+
 
   void userConfirmGame(){
-    var uuid = Uuid();
-    var v1 = uuid.v1();
-    socket.emit("confirm_game", {"username" : currentUserName,"key" : v1 ,"receiverUsername" :username, "token":NOTIFICATION_TOKEN });
+
+    socket.emit("confirm_game", {"username" : currentUserName,"key" : widget.customKey ,"receiverUsername" :username, "game" : widget.gameName });
   }
   fetchData() async {
     this.currentUserName = await getCurrentUsername();

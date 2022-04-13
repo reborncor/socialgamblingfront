@@ -25,6 +25,7 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
+
   FriendsResponse response;
   List<FriendModel> friends = [];
 
@@ -55,6 +56,8 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
 
     });
   }
+
+
 
 
 

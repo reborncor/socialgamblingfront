@@ -35,7 +35,7 @@ class _SelectGameState extends State<SelectGame> {
     return  InkWell(
         onTap:() {
           // MaterialPageRoute(builder: (context) => SelectGamble(username : widget.username));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectGamble(username : widget.username)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectGamble(username:widget.username ,game:gameModel.name ,)));
         } ,
         child: Card(
           elevation: 20,

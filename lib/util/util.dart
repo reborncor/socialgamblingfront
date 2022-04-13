@@ -278,3 +278,10 @@ SocketService socketService = new SocketService();
 createSocket(){
   return socketService;
 }
+
+navigateTo(context,view){
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => view),
+  );
+}

@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -27,6 +28,9 @@ import 'package:socialgamblingfront/util/util.dart';
 
 import 'model/ThemeModel.dart';
 
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
 Future<void> main() async {
 
   await setUpEnv();
@@ -45,7 +49,15 @@ setUpEnv() async {
   FirebaseMessaging.instance.getInitialMessage().then((value) => {});
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
     print("message recieved");
+    print(event.notification.title);
     print(event.notification.body);
+    var customKey = event.data['customToken'];
+    var gamble = event.data['gamble'];
+    var username = event.data['username'];
+    var gameName = event.data['username'];
+
+    showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
+
   });
   FirebaseMessaging.onMessageOpenedApp.listen((message) {
     print('Message clicked!');
@@ -68,6 +80,22 @@ setUpEnv() async {
 //
 //   print("Handling a background message");
 // }
+
+void showMyDialog(String title, String text, String username, String gamble, String customKey, String gameName) {
+  showDialog(
+      context: navigatorKey.currentContext,
+      builder: (context) => Center(
+        child:AlertDialog(
+          title: Text(title),
+          content: Text(text),
+          actions: [
+            ElevatedButton(onPressed: () => navigateTo(context, ConfirmGame.invited(username: username,userGamble: int.parse(gamble), isInvited: true, customKey : customKey, gameName: gameName,)), child: Text("Accepter")),
+            ElevatedButton(onPressed: () => Navigator.pop(context), child: Text("Refuser"))
+          ],
+        )
+      )
+  );
+}
 
 class MyApp extends StatelessWidget  {
   // This widget is the root of your application.
@@ -125,6 +153,7 @@ class MyApp extends StatelessWidget  {
               ) ,
               themeMode: themeNotifier.isDark ? ThemeMode.dark : ThemeMode.light,
               home: SplashScreen(),
+              navigatorKey: navigatorKey,
             );
           }),
     );
