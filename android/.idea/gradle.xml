@@ -12,9 +12,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/contacts_service-0.6.3/android" />
-            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.9/android" />
-            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.2.7/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-9.1.4/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.14.0/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-11.2.12/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.12/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/pay_android-1.0.6/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.11/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_android-2.4.0/android" />
+            <option value="$USER_HOME$/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_android-2.3.2/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

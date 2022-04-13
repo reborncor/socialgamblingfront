@@ -2,12 +2,16 @@
 
 
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/model/CreditCardModel.dart';
 import 'package:socialgamblingfront/response/SigninResponse.dart';
+import 'package:socialgamblingfront/socketService/SocketService.dart';
 
 
 final SUCCESS = 0;
@@ -136,6 +140,9 @@ Future<void> saveUserData(SigninReponse data) async {
   sharedPreferences.setString("money", data.payload.money.toString());
   sharedPreferences.setString("dateOfBan", data.payload.dateOfBan.toString());
 
+  writeToken(data.token);
+
+
 }
 Future<void> saveNewGame(String gameId) async {
 
@@ -187,3 +194,94 @@ deleteInfo() async{
 }
 
 
+
+Future<String> createFolderInAppDocDir(String folderName) async {
+
+  //Get this App Document Directory
+  // final Directory _appDocDir = await getApplicationDocumentsDirectory();
+  final Directory _appDocDirExtern = await getExternalStorageDirectory();
+  // print(_appDocDir);
+  print(_appDocDirExtern);
+
+
+  //App Document Directory + folder name
+  final Directory _appDocDirFolder =  Directory('${_appDocDirExtern.path}/$folderName');
+
+  if(await _appDocDirFolder.exists()){ //if folder already exists return path
+    return _appDocDirFolder.path;
+  }else{//if folder not exists create folder and then return its path
+    final Directory _appDocDirNewFolder=await _appDocDirFolder.create(recursive: true);
+    return _appDocDirNewFolder.path;
+  }
+}
+Future<File> get _localFile async {
+  final path = await createFolderInAppDocDir("bloden");
+  return File('$path/data.txt');
+}
+
+Future<File> get createFileToken async {
+  final path = await createFolderInAppDocDir("bloden");
+  return File('$path/token.txt');
+}
+
+Future<File> get createFileGameId async {
+  final path = await createFolderInAppDocDir("bloden");
+  return File('$path/game.txt');
+}
+
+Future<File> writeData(String data) async {
+  final file = await _localFile;
+  try{
+    file.delete();
+  }catch(e){
+  }
+  final newFile = await _localFile;
+  log("DATA :"+data);
+  // Write the file
+
+  return newFile.writeAsString(data, mode: FileMode.write);
+}
+
+Future<File> writeToken(String data) async {
+  final file = await createFileToken;
+  try{
+    file.delete();
+  }catch(e){
+  }
+  final newFile = await createFileToken;
+  log("DATA :"+data);
+  // Write the file
+
+  return newFile.writeAsString(data, mode: FileMode.write);
+}
+Future<File> writeGame(String data) async {
+  final file = await createFileGameId;
+  try{
+    file.delete();
+  }catch(e){
+  }
+  final newFile = await createFileGameId;
+  log("DATA :"+data);
+  // Write the file
+
+  return newFile.writeAsString(data, mode: FileMode.write);
+}
+
+
+showSnackBar(context, String message){
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+}
+
+SocketService socketService = new SocketService();
+createSocket(){
+  return socketService;
+}
+
+navigateTo(context,view){
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => view),
+  );
+}

@@ -7,12 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:socialgamblingfront/confirmgame/ConfirmGame.dart';
 import 'package:socialgamblingfront/model/GameModel.dart';
 import 'package:socialgamblingfront/util/util.dart';
+import 'package:uuid/uuid.dart';
 
 class SelectGamble extends StatefulWidget {
   static final routeName = '/selectgamble';
   final String username;
-
-  const SelectGamble({Key key, this.username}) : super(key: key);
+  final String game;
+  const SelectGamble({Key key, this.username, this.game}) : super(key: key);
 
   @override
   _SelectGambleState createState() => _SelectGambleState();
@@ -32,7 +33,7 @@ class _SelectGambleState extends State<SelectGamble> {
   List<String> gamblesPalier = ['0-10','11-20','21-30','31-40','41-50'];
   List<String> pyramidGambles = ['50','40','30','20','10'];
   TextEditingController moneyToSendController = TextEditingController();
-
+  String currentUsername = "";
   String selectedValue = "";
 
   final List<ChartData> chartData = [
@@ -46,7 +47,13 @@ class _SelectGambleState extends State<SelectGamble> {
 
   @override
   initState(){
+    fetchData();
     super.initState();
+  }
+
+  fetchData() async {
+    this.currentUsername = await getCurrentUsername();
+
   }
 
   Widget showSelectDensDialog(BuildContext context, int palier) {
@@ -163,7 +170,12 @@ class _SelectGambleState extends State<SelectGamble> {
   }
 
   void sendInvitation() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmGame(userGamble: int.parse(this.selectedValue), username: widget.username,)),);
+    //TODO send notification
+    var uuid = Uuid();
+    var key = uuid.v1();
+    socketService.onInvitePlayer(widget.username, widget.game,currentUsername ,this.selectedValue, key);
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmGame(userGamble: int.parse(this.selectedValue), username: widget.username, gameName : widget.game)),);
   }
 
   @override

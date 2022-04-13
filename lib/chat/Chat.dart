@@ -9,7 +9,6 @@ import 'package:socialgamblingfront/model/MessageModel.dart';
 import 'package:socialgamblingfront/model/ThemeModel.dart';
 import 'package:socialgamblingfront/response/ConversationResponse.dart';
 import 'package:socialgamblingfront/response/OldMessageResponse.dart';
-import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -38,8 +37,10 @@ class _ChatState extends State<Chat> {
   int startInd;
   int endInd;
   ThemeModel themeNotifier;
+
+
   scrollListener(){
-    log("POSITION : "+scrollController.position.toString());
+    // log("POSITION : "+scrollController.position.toString());
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
       setState(() {
@@ -50,7 +51,6 @@ class _ChatState extends State<Chat> {
         !scrollController.position.outOfRange) {
       fetchOldMessage();
       setState(() {
-        log("reach the top");
         log("reach the top");
       });
     }
@@ -85,7 +85,9 @@ class _ChatState extends State<Chat> {
     scrollController.addListener(scrollListener);
     fetchUsername();
     fetchData();
+
     init();
+
     super.initState();
 
   }
@@ -117,28 +119,17 @@ class _ChatState extends State<Chat> {
   @override
   void dispose() {
 
-    socket.disconnect();
+    // socket.disconnect();
+    // streamController.close();
     super.dispose();
 
   }
   init(){
 
-    socket = IO.io(URL, <String, dynamic>{
-      'transports': ['websocket'],
-      'upgrade':false,
-      'autoConnect': false,
-    });
-    socket.connect();
-    socket.onConnecting((data) => print(data));
-    socket.onConnect((data) => {
-      log("Connected"),
-      socket.emit("credentials", username),
-    });
 
-    socket.onDisconnect((data) =>  socket.emit("disconnect_user", username),);
-    socket.onReconnect((data) => log("Reconnected !"));
-
+    socket = socketService.getSocket();
     socket.on("messagesuccess",(data) => {
+      log("Nouveau message"),
       if(data == "0"){
         addMessageToList(messageSent),
       }
@@ -149,12 +140,10 @@ class _ChatState extends State<Chat> {
     });
 
     socket.on("instantmessage",(data) =>  {
+      if(!mounted) print("NOT MOUNTED"),
       log("OK Instant Message"),
-      setState(() {
-        newMessage = MessageModel.fromJsonData(data);
-        addMessageToList(newMessage);
-      }),
-
+    newMessage = MessageModel.fromJsonData(data),
+        addMessageToList(newMessage),
 
     });
 

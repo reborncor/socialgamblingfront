@@ -1,4 +1,7 @@
 
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,12 +25,13 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
+
   FriendsResponse response;
   List<FriendModel> friends = [];
 
   TextEditingController moneyToSendController = TextEditingController();
   Future<FriendsResponse> _futureResponse;
-
+  String currentUsername;
   @override
   void dispose() {
     super.dispose();
@@ -36,15 +40,24 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
   @override
   initState(){
     _futureResponse = getUserFriends();
+    // FirebaseMessaging.instance.getInitialMessage().then((value) => {log("MESSAGE"),print(value)});
+    fetchData();
     super.initState();
   }
 
+  Future<void> fetchData()async {
+    this.currentUsername = await getCurrentUsername();
+    socketService.initialise(this.currentUsername);
+
+  }
   Future<void> refreshData() async {
     _futureResponse = getUserFriends();
     setState(() {
 
     });
   }
+
+
 
 
 
@@ -124,6 +137,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
           }
         },
         child: Card(
+
           elevation: 0,
           color: Colors.red[50],
           shape: RoundedRectangleBorder(
@@ -183,6 +197,8 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
+
+
 
     return Scaffold(
       appBar: AppBar(

@@ -4,6 +4,14 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1019852660/android.firebase_analytics.iml" filepath="$PROJECT_DIR$/.idea/modules/1019852660/android.firebase_analytics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1542097449/android.firebase_core.iml" filepath="$PROJECT_DIR$/.idea/modules/1542097449/android.firebase_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1265537883/android.firebase_messaging.iml" filepath="$PROJECT_DIR$/.idea/modules/1265537883/android.firebase_messaging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2000644706/android.path_provider_android.iml" filepath="$PROJECT_DIR$/.idea/modules/-2000644706/android.path_provider_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/366778677/android.pay_android.iml" filepath="$PROJECT_DIR$/.idea/modules/366778677/android.pay_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/976914408/android.shared_preferences_android.iml" filepath="$PROJECT_DIR$/.idea/modules/976914408/android.shared_preferences_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/93580699/android.stripe_android.iml" filepath="$PROJECT_DIR$/.idea/modules/93580699/android.stripe_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1442961652/android.video_player_android.iml" filepath="$PROJECT_DIR$/.idea/modules/1442961652/android.video_player_android.iml" />
     </modules>
   </component>
 </project>

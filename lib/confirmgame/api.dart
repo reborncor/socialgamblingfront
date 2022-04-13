@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:socialgamblingfront/response/GameResponse.dart';
 import 'package:socialgamblingfront/util/config.dart';
@@ -19,6 +20,7 @@ Future<PGameResponse> createGame(String username,int player1Gamble, int player2G
     "player2Gamble" : player2Gamble,
   };
   try {
+
     response = await http.post(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     PGameResponse result = PGameResponse.fromJsonData(json.decode(response.body));
@@ -26,7 +28,7 @@ Future<PGameResponse> createGame(String username,int player1Gamble, int player2G
     return result ;
   }
   catch (e) {
-    print(e.toString());
+    print(e);
     return PGameResponse(code: 1,message: json.decode(response.body)['message']);
   }
 

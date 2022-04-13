@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -113,17 +115,16 @@ class _AddFriendsState extends State<AddFriends> {
           if(snapshot.hasData){
             response = snapshot.data;
             friends = response.friends;
-            return SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: ListView.builder(itemCount: friends.length,
+            return (friends.isNotEmpty && friends[0].id != null ) ? ListView.builder(itemCount: friends.length,
+                    scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return itemFriend("", friends[index].username);
-                    },),
-            );
+                    },
+            ) : Text("Vous avez aucune demande d'amis");;
           }
           else{
-            return Text("Vous avez aucun amis");
+            return Text("Vous avez aucune demande d'amis");
           }
         }
         else{

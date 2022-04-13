@@ -1,4 +1,7 @@
 
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socialgamblingfront/signin/api.dart';
@@ -88,11 +91,12 @@ class _SignInState extends State<SignIn> {
                 style: BaseButtonRoundedColor(60,40,Colors.red[700]),
                 onPressed: () async {
                   if (_formkey.currentState.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
+
                     var result =  await signinUser(usernameController.text, passwordController.text);
 
                     if(result.code == 0){
+                      // final execute = await writeData(usernameController.text);
+                      // print(execute);
                       Navigator.pushReplacementNamed(context, TabView.routeName);
                     }
                     else{
@@ -124,10 +128,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-//      appBar: AppBar(
-//         backgroundColor: ,
-//        title: Text("Connexion utilisateur"),
-//      ),
+
       body: Center(
 
         child: inputUserData()

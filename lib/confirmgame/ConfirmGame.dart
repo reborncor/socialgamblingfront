@@ -1,17 +1,20 @@
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:socialgamblingfront/confirmgame/api.dart';
-import 'package:socialgamblingfront/resultgame/ResultGame.dart';
 
 
 import 'package:socialgamblingfront/settings/Settings.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
+import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:uuid/uuid.dart';
 
 
 class ConfirmGame extends StatefulWidget {
@@ -19,8 +22,12 @@ class ConfirmGame extends StatefulWidget {
   final routeName = '/confirmgame';
   final int userGamble;
   final String username;
+  final bool isInvited;
+  final String customKey;
+  final String gameName;
+  const ConfirmGame({this.userGamble, this.username, this.isInvited = false, this.customKey, this.gameName});
+  const ConfirmGame.invited({this.userGamble, this.username, this.isInvited, this.customKey, this.gameName});
 
-  const ConfirmGame({this.userGamble, this.username});
   @override
   _ConfirmGameState createState() => _ConfirmGameState();
 }
@@ -33,6 +40,8 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
   int player1Gamble = 0;
   String currentUserName;
   String username;
+  IO.Socket socket;
+
   @override
   void dispose() {
     super.dispose();
@@ -45,7 +54,23 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     this.player2Gamble = this.widget.userGamble;
     this.username = this.widget.username;
     fetchData();
+    socket = socketService.getSocket();
+    socket.on("confirmed_game", (data) => {log("GAME CONFIRME"), showSnackBar(context, "Partie Confirmé !")});
+    socket.on("create_game", (data) => {log("Partie créee"), log(data)});
+    socket.on("confirmed_player", (data) => {log("Joueur 2 pret"), setState(() {
+      this.isPlayerReady = true;
+    })});
+    socketService.onInitGameSession(currentUserName, widget.customKey);
     super.initState();
+  }
+
+
+
+
+
+  void userConfirmGame(){
+
+    socket.emit("confirm_game", {"username" : currentUserName,"key" : widget.customKey ,"receiverUsername" :username, "game" : widget.gameName });
   }
   fetchData() async {
     this.currentUserName = await getCurrentUsername();
@@ -53,16 +78,21 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     streamController.close();
   }
   startGame() async {
-    final result = await createGame(this.username, player1Gamble, player2Gamble);
-    if(result.code == SUCCESS){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ResultGame(userGamble: widget.userGamble,)),);
+    // final result = await createGame(this.username, player1Gamble, player2Gamble);
+    // if(result.code == SUCCESS){
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text(result.message)),
+    //   );
+    //
+    // }
+    // else{
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text(result.message)),
+    //   );
+    // }
 
-    }
-    else{
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
-    }
+    userConfirmGame();
+    // showSnackBar(context, "Joueur confirmé");
 
   }
 
