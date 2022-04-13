@@ -126,20 +126,6 @@ class _ChatState extends State<Chat> {
   }
   init(){
 
-    // socket = IO.io(URL, <String, dynamic>{
-    //   'transports': ['websocket'],
-    //   'upgrade':false,
-    //   'autoConnect': false,
-    // });
-    // socket.connect();
-    // socket.onConnecting((data) => print(data));
-    // socket.onConnect((data) => {
-    //   log("Connected"),
-    //   socket.emit("credentials", username),
-    // });
-    //
-    // socket.onDisconnect((data) =>  socket.emit("disconnect_user", username),);
-    // socket.onReconnect((data) => log("Reconnected !"));
 
     socket = socketService.getSocket();
     socket.on("messagesuccess",(data) => {
