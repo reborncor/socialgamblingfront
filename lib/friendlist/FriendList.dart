@@ -39,17 +39,18 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
 
   @override
   initState(){
+
+    getCurrentUsername().then((value) => {
+      this.currentUsername = value,
+    });
     _futureResponse = getUserFriends();
+
     // FirebaseMessaging.instance.getInitialMessage().then((value) => {log("MESSAGE"),print(value)});
-    fetchData();
+
     super.initState();
   }
 
-  Future<void> fetchData()async {
-    this.currentUsername = await getCurrentUsername();
-    socketService.initialise(this.currentUsername);
 
-  }
   Future<void> refreshData() async {
     _futureResponse = getUserFriends();
     setState(() {
@@ -200,6 +201,8 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
 
 
 
+
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -247,6 +250,7 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
         future: _futureResponse,
         builder: (context, snapshot) {
           if(snapshot.hasData){
+            socketService.initialise(this.currentUsername);
             response = snapshot.data;
             if(response.code == BAN ||response.code == NOT_CONNECTED) Navigator.pushReplacementNamed(context,SignIn.routeName);
             friends = response.friends;

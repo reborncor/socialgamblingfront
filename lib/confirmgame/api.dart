@@ -24,7 +24,6 @@ Future<PGameResponse> createGame(String username,int player1Gamble, int player2G
     response = await http.post(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
     PGameResponse result = PGameResponse.fromJsonData(json.decode(response.body));
-    await saveNewGame(result.game.id);
     return result ;
   }
   catch (e) {

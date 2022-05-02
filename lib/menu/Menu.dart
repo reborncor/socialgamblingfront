@@ -19,7 +19,7 @@ class _MenuState extends State<Menu> {
 
   int selectedIndex = 0;
   List<GameModel> games = [];
-  GameModel game1 = new GameModel(id: "1", image: "asset/images/donkeykong.jpg", name: "Donkey Kong", description: "Lorem Ipsum");
+  GameModel game1 = new GameModel(id: "1", image: "asset/images/unity.png", name: "Quiz", description: "Répondez à un maximum de question pour remporter la partie");
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum");
   GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
 
@@ -64,11 +64,11 @@ class _MenuState extends State<Menu> {
 
           child: Column(
             children: [
-              Image(image: AssetImage(gameModel.image)),
+              Image(image: AssetImage(gameModel.image), fit: BoxFit.fitHeight, height: 200),
               ListTile(
 
                 title: Text(gameModel.name),
-                subtitle: Text(gameModel.description),
+                subtitle: Padding(padding : EdgeInsets.only(bottom: 8, top : 4),child : Text(gameModel.description)),
                 trailing: IconButton(icon: Icon(Icons.bookmark), onPressed: () => {},),
               ),
             ],

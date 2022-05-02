@@ -3,18 +3,15 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:socialgamblingfront/confirmgame/api.dart';
-
-
+import 'package:socialgamblingfront/resultgame/ResultGame.dart';
 import 'package:socialgamblingfront/settings/Settings.dart';
 import 'package:socialgamblingfront/tab/TabView.dart';
-import 'package:socialgamblingfront/util/config.dart';
 import 'package:socialgamblingfront/util/util.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:uuid/uuid.dart';
+
 
 
 class ConfirmGame extends StatefulWidget {
@@ -41,6 +38,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
   String currentUserName;
   String username;
   IO.Socket socket;
+  String gameId;
 
   @override
   void dispose() {
@@ -56,11 +54,23 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     fetchData();
     socket = socketService.getSocket();
     socket.on("confirmed_game", (data) => {log("GAME CONFIRME"), showSnackBar(context, "Partie Confirmé !")});
-    socket.on("create_game", (data) => {log("Partie créee"), log(data)});
-    socket.on("confirmed_player", (data) => {log("Joueur 2 pret"), setState(() {
-      this.isPlayerReady = true;
-    })});
-    socketService.onInitGameSession(currentUserName, widget.customKey);
+    socket.on("create_game", (data) async => {
+      log("Partie créee"),
+      log(data),
+      this.gameId = data,
+      await saveNewGame(data),
+
+        if(this.isPlayerReady){
+        launchGame()
+      }
+    });
+    socket.on("confirmed_player", (data) => {log("Joueur 2 pret"), this.isPlayerReady = true, streamController.add("player_ready")});
+    socket.on("game_over", (data) async  => {
+      log("PARTIE TERMINEE"),
+      showSnackBar(context, "Partie terminée !"),
+      await saveNewGame(data),
+      navigateTo(context, ResultGame()) });
+
     super.initState();
   }
 
@@ -70,12 +80,28 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
 
   void userConfirmGame(){
 
-    socket.emit("confirm_game", {"username" : currentUserName,"key" : widget.customKey ,"receiverUsername" :username, "game" : widget.gameName });
+    socket.emit("confirm_game", {"username" : currentUserName,"key" : widget.customKey ,"receiverUsername" :username, "game" : widget.gameName, "ready" : (this.isUserReady && this.isPlayerReady) });
   }
   fetchData() async {
     this.currentUserName = await getCurrentUsername();
+    socketService.onInitGameSession(currentUserName, widget.customKey);
     streamController.add("event");
-    streamController.close();
+  }
+
+  launchGame() async {
+    final result = await LaunchApp.isAppInstalled(
+        androidPackageName: 'com.DefaultCompagny.Quiz',
+        iosUrlScheme: 'pulsesecure://'
+    );
+
+    if(result){
+      await LaunchApp.openApp(
+        androidPackageName: 'com.DefaultCompagny.Quiz',
+        iosUrlScheme: 'pulsesecure://',
+        appStoreLink: 'itms-apps://itunes.apple.com/us/app/pulse-secure/id945832041',
+        // openStore: false
+      );
+    }
   }
   startGame() async {
     // final result = await createGame(this.username, player1Gamble, player2Gamble);
@@ -92,7 +118,8 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     // }
 
     userConfirmGame();
-    // showSnackBar(context, "Joueur confirmé");
+    showSnackBar(context, "Joueur confirmé");
+
 
   }
 
@@ -132,8 +159,15 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
       body: StreamBuilder(
         stream: streamController.stream,
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.done){
-            if(snapshot.hasData){
+          if(snapshot.connectionState == ConnectionState.waiting){
+          return Center(
+
+          child: CircularProgressIndicator(
+          color: Colors.red[700],
+          )
+          );
+          }
+          if(snapshot.hasData){
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -141,15 +175,15 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
                   flex: 0,
                     child: Row(
 
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(width : 175,child:
+                        Container(width : 100,child:
                         Column(children: [
                           Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
                           Text(this.currentUserName,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                           Text(this.widget.userGamble.toString(),style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,])),
                         Text("VS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
-                        Container(width : 200,child:
+                        Container(width : 100,child:
                         Column(children: [
                           Image(image : AssetImage('asset/images/user.png'), width: 100, height: 100,),
                           Text(this.widget.username,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) ,
@@ -199,15 +233,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
               return Center(child :Text("Pas de données"));
             }
           }
-          else{
-            return Center(
 
-                child: CircularProgressIndicator(
-                  color: Colors.red[700],
-                )
-            );
-          }
-        },
 
 
       ),

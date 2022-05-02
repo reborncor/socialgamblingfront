@@ -15,6 +15,8 @@ Future<PGameResponse> getResultGame(String gameId) async{
   final data = {
     'gameId' :gameId,
   };
+
+    // var url = Uri.parse(URL+path).replace(queryParameters: queryParameters);
   final uri = Uri.http(URL.replaceAll("https://", ""),path, data);
   try {
     response = await http.get(uri,

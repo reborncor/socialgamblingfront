@@ -143,8 +143,9 @@ class _SelectGambleState extends State<SelectGamble> {
             context: context,
             builder: (context) => showSelectDensDialog(context, int.parse(gambles[niveau])),
           ).then((value) => {
+          this.selectedValue = (value != null ) ? value : this.selectedValue,
             setState((){
-              this.selectedValue = value as String;
+
             })
           });
         } ,
@@ -175,7 +176,7 @@ class _SelectGambleState extends State<SelectGamble> {
     var key = uuid.v1();
     socketService.onInvitePlayer(widget.username, widget.game,currentUsername ,this.selectedValue, key);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmGame(userGamble: int.parse(this.selectedValue), username: widget.username, gameName : widget.game)),);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmGame(userGamble: int.parse(this.selectedValue), username: widget.username, gameName : widget.game,customKey: key,)),);
   }
 
   @override

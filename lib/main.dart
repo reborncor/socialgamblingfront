@@ -1,8 +1,7 @@
 
-import 'dart:convert';
-import 'dart:developer';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ import 'package:socialgamblingfront/selectgamble/SelectGamble.dart';
 import 'package:socialgamblingfront/selectgame/SelectGame.dart';
 import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/signup/SignUp.dart';
+import 'package:socialgamblingfront/socketService/HttpService.dart';
 import 'package:socialgamblingfront/socketService/SocketService.dart';
 import 'package:socialgamblingfront/splashscreen/SplashScreen.dart';
 import 'package:socialgamblingfront/store/BlodenStore.dart';
@@ -59,9 +59,19 @@ setUpEnv() async {
     showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
 
   });
-  FirebaseMessaging.onMessageOpenedApp.listen((message) {
-    print('Message clicked!');
-  });
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage event) {
+    print("message clicked");
+    print(event.notification.title);
+    print(event.notification.body);
+    var customKey = event.data['customToken'];
+    var gamble = event.data['gamble'];
+    var username = event.data['username'];
+    var gameName = event.data['username'];
+
+    showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
+
+  }
+  );
 
   // _firebaseMessaging.subscribeToTopic('Events').then((value) => {
   //   print("Nouvelle notification")
@@ -73,6 +83,10 @@ setUpEnv() async {
   URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
   STRIPE_KEY = dotenv.get('STRIPE_KEY', fallback: 'STRIPE_KEY N/A');
   Stripe.publishableKey = STRIPE_KEY;
+
+  // HttpOverrides.global = MyHttpOverrides();
+
+
 }
 
 // Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -89,8 +103,8 @@ void showMyDialog(String title, String text, String username, String gamble, Str
           title: Text(title),
           content: Text(text),
           actions: [
-            ElevatedButton(onPressed: () => navigateTo(context, ConfirmGame.invited(username: username,userGamble: int.parse(gamble), isInvited: true, customKey : customKey, gameName: gameName,)), child: Text("Accepter")),
-            ElevatedButton(onPressed: () => Navigator.pop(context), child: Text("Refuser"))
+            ElevatedButton( style: BaseButtonRoundedColor(60,40,Colors.amber),onPressed: () => navigateTo(context, ConfirmGame.invited(username: username,userGamble: int.parse(gamble), isInvited: true, customKey : customKey, gameName: gameName,)), child: Text("Accepter")),
+            ElevatedButton( style: BaseButtonRoundedColor(60,40,Colors.amber), onPressed: () => Navigator.pop(context), child: Text("Refuser"))
           ],
         )
       )

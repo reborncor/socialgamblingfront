@@ -7,6 +7,8 @@ import 'package:socialgamblingfront/friendlist/FriendList.dart';
 import 'package:socialgamblingfront/menu/Menu.dart';
 import 'package:socialgamblingfront/store/BlodenStore.dart';
 
+import '../util/util.dart';
+
 /// This is the stateful widget that the main application instantiates.
 class TabView extends StatefulWidget {
   const TabView({Key key}) : super(key: key);
@@ -30,9 +32,19 @@ class _TabViewState extends State<TabView> with WidgetsBindingObserver {
       _selectedIndex = index;
     });
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    fetchData();
+    super.initState();
+  }
+  fetchData(){
+
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

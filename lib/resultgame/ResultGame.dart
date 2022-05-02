@@ -15,9 +15,8 @@ import 'package:socialgamblingfront/util/util.dart';
 class ResultGame extends StatefulWidget {
 
   final routeName = '/resultgame';
-  final int userGamble;
 
-  const ResultGame({Key key, this.userGamble}) : super(key: key);
+  const ResultGame({Key key}) : super(key: key);
   @override
   _ResultGameState createState() => _ResultGameState();
 }

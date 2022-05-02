@@ -12,6 +12,7 @@ class SocketService {
 
   IO.Socket socket;
   initialise(String username){
+    log("LANCEMENT");
     socket = IO.io(URL, <String, dynamic>{
       'transports': ['websocket'],
       'upgrade':false,
@@ -40,12 +41,13 @@ class SocketService {
   }
 
   onInvitePlayer(String invitedPlayer, String game, String currentUsername, String gamble, String key){
-
-    socket.emit("invitation_game",{"username":"beta", "game" : game, "key" : key, "currentUsername" : currentUsername,"gamble" :gamble});
+    log("INVIT PLAYER");
+    log(currentUsername+ " "+key);
+    socket.emit("invitation_game",{"username":invitedPlayer, "game" : game, "key" : key, "currentUsername" : currentUsername,"gamble" :gamble});
   }
 
   onInitGameSession(String username, String key){
-    socket.emit("init_game_session",{"username":"beta", "key" : key,});
+    socket.emit("init_game_session",{"username":username, "key" : key,});
 
   }
   getSocket(){

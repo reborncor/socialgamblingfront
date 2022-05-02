@@ -1,5 +1,4 @@
 
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +120,7 @@ class _AddFriendsState extends State<AddFriends> {
                     itemBuilder: (context, index) {
                       return itemFriend("", friends[index].username);
                     },
-            ) : Text("Vous avez aucune demande d'amis");;
+            ) : Text("Vous avez aucune demande d'amis");
           }
           else{
             return Text("Vous avez aucune demande d'amis");

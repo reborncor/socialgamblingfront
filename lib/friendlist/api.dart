@@ -10,6 +10,7 @@ import 'package:socialgamblingfront/util/util.dart';
 
 Future<FriendsResponse> getUserFriends() async{
 
+
   String token = await getCurrentUserToken();
   var response;
   final String path = "/user/getfriends";

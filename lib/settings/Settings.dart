@@ -1,7 +1,6 @@
 
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socialgamblingfront/model/ThemeModel.dart';
@@ -290,6 +289,7 @@ class SettingState extends State<Setting> {
   Widget build(BuildContext context) {
     return Consumer<ThemeModel>(
       builder: (context, ThemeModel themeNotifier, child) {
+
         this.themeNotifier = themeNotifier;
         isDark = this.themeNotifier.isDark;
         return  Scaffold(
