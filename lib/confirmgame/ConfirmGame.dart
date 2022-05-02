@@ -69,7 +69,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
       log("PARTIE TERMINEE"),
       showSnackBar(context, "Partie terminée !"),
       await saveNewGame(data),
-      navigateTo(context, ResultGame()) });
+      navigateTo(context, ResultGame(customKey : widget.customKey)) });
 
     super.initState();
   }
@@ -80,7 +80,14 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
 
   void userConfirmGame(){
 
-    socket.emit("confirm_game", {"username" : currentUserName,"key" : widget.customKey ,"receiverUsername" :username, "game" : widget.gameName, "ready" : (this.isUserReady && this.isPlayerReady) });
+    socket.emit("confirm_game",
+        {
+          "username" : currentUserName,
+          "key" : widget.customKey ,
+          "receiverUsername" :username,
+          "gameName" : widget.gameName,
+          "gamble":widget.userGamble,
+          "ready" : (this.isUserReady && this.isPlayerReady) });
   }
   fetchData() async {
     this.currentUserName = await getCurrentUsername();
@@ -119,7 +126,6 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
 
     userConfirmGame();
     showSnackBar(context, "Joueur confirmé");
-
 
   }
 

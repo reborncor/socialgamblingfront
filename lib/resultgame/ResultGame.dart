@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socialgamblingfront/confirmgame/ConfirmGame.dart';
 import 'package:socialgamblingfront/response/GameResponse.dart';
 import 'package:socialgamblingfront/resultgame/api.dart';
 
@@ -15,8 +16,10 @@ import 'package:socialgamblingfront/util/util.dart';
 class ResultGame extends StatefulWidget {
 
   final routeName = '/resultgame';
-
-  const ResultGame({Key key}) : super(key: key);
+  final String customKey;
+  final String gameName;
+  final String otherPlayer;
+  const ResultGame({this.customKey, this.gameName, this.otherPlayer,}) ;
   @override
   _ResultGameState createState() => _ResultGameState();
 }
@@ -69,8 +72,8 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
     await handleUserLevel(this.isUserWon);
     streamController.add("event");
     streamController.close();
-
-    delayedQuit();
+    // log(response.game.id)
+    // delayedQuit();
   }
 
   delayedQuit(){
@@ -157,7 +160,9 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
                     ElevatedButton(
                         style: BaseButtonRoundedColor(75,40,Colors.green[700]),
 
-                        onPressed: () {},
+                        onPressed: () {
+                          navigateTo(context, ConfirmGame(customKey: widget.customKey,gameName: widget.gameName,userGamble: response.game.player1Gamble, username: widget.otherPlayer,));
+                        },
                         child: Text("Oui")),
                     ElevatedButton(
                         style: BaseButtonRoundedColor(75,40,Colors.red[700]),
