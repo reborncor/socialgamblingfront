@@ -20,8 +20,7 @@ class _MenuState extends State<Menu> {
   int selectedIndex = 0;
   List<GameModel> games = [];
   GameModel game1 = new GameModel(id: "1", image: "asset/images/unity.png", name: "Quiz", description: "Répondez à un maximum de question pour remporter la partie");
-  GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum");
-  GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
+
 
   ThemeModel themeNotifier;
 
@@ -132,8 +131,6 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     games.add(game1);
-    games.add(game2);
-    games.add(game3);
     return Consumer<ThemeModel>(builder: (context, ThemeModel themeNotifier, child) {
       this.themeNotifier = themeNotifier;
 

@@ -67,7 +67,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     socket.on("confirmed_player", (data) => {log("Joueur 2 pret"), this.isPlayerReady = true, streamController.add("player_ready")});
     socket.on("game_over", (data) async  => {
       log("PARTIE TERMINEE"),
-      showSnackBar(context, "Partie terminée !"),
+      // showSnackBar(context, "Partie terminée !"),
       await saveNewGame(data),
       navigateTo(context, ResultGame(customKey : widget.customKey, userGamble: widget.userGamble, gameName: widget.gameName, otherPlayer:widget.username, )) });
 
