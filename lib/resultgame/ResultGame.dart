@@ -17,9 +17,10 @@ class ResultGame extends StatefulWidget {
 
   final routeName = '/resultgame';
   final String customKey;
-  final String gameName;
   final String otherPlayer;
-  const ResultGame({this.customKey, this.gameName, this.otherPlayer,}) ;
+  final int userGamble;
+  final String gameName;
+  const ResultGame({this.userGamble, this.otherPlayer, this.customKey, this.gameName}) ;
   @override
   _ResultGameState createState() => _ResultGameState();
 }
@@ -73,7 +74,7 @@ class _ResultGameState extends State<ResultGame> with WidgetsBindingObserver{
     streamController.add("event");
     streamController.close();
     // log(response.game.id)
-    // delayedQuit();
+    delayedQuit();
   }
 
   delayedQuit(){

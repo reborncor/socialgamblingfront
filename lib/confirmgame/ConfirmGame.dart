@@ -69,7 +69,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
       log("PARTIE TERMINEE"),
       showSnackBar(context, "Partie terminée !"),
       await saveNewGame(data),
-      navigateTo(context, ResultGame(customKey : widget.customKey)) });
+      navigateTo(context, ResultGame(customKey : widget.customKey, userGamble: widget.userGamble, gameName: widget.gameName, otherPlayer:widget.username, )) });
 
     super.initState();
   }
