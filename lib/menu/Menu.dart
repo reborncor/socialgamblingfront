@@ -77,14 +77,12 @@ class _MenuState extends State<Menu> {
   }
 
   Widget listOfGame(){
-    return Expanded(child: ListView.builder(
+    return  ListView.builder(
         scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount :3,
+        itemCount :games.length,
         itemBuilder: (context, index) {
           return cardGame(games[index]);
-        })
-    );
+        });
   }
   Widget searchFriend(){
     return TextField(
@@ -130,6 +128,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
+    games.clear();
     games.add(game1);
     return Consumer<ThemeModel>(builder: (context, ThemeModel themeNotifier, child) {
       this.themeNotifier = themeNotifier;
@@ -163,12 +162,7 @@ class _MenuState extends State<Menu> {
             ],
             title: Text("Menu",style: TextStyle(color: Colors.black)),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              listOfGame()
-            ],
-          )
+          body:   listOfGame()
       );
     },);
   }

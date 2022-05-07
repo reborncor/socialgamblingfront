@@ -61,7 +61,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
       await saveNewGame(data),
 
         if(this.isPlayerReady){
-        launchGame()
+        launchGame(widget.gameName)
       }
     });
     socket.on("confirmed_player", (data) => {log("Joueur 2 pret"), this.isPlayerReady = true, streamController.add("player_ready")});
@@ -95,15 +95,21 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     streamController.add("event");
   }
 
-  launchGame() async {
+  launchGame(String gameName) async {
+
+    String packageName = "";
+    switch(gameName){
+      case "Quiz" : packageName = 'com.DefaultCompagny.Quiz';break;
+      case "INSERT" : packageName = 'com.DefaultCompagny.Quiz';break;
+    }
     final result = await LaunchApp.isAppInstalled(
-        androidPackageName: 'com.DefaultCompagny.Quiz',
+        androidPackageName: packageName,
         iosUrlScheme: 'pulsesecure://'
     );
 
     if(result){
       await LaunchApp.openApp(
-        androidPackageName: 'com.DefaultCompagny.Quiz',
+        androidPackageName: packageName,
         iosUrlScheme: 'pulsesecure://',
         appStoreLink: 'itms-apps://itunes.apple.com/us/app/pulse-secure/id945832041',
         // openStore: false

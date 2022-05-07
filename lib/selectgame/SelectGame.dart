@@ -25,7 +25,6 @@ class _SelectGameState extends State<SelectGame> {
   List<GameModel> games = [];
   GameModel game1 = new GameModel(id: "1", image: "asset/images/unity.png", name: "Quiz", description: "Répondez à un maximum de question pour remporter la partie");
   GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
-  GameModel game3 = new GameModel(id: "3", image: "asset/images/snake.jpg", name: "Snake", description: "Lorem Ipsum");
   final tooltipController = JustTheController();
 
 
