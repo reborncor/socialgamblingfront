@@ -1,3 +1,4 @@
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class _MenuState extends State<Menu> {
   int selectedIndex = 0;
   List<GameModel> games = [];
   GameModel game1 = new GameModel(id: "1", image: "asset/images/unity.png", name: "Quiz", description: "Répondez à un maximum de question pour remporter la partie");
-
+  GameModel game2 = new GameModel(id: "2", image: "asset/images/light_up.png", name: "LightUp", description: "Jeu d'arccade. L'objectif est d'éclater les ballons blancs");
 
   ThemeModel themeNotifier;
 
@@ -63,12 +64,17 @@ class _MenuState extends State<Menu> {
 
           child: Column(
             children: [
-              Image(image: AssetImage(gameModel.image), fit: BoxFit.fitHeight, height: 200),
+              ClipRRect( 
+                borderRadius: BorderRadius.circular(20),
+                child:  Image(image: AssetImage(gameModel.image), fit: BoxFit.fitHeight, height: 200),),
               ListTile(
 
                 title: Text(gameModel.name),
                 subtitle: Padding(padding : EdgeInsets.only(bottom: 8, top : 4),child : Text(gameModel.description)),
-                trailing: IconButton(icon: Icon(Icons.bookmark), onPressed: () => {},),
+                trailing: IconButton(icon: Icon(Icons.download), onPressed: () => {
+                      redirectTo(gameModel.name, context)
+
+                },),
               ),
             ],
           )
@@ -130,6 +136,8 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     games.clear();
     games.add(game1);
+    games.add(game2);
+
     return Consumer<ThemeModel>(builder: (context, ThemeModel themeNotifier, child) {
       this.themeNotifier = themeNotifier;
 

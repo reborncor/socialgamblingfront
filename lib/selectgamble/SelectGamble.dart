@@ -175,7 +175,7 @@ class _SelectGambleState extends State<SelectGamble> {
     var uuid = Uuid();
     var key = uuid.v1();
     socketService.onInvitePlayer(widget.username, widget.game,currentUsername ,this.selectedValue, key);
-
+    log("Game name "+widget.game);
     Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmGame(userGamble: int.parse(this.selectedValue), username: widget.username, gameName : widget.game,customKey: key,)),);
   }
 
@@ -208,9 +208,7 @@ class _SelectGambleState extends State<SelectGamble> {
                     sendInvitation();
                   }
                   else{
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Veuillez selectionner un montant à parier")),
-                    );
+                    showSnackBarButton(context, "Veuillez selectionner un montant à parier");
                   }
 
             }, child: Text("Confirmer : $selectedValue Dens"))

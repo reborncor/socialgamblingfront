@@ -54,7 +54,7 @@ setUpEnv() async {
     var customKey = event.data['customToken'];
     var gamble = event.data['gamble'];
     var username = event.data['username'];
-    var gameName = event.data['username'];
+    var gameName = event.data['gameName'];
 
     showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
 

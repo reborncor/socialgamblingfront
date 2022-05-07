@@ -59,7 +59,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
       log(data),
       this.gameId = data,
       await saveNewGame(data),
-
+      log("NOM JEU : "+ widget.gameName),
         if(this.isPlayerReady){
         launchGame(widget.gameName)
       }
@@ -95,27 +95,7 @@ class _ConfirmGameState extends State<ConfirmGame> with WidgetsBindingObserver{
     streamController.add("event");
   }
 
-  launchGame(String gameName) async {
 
-    String packageName = "";
-    switch(gameName){
-      case "Quiz" : packageName = 'com.DefaultCompagny.Quiz';break;
-      case "INSERT" : packageName = 'com.DefaultCompagny.Quiz';break;
-    }
-    final result = await LaunchApp.isAppInstalled(
-        androidPackageName: packageName,
-        iosUrlScheme: 'pulsesecure://'
-    );
-
-    if(result){
-      await LaunchApp.openApp(
-        androidPackageName: packageName,
-        iosUrlScheme: 'pulsesecure://',
-        appStoreLink: 'itms-apps://itunes.apple.com/us/app/pulse-secure/id945832041',
-        // openStore: false
-      );
-    }
-  }
   startGame() async {
     // final result = await createGame(this.username, player1Gamble, player2Gamble);
     // if(result.code == SUCCESS){

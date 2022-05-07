@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialgamblingfront/model/CreditCardModel.dart';
 import 'package:socialgamblingfront/response/SigninResponse.dart';
 import 'package:socialgamblingfront/socketService/SocketService.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 
 final SUCCESS = 0;
@@ -270,7 +272,17 @@ Future<File> writeGame(String data) async {
 
 showSnackBar(context, String message){
   ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text(message)),
+    SnackBar(content: Text(message),duration:  Duration(milliseconds: 1500)),
+  );
+}
+
+
+showSnackBarButton(context, String message){
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message), action: SnackBarAction(onPressed: () {
+      Scaffold.of(context).hideCurrentSnackBar();
+
+    },label: "OK",)),
   );
 }
 
@@ -284,4 +296,68 @@ navigateTo(context,view){
     context,
     MaterialPageRoute(builder: (context) => view),
   );
+}
+
+launchGame(String gameName) async {
+
+  String packageName = "";
+  switch(gameName){
+    case "Quiz" : packageName = 'com.DefaultCompagny.Quiz';break;
+    case "LightUp" : packageName = 'com.UniWave.JeuBallon';break;
+  }
+  final result = await LaunchApp.isAppInstalled(
+      androidPackageName: packageName,
+      iosUrlScheme: 'pulsesecure://'
+  );
+
+  if(result){
+    await LaunchApp.openApp(
+      androidPackageName: packageName,
+      iosUrlScheme: 'pulsesecure://',
+      appStoreLink: 'itms-apps://itunes.apple.com/us/app/pulse-secure/id945832041',
+      // openStore: false
+    );
+  }
+}
+
+redirectTo(String gameName, context) async {
+
+  String packageName = "";
+  String gamePath = "";
+  log(gameName);
+
+  switch(gameName){
+    case "Quiz" :
+      packageName = 'com.DefaultCompagny.Quiz';
+      gamePath = "com.DefaultCompagny.Quiz";
+      break;
+    case "LightUp" :
+      packageName = 'com.UniWave.JeuBallon';
+      gamePath = "com.UniWave.JeuBallon";
+      break;
+  }
+  final result = await LaunchApp.isAppInstalled(
+      androidPackageName: packageName,
+      iosUrlScheme: 'pulsesecure://'
+  );
+  log(result.toString());
+  // StoreRedirect.redirect(
+  //   androidAppId: "com.DefaultCompagny.Quiz&gl",
+  //   iOSAppId: "585027354",
+  // );
+
+  if(!result){
+    await LaunchApp.openApp(
+        androidPackageName: gamePath,
+        openStore: !result);
+  }
+  else{
+   showSnackBar(context, "Vous avez dejà installé cette application");
+  }
+
+
+  // final Uri _url = Uri.parse(gamePath);
+  // log(_url.toString());
+  // await launchUrl(_url);
+
 }

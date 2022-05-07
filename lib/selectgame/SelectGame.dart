@@ -24,7 +24,7 @@ class _SelectGameState extends State<SelectGame> {
   int selectedIndex = 0;
   List<GameModel> games = [];
   GameModel game1 = new GameModel(id: "1", image: "asset/images/unity.png", name: "Quiz", description: "Répondez à un maximum de question pour remporter la partie");
-  GameModel game2 = new GameModel(id: "2", image: "asset/images/mario.jpg", name: "Mario", description: "Lorem Ipsum ....ssdqsds");
+  GameModel game2 = new GameModel(id: "2", image: "asset/images/light_up.png", name: "LightUp", description: "Jeu d'arccade. L'objectif est d'éclater les ballons blancs");
   final tooltipController = JustTheController();
 
 
@@ -60,12 +60,15 @@ class _SelectGameState extends State<SelectGame> {
           ),
           child:  Column(
             children: [
-              Image(image: AssetImage(gameModel.image), width: 100, height: 100),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child:  Image(image: AssetImage(gameModel.image), fit: BoxFit.fitHeight, height: 100),),
               ListTile(
 
                 title: Text(gameModel.name),
                 subtitle: Text(gameModel.description, overflow: TextOverflow.ellipsis,),
-                trailing: IconButton(icon: Icon(Icons.info), tooltip: gameModel.description, onPressed: () {  },
+                trailing: IconButton(icon: Icon(Icons.info), tooltip: gameModel.description, onPressed: () {
+                },
                 ),
               ),
             ],
@@ -80,7 +83,7 @@ class _SelectGameState extends State<SelectGame> {
   Widget build(BuildContext context) {
     games.clear();
     games.add(game1);
-    // games.add(game2);
+    games.add(game2);
     // games.add(game3);
     return Scaffold(
 
