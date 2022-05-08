@@ -250,7 +250,6 @@ class _FriendListState extends State<FriendList> with WidgetsBindingObserver{
         future: _futureResponse,
         builder: (context, snapshot) {
           if(snapshot.hasData){
-            socketService.initialise(this.currentUsername);
             response = snapshot.data;
             if(response.code == BAN ||response.code == NOT_CONNECTED) Navigator.pushReplacementNamed(context,SignIn.routeName);
             friends = response.friends;

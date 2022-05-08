@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,8 @@ class SettingState extends State<Setting> {
   @override
   void dispose() async {
     super.dispose();
+
+    log("DECO "+socketService.socket.disconnected.toString());
     await stopWatchTimer.dispose();
   }
 
@@ -125,6 +128,8 @@ class SettingState extends State<Setting> {
       )
       ,);
   }
+
+
 
 
   Widget userParametre(){
@@ -259,7 +264,9 @@ class SettingState extends State<Setting> {
                   style: BaseButtonRoundedColor(200,40,Colors.red[700]),
 
                   onPressed: () async {
-                    await deleteInfo();
+                    socketService.onDisconnect(userModel.username);
+
+                    await deleteInfo(userModel.username);
                     Navigator.pushReplacementNamed(context, '/signin' );
                   },
                   child: Text("Se deconnecter"),

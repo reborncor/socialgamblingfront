@@ -150,7 +150,7 @@ class _BlodenStoreState extends State<BlodenStore> {
       paymentIntentClientSecret: result.payload["paymentIntent"],
       applePay: Stripe.instance.isApplePaySupported.value,
       googlePay: true,
-      // style: ThemeMode.light,
+      style: isDarkMode ?  ThemeMode.light : ThemeMode.dark,
       testEnv: true,
       merchantCountryCode: 'FR',
       merchantDisplayName: 'Bloden',

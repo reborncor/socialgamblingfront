@@ -55,6 +55,9 @@ class _SplashScreenState extends State<SplashScreen> {
     String data = await getCurrentUserToken();
     if (data != null && data.isNotEmpty ){
       log("ACCESS GRANTED");
+      String username = await getCurrentUsername();
+      socketService.onConnectUser(username);
+
       this.isUserLogged = true;
     }
   }

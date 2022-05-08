@@ -97,6 +97,7 @@ class _SignInState extends State<SignIn> {
                     if(result.code == 0){
                       // final execute = await writeData(usernameController.text);
                       // print(execute);
+                      socketService.onConnectUser(result.payload.username);
                       Navigator.pushReplacementNamed(context, TabView.routeName);
                     }
                     else{

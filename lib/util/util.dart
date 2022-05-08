@@ -190,7 +190,8 @@ Future<String> getCurrentUsername()async{
   String type = sharedPreferences.get("username");
   return type;
 }
-deleteInfo() async{
+deleteInfo(String username) async{
+  socketService.onDisconnect(username);
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sharedPreferences.clear();
 }
@@ -238,7 +239,6 @@ Future<File> writeData(String data) async {
   }catch(e){
   }
   final newFile = await _localFile;
-  log("DATA :"+data);
   // Write the file
 
   return newFile.writeAsString(data, mode: FileMode.write);
@@ -251,7 +251,6 @@ Future<File> writeToken(String data) async {
   }catch(e){
   }
   final newFile = await createFileToken;
-  log("DATA :"+data);
   // Write the file
 
   return newFile.writeAsString(data, mode: FileMode.write);
@@ -263,7 +262,6 @@ Future<File> writeGame(String data) async {
   }catch(e){
   }
   final newFile = await createFileGameId;
-  log("DATA :"+data);
   // Write the file
 
   return newFile.writeAsString(data, mode: FileMode.write);

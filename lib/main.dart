@@ -47,6 +47,7 @@ setUpEnv() async {
 
   socketService = createSocket();
   FirebaseMessaging.instance.getInitialMessage().then((value) => {});
+  socketService.initialise();
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
     print("message recieved");
     print(event.notification.title);
