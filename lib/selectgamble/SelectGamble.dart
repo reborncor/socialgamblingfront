@@ -204,6 +204,8 @@ class _SelectGambleState extends State<SelectGamble> {
             ElevatedButton(
                 style: BaseButtonRoundedColor(200,40,Colors.red[700]),
                 onPressed: () {
+
+
                   if(this.selectedValue != ""){
                     sendInvitation();
                   }

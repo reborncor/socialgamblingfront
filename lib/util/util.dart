@@ -307,7 +307,8 @@ launchGame(String gameName) async {
       androidPackageName: packageName,
       iosUrlScheme: 'pulsesecure://'
   );
-
+  log(packageName);
+  log("GAME :"+result.toString());
   if(result){
     await LaunchApp.openApp(
       androidPackageName: packageName,

@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.socialgamblingfront">
     <uses-permission android:name="android.permission.INTERNET"/>
-   <application
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
+    <application
         android:label="Bloden"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -35,6 +37,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
