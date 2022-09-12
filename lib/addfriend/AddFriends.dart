@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -113,6 +115,7 @@ class _AddFriendsState extends State<AddFriends> {
         if(snapshot.connectionState == ConnectionState.done){
           if(snapshot.hasData){
             response = snapshot.data;
+            log(response.message);
             friends = response.friends;
             return (friends.isNotEmpty && friends[0].id != null ) ? ListView.builder(itemCount: friends.length,
                     scrollDirection: Axis.vertical,

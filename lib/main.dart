@@ -49,43 +49,51 @@ setUpEnv() async {
   FirebaseMessaging.instance.getInitialMessage().then((value) => {});
   socketService.initialise();
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-    print("message recieved");
+    print("message received");
+
     print(event.notification.title);
     print(event.notification.body);
-    var customKey = event.data['customToken'];
-    var gamble = event.data['gamble'];
-    var username = event.data['username'];
-    var gameName = event.data['gameName'];
+    //
+    var eventType = event.data['eventType'];
+    if (eventType == "EVENT_GAME"){
+      var customKey = event.data['customToken'];
+      var gamble = event.data['gamble'];
+      var username = event.data['username'];
+      var gameName = event.data['gameName'];
+      showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
+    }
 
-    showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
 
   });
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage event) {
     print("message clicked");
+
+    print(event.category);
+
     print(event.notification.title);
     print(event.notification.body);
-    var customKey = event.data['customToken'];
-    var gamble = event.data['gamble'];
-    var username = event.data['username'];
-    var gameName = event.data['username'];
+    var eventType = event.data['eventType'];
+    if (eventType == "EVENT_GAME"){
+      var customKey = event.data['customToken'];
+      var gamble = event.data['gamble'];
+      var username = event.data['username'];
+      var gameName = event.data['gameName'];
+      showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
+    }
 
-    showMyDialog(event.notification.title,event.notification.body,username, gamble, customKey, gameName );
 
   }
   );
 
-  // _firebaseMessaging.subscribeToTopic('Events').then((value) => {
-  //   print("Nouvelle notification")
-  // });
 
 
 
 
-  URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
+  // URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
   STRIPE_KEY = dotenv.get('STRIPE_KEY', fallback: 'STRIPE_KEY N/A');
   Stripe.publishableKey = STRIPE_KEY;
 
-  // HttpOverrides.global = MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
 
 
 }

@@ -35,6 +35,7 @@ class SocketService {
   }
 
   onConnectUser(String username){
+    log("SOCKET LOGIN");
     socket.emit("credentials_game", username);
     socket.emit("credentials_notification",{"username":username, "token" :NOTIFICATION_TOKEN});
 

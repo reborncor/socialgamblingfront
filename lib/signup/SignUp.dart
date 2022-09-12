@@ -7,6 +7,7 @@ import 'package:socialgamblingfront/signin/SignIn.dart';
 import 'package:socialgamblingfront/signup/api.dart';
 import 'package:socialgamblingfront/util/util.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class SignUp extends StatefulWidget {
 
@@ -25,8 +26,42 @@ class _SignUpState extends State<SignUp> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   ThemeModel themeNotifier;
+   SuperTooltip tooltip;
 
 
+
+  @override
+  initState(){
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+
+
+      tooltip = SuperTooltip(
+        popupDirection: TooltipDirection.down,
+        borderRadius: 30,
+        minWidth: 200,
+        maxWidth: 360,
+        maxHeight: 320,
+        minHeight: 200,
+        arrowTipDistance: 200,
+        shadowColor: APPCOLOR,
+        showCloseButton: ShowCloseButton.inside,
+
+        content: const Material(
+
+            color: Colors.transparent,
+            child: Center(child:  Text(
+              "Conserver votre mot de passe pour les jeux !",
+              style: TextStyle(color: Colors.black),
+              textAlign: TextAlign.center,
+              softWrap: true,
+            ))),
+      );
+
+      tooltip.show(context);
+
+    });
+  }
 
 
   Widget inputUserData(){
@@ -129,7 +164,11 @@ class _SignUpState extends State<SignUp> {
                 )),
             Padding(
               padding: EdgeInsets.all(8),
-              child: TextFormField(
+              child: Tooltip(
+                message: "test",
+
+
+                child:  TextFormField(
                 style: TextStyle(color: themeNotifier.isDark ? Colors.white : Colors.black),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -147,7 +186,7 @@ class _SignUpState extends State<SignUp> {
                   border:setOutlineBorder(5.0, 25.0, ),
                   hintText: 'Password',
                 ),
-              ),)
+              ),))
             ,
             Padding(padding: EdgeInsets.all(12),
               child: ElevatedButton(
@@ -155,9 +194,9 @@ class _SignUpState extends State<SignUp> {
                 onPressed: () async {
                   if (_formkey.currentState.validate()) {
 
-                    UserModel user = UserModel.forJson(email: emailController.text, firstName: firstNameController.text,
-                    lastName: lastNameController.text, password: passwordController.text, phoneNumber: phoneNumberController.text,
-                    username: usernameController.text);
+                    UserModel user = UserModel.forJson(email: emailController.text.toLowerCase(), firstName: firstNameController.text.toLowerCase(),
+                    lastName: lastNameController.text.toLowerCase(), password: passwordController.text, phoneNumber: phoneNumberController.text,
+                    username: usernameController.text.toLowerCase());
 
                     var result =  await signUpUser(user);
 
@@ -194,6 +233,7 @@ class _SignUpState extends State<SignUp> {
       builder: (context, ThemeModel themeNotifier, child) {
         this.themeNotifier = themeNotifier;
       return Scaffold(
+        appBar: AppBar(automaticallyImplyLeading: true, backgroundColor: APPCOLOR,title: Text("Inscription"),),
 
 
 

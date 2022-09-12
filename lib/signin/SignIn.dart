@@ -92,12 +92,12 @@ class _SignInState extends State<SignIn> {
                 onPressed: () async {
                   if (_formkey.currentState.validate()) {
 
-                    var result =  await signinUser(usernameController.text, passwordController.text);
+                    var result =  await signinUser(usernameController.text.toLowerCase(), passwordController.text);
 
                     if(result.code == 0){
                       // final execute = await writeData(usernameController.text);
                       // print(execute);
-                      socketService.onConnectUser(result.payload.username);
+                      await socketService.onConnectUser(result.payload.username);
                       Navigator.pushReplacementNamed(context, TabView.routeName);
                     }
                     else{

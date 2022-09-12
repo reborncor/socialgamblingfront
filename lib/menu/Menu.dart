@@ -23,6 +23,9 @@ class _MenuState extends State<Menu> {
   GameModel game1 = new GameModel(id: "1", image: "asset/images/unity.png", name: "Quiz", description: "Répondez à un maximum de question pour remporter la partie");
   GameModel game2 = new GameModel(id: "2", image: "asset/images/light_up.png", name: "LightUp", description: "Jeu d'arccade. L'objectif est d'éclater les ballons blancs");
 
+  GameModel game3 = new GameModel(id: "2", image: "asset/images/image-1.png", name: "Prochainement", description: "Jeu disponible à la prochaine version...");
+  GameModel game4 = new GameModel(id: "2", image: "asset/images/image-2.png", name: "Prochainement", description: "Jeu disponible à la prochaine version...");
+
   ThemeModel themeNotifier;
 
 
@@ -66,7 +69,7 @@ class _MenuState extends State<Menu> {
             children: [
               ClipRRect( 
                 borderRadius: BorderRadius.circular(20),
-                child:  Image(image: AssetImage(gameModel.image), fit: BoxFit.fitHeight, height: 200),),
+                child:  Image(image: AssetImage(gameModel.image), fit: BoxFit.fitHeight, height: 180),),
               ListTile(
 
                 title: Text(gameModel.name),
@@ -137,6 +140,8 @@ class _MenuState extends State<Menu> {
     games.clear();
     games.add(game1);
     games.add(game2);
+    games.add(game3);
+    games.add(game4);
 
     return Consumer<ThemeModel>(builder: (context, ThemeModel themeNotifier, child) {
       this.themeNotifier = themeNotifier;

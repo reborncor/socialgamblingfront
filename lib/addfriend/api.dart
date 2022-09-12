@@ -15,19 +15,19 @@ Future<BasicResponse> addFriends(String username) async{
 
   final String path = "/user/addfriend";
   String token = await getCurrentUserToken();
-
+  var result;
   Map data = {
     "username" : username
   };
   try {
     response = await http.post(URL+path,
         headers: {"Content-type": "application/json",'Authorization': 'Bearer '+ token}, body: json.encode(data));
-    BasicResponse result = BasicResponse.fromJsonData(json.decode(response.body));
+    result = BasicResponse.fromJsonData(json.decode(response.body));
     return result ;
   }
   catch (e) {
     print(e.toString());
-    return BasicResponse(code: 1);
+    return BasicResponse(code: 1, message: json.decode(response.body)['message']);
   }
 
 

@@ -15,7 +15,7 @@ import 'package:socialgamblingfront/response/SigninResponse.dart';
 import 'package:socialgamblingfront/socketService/SocketService.dart';
 import 'package:store_redirect/store_redirect.dart';
 
-
+final APPCOLOR = Colors.red[700];
 final SUCCESS = 0;
 final ERROR = 1;
 final BAN = 2;
