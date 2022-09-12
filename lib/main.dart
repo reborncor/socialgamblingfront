@@ -89,7 +89,7 @@ setUpEnv() async {
 
 
 
-  // URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
+  URL = dotenv.get('API_URL', fallback: 'API_URL N/A');
   STRIPE_KEY = dotenv.get('STRIPE_KEY', fallback: 'STRIPE_KEY N/A');
   Stripe.publishableKey = STRIPE_KEY;
 
